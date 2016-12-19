@@ -1,9 +1,10 @@
+'use strict';
 angular
     .module('app')
     .controller('loginCtrl', ['$scope', function($scope) {
 
         var vm = this;
-        vm.hui = '123tochno hui';
+        vm.var = '1dsfdsfdsdfdsfdsff';
         $scope.master = {};
 
         $scope.update = function(user) {

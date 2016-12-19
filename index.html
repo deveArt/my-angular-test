@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
     <meta charset="UTF-8">
-    <title>DLYA GOVNA</title>
+    <title>angular-test</title>
     <script src="node_modules/angular/angular.js"></script>
     <script src="node_modules/angular-route/angular-route.js"></script>
-    <script src="public/js/app.js"></script>
-    <base href="http://localhost/" target="_blank">
+    <base href="/" target="_blank">
 </head>
-<body ng-app="app">
-
+<body>
+  <div ng-controller="mainCtrl">
+    Choose:
+    <a href="login">Login</a>
     <div ng-view></div>
+  </div>
 
+  <script src="public/js/app.js"></script>
 </body>
 </html>
