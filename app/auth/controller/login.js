@@ -4,7 +4,7 @@ angular
     .controller('loginCtrl', ['$scope', function($scope) {
 
         var vm = this;
-        vm.var = '1dsfdsfdsdfdsfdsff';
+        vm.tmp = '1dsfdsfdsdfdsfdsff';
         $scope.master = {};
 
         $scope.update = function(user) {

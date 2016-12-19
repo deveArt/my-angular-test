@@ -4,7 +4,7 @@ angular
     .config(['$routeProvider', '$locationProvider', '$sceDelegateProvider', config]);
 
 function config($routeProvider, $locationProvider, $sceDelegateProvider) {
-    $sceDelegateProvider.resourceUrlWhitelist(['self', '**']);
+    $sceDelegateProvider.resourceUrlWhitelist(['self', '*']);
 
     $routeProvider
         .when('/', {

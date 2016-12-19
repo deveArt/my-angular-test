@@ -12,7 +12,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('sass', function () {
-    return gulp.src('app/assets/scss/**/*.scss', {base: 'app/assets/scss'})
+    return gulp.src(['app/assets/scss/**/*.scss', 'app/**/*.html'], {base: 'app/assets/scss'})
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(sourcemaps.write())
