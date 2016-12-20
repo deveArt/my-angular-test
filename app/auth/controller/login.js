@@ -1,10 +1,9 @@
-'use strict';
+
 angular
     .module('app')
     .controller('loginCtrl', ['$scope', function($scope) {
 
         var vm = this;
-        vm.tmp = '1dsfdsfdsdfdsfdsff';
         $scope.master = {};
 
         $scope.update = function(user) {

@@ -11,7 +11,7 @@ function config($routeProvider, $locationProvider, $sceDelegateProvider) {
             controller: 'mainCtrl',
         })
         .when('/login', {
-            templateUrl: '/app/auth/view/login.html',
+            templateUrl: '/app/auth/views/login.html',
             controller: 'loginCtrl',
         });
 
