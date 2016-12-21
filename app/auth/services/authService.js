@@ -3,7 +3,7 @@ var injectParams = ['$q', '$http'];
 var authService = function ($q, $http) {
     var options = {
         method: 'POST',
-        url: 'http://localhost:3000/auth/login',
+        url: 'http://dcodeit.net/tendermasterweb/public/api/login',
         //'http://dcodeit.net/teletherapy_valeriy/public/api/auth/login',
         //http://dcodeit.net/tendermasterweb/public/api/login
         headers: {
