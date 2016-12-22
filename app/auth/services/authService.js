@@ -1,6 +1,6 @@
-var injectParams = ['$q', '$http'];
+var injectParams = ['$http'];
 
-var authService = function ($q, $http) {
+var authService = function ($http) {
     var options = {
         method: 'POST',
         url: 'http://dcodeit.net/tendermasterweb/public/api/login',
@@ -12,7 +12,7 @@ var authService = function ($q, $http) {
         transformRequest: function(obj) {
             var str = [];
             for(var p in obj)
-            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
             return str.join("&");
         }
     };
