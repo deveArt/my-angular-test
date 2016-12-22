@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
-    "angular": "^1.5.10",
+    "angular": "1.6.0",
     "angular-route": "^1.5.10",
     "bootstrap": "^3.3.7",
     "del": "^2.2.2",

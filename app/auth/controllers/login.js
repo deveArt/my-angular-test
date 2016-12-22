@@ -7,16 +7,11 @@ var LoginController = function(authSvc) {
     vm.data.rememberMe = true;
 
     vm.submit = function() {
-        console.log('work');
-        console.log(vm.data);
+        vm.loginForm.$setPristine(true);
 
         authSvc.login(vm.data).then(function (data) {
-            console.log(vm.loginForm);
-            vm.formErrors = data.data.errors;
-
-            if (vm.formErrors.main) {
-                vm.loginForm.$setUntouched();
-            }
+            vm.loginForm.$setSubmitted(true);
+            vm.formErrors = data.data.errors || {};
 
             for (var i in vm.loginForm.$$controls) {
                 var control = vm.loginForm.$$controls[i];
