@@ -4,7 +4,7 @@ const gulp = require('gulp');
 const sass = require('gulp-sass');
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
-const livereload = require('gulp-livereload');
+const webserver = require('gulp-webserver');
 const del = require('del');
 
 gulp.task('clean', function() {
@@ -16,8 +16,7 @@ gulp.task('sass', function () {
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('public/css'))
-        .pipe(livereload());
+        .pipe(gulp.dest('public/css'));
 });
 
 gulp.task('concat', function () {
@@ -25,8 +24,7 @@ gulp.task('concat', function () {
         .pipe(sourcemaps.init())
         .pipe(concat('app.js'))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('public/js'))
-        .pipe(livereload());
+        .pipe(gulp.dest('public/js'));
 });
 
 gulp.task('build', gulp.series(
@@ -34,8 +32,19 @@ gulp.task('build', gulp.series(
     gulp.parallel('sass', 'concat')
 ));
 
+gulp.task('webserver', function() {
+    gulp.src('./')
+        .pipe(webserver({
+            livereload: {
+                enable: true, // need this set to true to enable livereload
+                filter: fileName => fileName.match(/.map$/)? false: true
+            }
+        }));
+});
+
 gulp.task('watch', function () {
-    livereload.listen();
     gulp.watch('app/assets/scss/**/*.scss', gulp.series('sass'));
     gulp.watch(['*.html', 'app/**/*.js'], gulp.series('concat'));
 });
+
+gulp.task('start', gulp.parallel('watch', 'webserver'));

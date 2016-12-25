@@ -1,17 +1,22 @@
-var injectParams = ['authSvc'];
+var injectParams = ['authSvc', '$cookies', '$rootScope', '$location'];
 
-var LoginController = function(authSvc) {
+var LoginController = function(authSvc, $cookies, $rootScope, $location) {
 
     var vm = this;
     vm.data = {};
     vm.data.rememberMe = true;
 
     vm.submit = function() {
-        //vm.loginForm.$setPristine(true);
 
-        authSvc.login(vm.data).then(function (data) {
-            //vm.loginForm.$setSubmitted(true);
-            vm.formErrors = data.data.errors || {};
+        authSvc.login(vm.data).then(function (response) {
+
+            vm.formErrors = response.data.errors || {};
+
+            if (!response.data.errors) {
+                console.log($cookies.getAll());
+                $rootScope.loggedIn = true;
+                $location.path( "/translations" );
+            }
 
             for (var i in vm.loginForm.$$controls) {
                 var control = vm.loginForm.$$controls[i];

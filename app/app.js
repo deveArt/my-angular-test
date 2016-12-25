@@ -1,19 +1,22 @@
 'use strict';
 angular
-    .module('app', ['ngRoute'])
+    .module('app', ['ngRoute', 'ngCookies'])
     .config(['$routeProvider', '$locationProvider', '$sceDelegateProvider', '$httpProvider', config]);
 
 function config($routeProvider, $locationProvider, $sceDelegateProvider, $httpProvider) {
     //$sceDelegateProvider.resourceUrlWhitelist(['self', '*']);
 
     $routeProvider
-        .when('/', {
+        .when('/', {//////////////&&&&&??????????????????
             controller: 'mainCtrl'
         })
         .when('/login', {
-            templateUrl: '/app/auth/views/login.html',
-            controller: 'loginCtrl'
-        });
+            templateUrl: '/1app/views/login.html',
+        })
+        .when('/translations', {
+            templateUrl: '/app/views/translations.html',
+        })
+        .otherwise({redirectTo:'/'});
 
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
