@@ -7,6 +7,7 @@
     <script src="node_modules/angular-route/angular-route.js"></script>
     <script src="node_modules/angular-cookies/angular-cookies.js"></script>
     <link type="text/css" rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="public/css/main.css"/>
     <base href="/" target="_blank">
 </head>
 <body ng-controller="mainCtrl as main">
@@ -16,6 +17,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
+                    <li ng-class="{active: main.location === '/'}"><a href="/">Home</a></li>
                     <li ng-class="{active: main.location === '/login'}"><a href="login">Login</a></li>
                     <li ng-class="{active: main.location === '/translations'}"><a href="translations">Translations</a></li>
                 </ul>

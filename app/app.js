@@ -1,17 +1,16 @@
 'use strict';
 angular
     .module('app', ['ngRoute', 'ngCookies'])
-    .config(['$routeProvider', '$locationProvider', '$sceDelegateProvider', '$httpProvider', config]);
+    .config(['$routeProvider', '$locationProvider', '$httpProvider', config]);
 
-function config($routeProvider, $locationProvider, $sceDelegateProvider, $httpProvider) {
-    //$sceDelegateProvider.resourceUrlWhitelist(['self', '*']);
+function config($routeProvider, $locationProvider, $httpProvider) {
 
     $routeProvider
-        .when('/', {//////////////&&&&&??????????????????
-            controller: 'mainCtrl'
+        .when('/', {
+            templateUrl: '/app/views/home.html'
         })
         .when('/login', {
-            templateUrl: '/1app/views/login.html',
+            templateUrl: '/app/views/login.html',
         })
         .when('/translations', {
             templateUrl: '/app/views/translations.html',
