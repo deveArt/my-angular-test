@@ -21,7 +21,7 @@ var MainController = function (authSvc, $cookies, $rootScope, $location) {
 
     init();
 
-    function init() {console.log('main');
+    function init() {
         $rootScope.$on('$routeChangeSuccess', function() {
             vm.location = $location.path();
         });

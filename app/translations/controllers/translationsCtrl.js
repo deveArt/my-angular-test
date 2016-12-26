@@ -1,17 +1,24 @@
-var injectParams = ['$cookies', '$http'];
+var injectParams = ['translationSvc', '$http'];
 
-var TranslationsController = function($cookies, $http) {
+var TranslationsController = function(translationSvc, $http) {
 
     var vm = this;
-
+    vm.lang = 'de';
     init();
 
     function init() {
-        $http.get('http://dcodeit.net/angularTest/translation.php?lang=de').then(function (response) {
-            console.log(response);
-        }).catch(function (error) {
-            console.error(error);
-        });
+        vm.translations = translationSvc.getLocal(vm.lang);
+
+        if (!vm.translations) {
+            translationSvc.load(vm.lang, function (data) {
+                vm.translations = data;
+            });
+        }
+
+    }
+
+    vm.test = function () {
+        console.log(vm.translations);
     }
 };
 
