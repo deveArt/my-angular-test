@@ -10,11 +10,14 @@ var TranslationsController = function(translationSvc, $http) {
         vm.translations = translationSvc.getLocal(vm.lang);
 
         if (!vm.translations) {
-            translationSvc.load(vm.lang, function (data) {
-                vm.translations = data;
-            });
+            translationSvc.load(vm.lang)
+                .then(function (data) {
+                    vm.translations = data;
+                })
+                .catch(function (err) {
+                    console.error(err);
+                });
         }
-
     }
 
     vm.test = function () {

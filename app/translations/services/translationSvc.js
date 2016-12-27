@@ -5,24 +5,19 @@ var translationService = function ($http) {
     var options = {
         method: 'GET',
         url: 'http://dcodeit.net/angularTest/translation.php',
-        transformResponse: function(obj) {
-            return JSON.stringify(obj);
-        }
     };
 
     this.getLocal = function (selectedLang) {
         var translations = localStorage.getItem(selectedLang);
-        return (translations ? JSON.parse(JSON.parse(translations)) : null);
+        return (translations ? JSON.parse(translations) : null);
     };
 
-    this.load = function (selectedLang, cb) {
+    this.load = function (selectedLang) {
         options.params = {lang : selectedLang};
 
-        $http(options).then(function (response) {
-            localStorage.setItem(selectedLang, response.data);
-            cb(JSON.parse(response.data));
-        }).catch(function (err) {
-            console.error(err);
+        return $http(options).then(function(response) {
+            localStorage.setItem(selectedLang, JSON.stringify(response.data));
+            return response.data;
         });
     };
 };
