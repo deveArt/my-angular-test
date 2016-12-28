@@ -3,9 +3,10 @@
     <div class="panel panel-danger">
         <div class="panel-heading">Translations page</div>
         <div class="translation-container well">
-            Panel content
+            <ul>
+                <li ng-repeat="word in vm.pageWords">{{ word | translateFilter : vm.translations }}</li>
+            </ul>
         </div>
     </div>
     <button ng-click="vm.test()"> test </button>
 </div>
-

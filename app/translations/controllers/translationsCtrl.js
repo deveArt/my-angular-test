@@ -3,7 +3,19 @@ var injectParams = ['translationSvc', '$http'];
 var TranslationsController = function(translationSvc, $http) {
 
     var vm = this;
-    vm.lang = 'de';
+
+    vm.lang = 'eng';
+    vm.pageWords = [
+        'button cancel',
+        'button save',
+        'form_title',
+        'main text',
+        'sample1',
+        'sample2',
+        'sample3',
+        'title'
+    ];
+
     init();
 
     function init() {
