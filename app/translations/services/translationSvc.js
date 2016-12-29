@@ -1,25 +1,54 @@
-var injectParams = ['$http'];
+var injectParams = ['$http', '$q'];
 
-var translationService = function ($http) {
+var translationService = function ($http, $q) {
 
     var options = {
         method: 'GET',
         url: 'http://dcodeit.net/angularTest/translation.php',
     };
 
-    this.getLocal = function (selectedLang) {
-        var translations = localStorage.getItem(selectedLang);
-        return (translations ? JSON.parse(translations) : null);
+    var self = this;
+    self.translations = {
+        data: {}
+    };
+    self.curLang = 'eng';
+
+    self.getLangs = function () {
+        var langs = ['eng', 'rus', 'de', 'no', 'it', 'sv'];
+
+        return $q(function (resolve, reject) {
+            resolve(langs);
+        });
     };
 
-    this.load = function (selectedLang) {
+    init();
+
+    function getLocal (selectedLang) {
+        var translations = localStorage.getItem(selectedLang);
+        return (translations ? JSON.parse(translations) : null);
+    }
+
+    function load (selectedLang) {
         options.params = {lang : selectedLang};
 
-        return $http(options).then(function(response) {
+        return $http(options).then(function (response) {
             localStorage.setItem(selectedLang, JSON.stringify(response.data));
             return response.data;
         });
-    };
+    }
+
+    function init () {
+        self.translations.data = getLocal(self.curLang);
+
+        if (self.translations.data === null) {
+            load(self.curLang).then(function (result) {
+                self.translations.data = result;
+            }).catch(function (err) {
+                console.error(err);
+            })
+        }
+    }
+
 };
 
 translationService.$inject = injectParams;

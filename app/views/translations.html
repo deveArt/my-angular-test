@@ -4,7 +4,7 @@
         <div class="panel-heading">Translations page</div>
         <div class="translation-container well">
             <ul>
-                <li ng-repeat="word in vm.pageWords">{{ word | translateFilter : vm.translations }}</li>
+                <li ng-repeat="word in vm.pageWords">{{ word | translateFilter }}</li>
             </ul>
         </div>
     </div>
