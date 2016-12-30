@@ -9,9 +9,9 @@ var translationService = function ($http, $q) {
 
     var self = this;
     self.translations = {
-        data: {}
+        data: {},
+        curLang: 'eng',
     };
-    self.curLang = 'eng';
 
     self.getLangs = function () {
         var langs = ['eng', 'rus', 'de', 'no', 'it', 'sv'];
@@ -38,10 +38,10 @@ var translationService = function ($http, $q) {
     }
 
     function init () {
-        self.translations.data = getLocal(self.curLang);
+        self.translations.data = getLocal(self.translations.curLang);
 
         if (self.translations.data === null) {
-            load(self.curLang).then(function (result) {
+            load(self.translations.curLang).then(function (result) {
                 self.translations.data = result;
             }).catch(function (err) {
                 console.error(err);

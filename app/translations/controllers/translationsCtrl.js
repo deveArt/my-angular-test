@@ -1,6 +1,6 @@
-var injectParams = ['translationSvc', '$http', '$scope'];
+var injectParams = ['translationSvc', '$http', '$scope', '$timeout'];
 
-var TranslationsController = function(translationSvc, $http, $scope) {
+var TranslationsController = function(translationSvc, $http, $scope, $timeout) {
 
     var vm = this;
 
@@ -23,6 +23,18 @@ var TranslationsController = function(translationSvc, $http, $scope) {
         console.log(vm.translations.data);
         console.log(translationSvc.translations.data);
     }
+///////////////////////////////////////////////////////
+    $scope.$watch(function() {
+        return translationSvc.translations.data;
+    }, function(value, oldValue) {
+
+     $timeout(function() {
+      $scope.$apply();
+       // anything you want can go here and will safely be run on the next digest.
+     });
+
+        $scope.$$phase || $scope.$apply();
+    });
 };
 
 TranslationsController.$inject = injectParams;
