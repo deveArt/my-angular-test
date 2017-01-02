@@ -1,6 +1,6 @@
-var injectParams = ['$http'];
+var injectParams = ['$http', '$timeout'];
 
-var authService = function ($http) {
+var authService = function ($http, $timeout) {
     const url = 'http://dcodeit.net/tendermasterweb/public/api/';
 
     var options = {
@@ -25,6 +25,10 @@ var authService = function ($http) {
     this.logout = function () {
         options.url = url + 'logout';
         return $http(options);
+    };
+    
+    this.registrate = function () {
+        return $timeout(1000);
     };
 };
 

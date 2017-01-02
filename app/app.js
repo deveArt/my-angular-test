@@ -1,6 +1,6 @@
 'use strict';
 angular
-    .module('app', ['ngRoute', 'ngCookies'])
+    .module('app', ['ngRoute', 'ngCookies', 'ngMessages'])
     .config(['$routeProvider', '$locationProvider', '$httpProvider', config]);
 
 function config($routeProvider, $locationProvider, $httpProvider) {
@@ -14,6 +14,9 @@ function config($routeProvider, $locationProvider, $httpProvider) {
         })
         .when('/translations', {
             templateUrl: '/app/views/translations.html',
+        })
+        .when('/registration', {
+            templateUrl: '/app/views/registration.html',
         })
         .otherwise({redirectTo:'/'});
 
