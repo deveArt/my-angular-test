@@ -8,10 +8,6 @@ var translationService = function ($http, $q) {
     };
 
     var self = this;
-    self.translations = {
-        data: {},
-        curLang: 'eng',
-    };
 
     self.getLangs = function () {
         var langs = ['eng', 'rus', 'de', 'no', 'it', 'sv'];
@@ -21,33 +17,19 @@ var translationService = function ($http, $q) {
         });
     };
 
-    init();
-
-    function getLocal (selectedLang) {
+    self.getLocal = function(selectedLang) {
         var translations = localStorage.getItem(selectedLang);
         return (translations ? JSON.parse(translations) : null);
-    }
+    };
 
-    function load (selectedLang) {
+    self.load = function(selectedLang) {
         options.params = {lang : selectedLang};
 
         return $http(options).then(function (response) {
             localStorage.setItem(selectedLang, JSON.stringify(response.data));
             return response.data;
         });
-    }
-
-    function init () {
-        self.translations.data = getLocal(self.translations.curLang);
-
-        if (self.translations.data === null) {
-            load(self.translations.curLang).then(function (result) {
-                self.translations.data = result;
-            }).catch(function (err) {
-                console.error(err);
-            })
-        }
-    }
+    };
 
 };
 

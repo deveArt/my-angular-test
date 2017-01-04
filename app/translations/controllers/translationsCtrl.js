@@ -1,41 +1,38 @@
-var injectParams = ['translationSvc', '$http', '$scope', '$timeout'];
+angular
+    .module('app')
+    .controller('translationsCtrl', TranslationsController);
 
-var TranslationsController = function(translationSvc, $http, $scope, $timeout) {
+function TranslationsController(translationSvc, $http, $scope, $timeout) {
 
     var vm = this;
 
-    vm.lang = 'eng';
-    vm.translations = translationSvc.translations;
-    vm.pageWords = [
-        'button cancel',
-        'button save',
-        'form_title',
-        'main text',
-        'sample1',
-        'sample2',
-        'sample3',
-        'title'
-    ];
+    vm.curLang = 'eng';
+    vm.pageWords = {};
+    vm.switch = switchLang;
 
-    console.log(vm.translations.data);
-    console.log(translationSvc.translations.data);
-    vm.test = function () {
-        console.log(vm.translations.data);
-        console.log(translationSvc.translations.data);
+    init();
+
+    function init() {
+        translationSvc.getLangs().then(function (langs) {
+            vm.langs = langs;
+        }).catch(function (err) {
+            console.log(err);
+        });
+
+        vm.switch();
     }
-///////////////////////////////////////////////////////
-    $scope.$watch(function() {
-        return translationSvc.translations.data;
-    }, function(value, oldValue) {
 
-     $timeout(function() {
-      $scope.$apply();
-       // anything you want can go here and will safely be run on the next digest.
-     });
+    function switchLang() {
+        vm.pageWords = translationSvc.getLocal(vm.curLang);
+        if (vm.pageWords === null) {
+            translationSvc.load(vm.curLang).then(function (data) {
+                vm.pageWords = data;
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+        }
+    }
 
-        $scope.$$phase || $scope.$apply();
-    });
-};
+}
 
-TranslationsController.$inject = injectParams;
-angular.module('app').controller('translationsCtrl', TranslationsController);
