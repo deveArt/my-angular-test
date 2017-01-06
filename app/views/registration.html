@@ -7,7 +7,7 @@
             <div style="padding-top:30px" class="panel-body" >
 
                 <form id="registrationForm" name="vm.registrationForm" class="form-horizontal" ng-submit="vm.submit()" role="form" novalidate>
-                    <div style="margin-bottom: 25px" class="input-group"
+                    <div style="margin-bottom: 25px" class="form-group"
                         ng-class="{'has-error': vm.registrationForm.email.$invalid && vm.registrationForm.email.$dirty,
                                    'has-success': vm.registrationForm.email.$valid}">
                         <label for="registration-email">Email</label>
@@ -18,7 +18,7 @@
                         </div>
                     </div>
 
-                    <div style="margin-bottom: 25px" class="input-group"
+                    <div style="margin-bottom: 25px" class="form-group"
                          ng-class="{'has-error': vm.registrationForm.username.$invalid && vm.registrationForm.username.$dirty,
                                    'has-success': vm.registrationForm.username.$valid}">
                         <label for="registration-username">User name</label>
@@ -31,24 +31,26 @@
                         </div>
                     </div>
 
-                    <div style="margin-bottom: 25px" class="input-group"
+                    <div style="margin-bottom: 25px" class="form-group"
                         ng-class="{'has-error': vm.registrationForm.password.$invalid && vm.registrationForm.password.$dirty,
                                    'has-success': vm.registrationForm.password.$valid}">
                         <label for="registration-password">Password</label>
                         <input id="registration-password" type="password" class="form-control" required name="password" placeholder="password"
+                               ng-pattern="vm.pwdRegex"
                                ng-model="vm.data.password"
                                ng-minlength="8">
                         <div ng-show="vm.registrationForm.password.$dirty" ng-messages="vm.registrationForm.password.$error">
                             <p class="text-danger" ng-message="required">This field is required</p>
                             <p class="text-danger" ng-message="minlength">This field has less than 8 characters</p>
+                            <p class="text-danger" ng-message="pattern">This field must contain at least 1 number, 1 symbol, 1 capitalized letter</p>
                         </div>
                     </div>
 
-                    <div style="margin-bottom: 25px" class="input-group"
+                    <div style="margin-bottom: 25px" class="form-group"
                          ng-class="{'has-error': vm.registrationForm.age.$invalid && vm.registrationForm.age.$dirty,
                                    'has-success': vm.registrationForm.age.$valid}">
                         <label for="registration-age">Age</label>
-                        <input id="registration-age" type="number" name="age"
+                        <input id="registration-age" type="number" name="age" class="form-control" required
                                 ng-model="vm.data.age"
                                 ng-min="10"
                                 ng-max="100">

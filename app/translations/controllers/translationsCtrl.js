@@ -35,4 +35,3 @@ function TranslationsController(translationSvc, $http, $scope, $timeout) {
     }
 
 }
-

@@ -4,6 +4,7 @@ var RegistrationController = function(authSvc, $cookies, $rootScope, $location) 
 
     var vm = this;
     vm.data = {};
+    vm.pwdRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[$@!%*#?&])[A-Za-z\d$@!%*#?&]+$/;
 
     vm.submit = function() {
         console.log('valid');
