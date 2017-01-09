@@ -2,7 +2,8 @@ angular
     .module('app')
     .controller('translationsCtrl', TranslationsController);
 
-function TranslationsController(translationSvc, $http, $scope, $timeout) {
+TranslationsController.$inject = ['translationSvc'];
+function TranslationsController(translationSvc) {
 
     var vm = this;
 

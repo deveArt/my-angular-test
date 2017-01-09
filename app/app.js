@@ -10,13 +10,23 @@ function config($routeProvider, $locationProvider, $httpProvider) {
             templateUrl: '/app/views/home.html'
         })
         .when('/login', {
-            templateUrl: '/app/views/login.html',
+            templateUrl: '/app/views/login.html'
         })
         .when('/translations', {
-            templateUrl: '/app/views/translations.html',
+            templateUrl: '/app/views/translations.html'
         })
         .when('/registration', {
-            templateUrl: '/app/views/registration.html',
+            templateUrl: '/app/views/registration.html'
+        })
+        .when('/users', {
+            templateUrl: '/app/users/views/users.html',
+            controller: 'usersCtrl',
+            controllerAs: 'vm'
+        })
+        .when('/users/:id', {
+            templateUrl: '/app/users/views/users.html',
+            controller: 'usersCtrl',
+            controllerAs: 'vm'
         })
         .otherwise({redirectTo:'/'});
 

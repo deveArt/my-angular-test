@@ -1,6 +1,9 @@
-var injectParams = ['$http', '$q'];
+angular
+    .module('app')
+    .service('translationSvc', translationService);
 
-var translationService = function ($http, $q) {
+translationService.$inject = ['$http', '$q', 'storageSvc'];
+function translationService($http, $q, storageSvc) {
 
     var options = {
         method: 'GET',
@@ -8,6 +11,8 @@ var translationService = function ($http, $q) {
     };
 
     var self = this;
+
+    init();
 
     self.getLangs = function () {
         var langs = ['eng', 'rus', 'de', 'no', 'it', 'sv'];
@@ -17,21 +22,16 @@ var translationService = function ($http, $q) {
         });
     };
 
-    self.getLocal = function(selectedLang) {
-        var translations = localStorage.getItem(selectedLang);
-        return (translations ? JSON.parse(translations) : null);
-    };
-
     self.load = function(selectedLang) {
         options.params = {lang : selectedLang};
 
         return $http(options).then(function (response) {
-            localStorage.setItem(selectedLang, JSON.stringify(response.data));
+            self.setLocal(selectedLang, response.data);
             return response.data;
         });
     };
 
-};
-
-translationService.$inject = injectParams;
-angular.module('app').service('translationSvc', translationService);
+    function init() {
+        angular.extend(self, storageSvc);
+    }
+}
