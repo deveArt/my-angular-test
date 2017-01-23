@@ -47,7 +47,7 @@ function UsersController(storageSvc, $routeParams) {
         }
     }
 
-    function submit(userId) {
+    function submit(userId) {console.log(vm.data);
         if (userId) {
             edit(userId);
         } else {
