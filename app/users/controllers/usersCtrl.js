@@ -53,16 +53,20 @@ function UsersController(storageSvc, $routeParams) {
         } else {
             add();
         }
+
+        vm.usersForm.$setPristine();
         storageSvc.setLocal('users', vm.users);
     }
 
     function add() {
         vm.users.push(vm.data);
         vm.data = {};
-        vm.usersForm.$setPristine();
     }
 
     function edit(userId) {
+        vm.data.password = vm.data.newpassword;
+        vm.data.newpassword = vm.data.newpasswordrepeat = null;
+
         vm.users[userId] = angular.copy(vm.data);
     }
 }

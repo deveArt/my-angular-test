@@ -28,6 +28,11 @@ function config($routeProvider, $locationProvider, $httpProvider) {
             controller: 'usersCtrl',
             controllerAs: 'vm'
         })
+        .when('/search', {
+            templateUrl: '/app/search/views/search.html',
+            controller: 'searchCtrl',
+            controllerAs: 'vm'
+        })
         .otherwise({redirectTo:'/'});
 
     $httpProvider.defaults.useXDomain = true;

@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <div class="panel-title">Search page</div>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label>Search word</label>
+                <input class="form-control" type="text" ng-model="vm.searchWord"/>
+                <select class="form-control" ng-model="vm.curField">
+                    <option ng-repeat="(val, field) in vm.searchFields" value="{{val}}">{{field}}</option>
+                </select>
+            </div>
+            <div class="list-group">
+                <a ng-repeat="(i, item) in vm.data | searchFilter:vm.searchWord:vm.curField" class="list-group-item">
+                    <strong>{{item.Name}}</strong> {{item.Type}} - {{item['Designed by']}}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
