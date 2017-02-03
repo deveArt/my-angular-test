@@ -10,9 +10,10 @@
                 <select class="form-control" ng-model="vm.curField">
                     <option ng-repeat="(val, field) in vm.searchFields" value="{{val}}">{{field}}</option>
                 </select>
+                <input type="checkbox" class="form-control" value="" ng-model="vm.insens"/>
             </div>
             <div class="list-group">
-                <a ng-repeat="(i, item) in vm.data | searchFilter:vm.searchWord:vm.curField" class="list-group-item">
+                <a ng-repeat="(i, item) in vm.data | searchFilter:vm.searchWord:vm.curField:vm.insens" class="list-group-item">
                     <strong>{{item.Name}}</strong> {{item.Type}} - {{item['Designed by']}}
                 </a>
             </div>

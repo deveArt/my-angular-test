@@ -18,6 +18,7 @@ function SearchController($http) {
     vm.data = [];
     vm.searchWord = '';
     vm.curFields = '';
+    vm.insens = true;
 
     init();
     
