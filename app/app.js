@@ -8,6 +8,8 @@ function config($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
         .when('/', {
             templateUrl: '/app/views/home.html'
+       //     controller: 'mainCtrl',
+       //     controllerAs: 'main'
         })
         .when('/login', {
             templateUrl: '/app/views/login.html'
@@ -38,5 +40,5 @@ function config($routeProvider, $locationProvider, $httpProvider) {
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
     //$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-    $locationProvider.html5Mode(true);
+    //$locationProvider.html5Mode(true);
 }

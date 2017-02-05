@@ -4,6 +4,9 @@ var MainController = function (authSvc, $cookies, $rootScope, $location) {
 
     var vm = this;
 
+    vm.color = '';
+    vm.themes = ['red', 'blue', 'orange']; ////////////
+
     vm.location = $location.path();
     vm.logout = function () {
         authSvc.logout().then(function (response) {

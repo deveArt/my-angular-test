@@ -8,18 +8,16 @@ function SearchController($http) {
     const listUrl = 'http://dcodeit.net/angularTest/data.json';
 
     var vm = this;
-    vm.searchFields = {
-        '': 'all',
-        'Name': 'Name',
-        'Type': 'Type',
-        'Designed by': 'Designed by'
-    };
 
     vm.data = [];
     vm.searchWord = '';
-    vm.curFields = '';
+    vm.curFields = {
+        Name: false,
+        Type: false,
+        'Designed by': false
+    };
     vm.insens = true;
-
+    vm.exact = false;
     init();
     
     function init() {
