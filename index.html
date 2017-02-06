@@ -26,14 +26,16 @@
                     <li ng-class="{active: main.location === '/search'}"><a href="#!/search">Search</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li ng-show="loggedIn" ng-cloak>
+                    <li class="head-btns">
+                        <select-improved list="main.themes" selvalue="main.color"></select-improved>
+                    </li>
+                    <li ng-show="loggedIn" class="head-btns" ng-cloak>
                         <button type="button" ng-click="main.logout()" class="btn btn-default navbar-btn">Logout</button>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
-
 
     <div ng-view></div>
 

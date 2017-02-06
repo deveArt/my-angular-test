@@ -1,18 +1,19 @@
-<div class="btn-group bootstrap-select open">
+<div class="btn-group bootstrap-select select-improved" ng-class="{'open': $ctrl.expand}">
     <button type="button"
             class="btn dropdown-toggle btn-default"
-            data-toggle="dropdown" role="button" title="Select color" aria-expanded="true">
+            ng-click="$ctrl.expand = !$ctrl.expand"
+            role="button" title="Select color">
         <span class="filter-option pull-left">Select color</span>&nbsp;
         <span class="bs-caret">
             <span class="caret"></span>
         </span>
     </button>
-    <div class="dropdown-menu open" role="combobox" style="max-height: 392px; overflow: hidden; min-height: 42px;">
-        <div class="bs-searchbox">
-            <input type="text" class="form-control" autocomplete="off" role="textbox" aria-label="Search">
-        </div>
+    <div ng-class="{'open': $ctrl.expand}" role="combobox">
         <ul class="dropdown-menu" role="listbox">
-            <li ng-repeat="item in $ctrl.list" class="selected active">
+            <li>
+                <input type="text" ng-model="$ctrl.search" class="form-control" autocomplete="off" role="textbox"/>
+            </li>
+            <li ng-repeat="item in $ctrl.list | filter:$ctrl.search" ng-class="{'active': $ctrl.selvalue == item}" ng-click="$ctrl.selvalue = item">
                 <a role="option">
                     <span class="text">{{item}}</span>
                     <span class="glyphicon glyphicon-ok check-mark"></span>

@@ -4,8 +4,8 @@ var MainController = function (authSvc, $cookies, $rootScope, $location) {
 
     var vm = this;
 
-    vm.color = '';
-    vm.themes = ['red', 'blue', 'orange']; ////////////
+    vm.color = 'red';
+    vm.themes = ['red', 'blue', 'orange', 'green', 'black']; ////////////
 
     vm.location = $location.path();
     vm.logout = function () {

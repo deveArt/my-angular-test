@@ -1,7 +1,7 @@
 function SelectImprovedController() {
-    var vm = this;
+    var ctrl = this;
 
-    console.dir(vm);
+    ctrl.expand = false;
 }
 
 angular
