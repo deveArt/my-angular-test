@@ -22,6 +22,22 @@ $primary-color: #333;
     margin-left: 5px;
 }
 
+.foot-st {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+}
+
+body {
+    position: relative;
+    height: 100%;
+}
+html {
+    height: 100%;
+}
+
 .search-panel {
     width: 70%;
     display: block;

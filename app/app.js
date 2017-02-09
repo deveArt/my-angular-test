@@ -1,7 +1,9 @@
 'use strict';
 angular
     .module('app', ['ngRoute', 'ngCookies', 'ngMessages'])
-    .config(['$routeProvider', '$locationProvider', '$httpProvider', config]);
+    .config(['$routeProvider', '$locationProvider', '$httpProvider', config])
+    .run(function($rootScope) {
+    });
 
 function config($routeProvider, $locationProvider, $httpProvider) {
 

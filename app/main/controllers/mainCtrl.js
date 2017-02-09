@@ -7,6 +7,8 @@ var MainController = function (authSvc, $cookies, $rootScope, $location) {
     vm.color = 'red';
     vm.themes = ['red', 'blue', 'orange', 'green', 'black']; ////////////
 
+    vm.showSel = false;console.log(vm.showSel);
+
     vm.location = $location.path();
     vm.logout = function () {
         authSvc.logout().then(function (response) {

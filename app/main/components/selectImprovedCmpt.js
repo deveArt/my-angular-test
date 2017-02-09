@@ -1,7 +1,10 @@
 function SelectImprovedController() {
     var ctrl = this;
 
-    ctrl.expand = false;
+    ctrl.toggle = function () {
+        ctrl.expand = !ctrl.expand;
+        console.log(ctrl);
+    }
 }
 
 angular
@@ -11,6 +14,7 @@ angular
         controller: SelectImprovedController,
         bindings: {
             selvalue: '=',
-            list: '='
+            list: '=',
+            expand: '='
         }
     });
