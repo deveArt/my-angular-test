@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="panel panel-danger search-panel">
+    <div class="panel panel-{{color}} search-panel">
         <div class="panel-heading">
             <div class="panel-title">Search page</div>
         </div>
@@ -8,13 +8,13 @@
                 <div class="row">
                     <div class="col-md-7"><label for="srch-word"><h4>Search word</h4></label></div>
                     <div class="col-md-5">
-                        <button class="btn btn-primary srch-input" ng-class="{'active': vm.curFields.Name}" ng-click="vm.curFields.Name = !vm.curFields.Name">
+                        <button class="btn btn-{{color}} srch-input" ng-class="{'active': vm.curFields.Name}" ng-click="vm.curFields.Name = !vm.curFields.Name">
                             By name
                         </button>
-                        <button class="btn btn-primary srch-input" ng-class="{'active': vm.curFields.Type}" ng-click="vm.curFields.Type = !vm.curFields.Type">
+                        <button class="btn btn-{{color}} srch-input" ng-class="{'active': vm.curFields.Type}" ng-click="vm.curFields.Type = !vm.curFields.Type">
                             By type
                         </button>
-                        <button class="btn btn-primary srch-input" ng-class="{'active': vm.curFields['Designed by']}" ng-click="vm.curFields['Designed by'] = !vm.curFields['Designed by']">
+                        <button class="btn btn-{{color}} srch-input" ng-class="{'active': vm.curFields['Designed by']}" ng-click="vm.curFields['Designed by'] = !vm.curFields['Designed by']">
                             By designer
                         </button>
                     </div>

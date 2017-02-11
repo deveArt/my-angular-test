@@ -7,15 +7,15 @@
         <span class="bs-caret">
             <span class="caret"></span>
         </span>
-    </button>{{$ctrl.expand}}
+    </button>
     <div ng-class="{'open': $ctrl.expand}" role="combobox">
         <ul class="dropdown-menu" role="listbox">
             <li>
                 <input type="text" ng-model="$ctrl.search" class="form-control" autocomplete="off" role="textbox"/>
             </li>
-            <li ng-repeat="item in $ctrl.list | filter:$ctrl.search" ng-class="{'active': $ctrl.selvalue == item}" ng-click="$ctrl.selvalue = item">
+            <li ng-repeat="item in $ctrl.list | filter:$ctrl.search" ng-class="{'active': $ctrl.selvalue == item.name}" ng-click="$ctrl.selvalue = item.name">
                 <a role="option">
-                    <span class="text">{{item}}</span>
+                    <span class="text">{{item.val}}</span>
                     <span class="glyphicon glyphicon-ok check-mark"></span>
                 </a>
             </li>
