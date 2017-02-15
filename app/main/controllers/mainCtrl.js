@@ -12,8 +12,6 @@ var MainController = function (authSvc, $cookies, $rootScope, $location) {
         {name: 'danger', val: 'red'}
     ];
 
-console.log(vm.themes);
-
     vm.location = $location.path();
     vm.logout = function () {
         authSvc.logout().then(function (response) {

@@ -2,6 +2,10 @@ function SelectImprovedController() {
     var ctrl = this;
 
     ctrl.expand = false;
+
+    ctrl.hide = function () {
+        ctrl.expand = false;console.log(ctrl.expand);
+    };
 }
 
 angular
@@ -11,6 +15,6 @@ angular
         controller: SelectImprovedController,
         bindings: {
             selvalue: '=',
-            list: '='
+            list: '<'
         }
     });

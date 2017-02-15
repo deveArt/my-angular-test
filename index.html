@@ -12,19 +12,13 @@
     <base href="/" target="_blank">
 </head>
 <body ng-controller="mainCtrl as main">
+
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li ng-class="{active: main.location === '/'}"><a href="/">Home</a></li>
-                    <li ng-class="{active: main.location === '/login'}"><a href="#!/login">Login</a></li>
-                    <li ng-class="{active: main.location === '/registration'}"><a href="#!/registration">Registration</a></li>
-                    <li ng-class="{active: main.location === '/translations'}"><a href="#!/translations">Translations</a></li>
-                    <li ng-class="{active: main.location === '/users'}"><a href="#!/users">Users</a></li>
-                    <li ng-class="{active: main.location === '/search'}"><a href="#!/search">Search</a></li>
-                </ul>
+                <navbar location="main.location"></navbar>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="head-btns">
                         <select-improved list="main.themes" selvalue="color"></select-improved>
@@ -36,6 +30,7 @@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
+
     <div>
         <div ng-view></div>
     </div>

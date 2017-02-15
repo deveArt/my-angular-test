@@ -33,7 +33,7 @@ gulp.task('build', gulp.series(
 ));
 
 gulp.task('webserver', function() {
-    gulp.src('./')
+    return gulp.src('./')
         .pipe(webserver({
             livereload: {
                 enable: true, // need this set to true to enable livereload

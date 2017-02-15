@@ -15,7 +15,7 @@ var LoginController = function(authSvc, $cookies, $rootScope, $location) {
             if (!response.data.errors) {
                 console.log($cookies.getAll());
                 $rootScope.loggedIn = true;
-                $location.path( "/translations" );
+                $location.path("/translations");
             }
 
             for (var i in vm.loginForm.$$controls) {
