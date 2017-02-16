@@ -1,7 +1,7 @@
 <div id="select-improved" class="btn-group bootstrap-select" ng-class="{'open': $ctrl.expand}">
     <button type="button"
             class="btn dropdown-toggle btn-default"
-            ng-click="$ctrl.expand = !$ctrl.expand"
+            ng-click="$ctrl.hide()"
             role="button" title="Select color">
         <span class="filter-option pull-left">Select color</span>&nbsp;
         <span class="bs-caret">
@@ -21,4 +21,10 @@
             </li>
         </ul>
     </div>
-</div>
+</div>{{$ctrl.expand}}
+<my-click-out
+    selectors="['div', 'ul']"
+    on-click-out="$ctrl.hide()"
+>
+
+</my-click-out>

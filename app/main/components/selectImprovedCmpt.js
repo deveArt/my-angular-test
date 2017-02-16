@@ -1,10 +1,10 @@
 function SelectImprovedController() {
-    var ctrl = this;
+    var $ctrl = this;
 
-    ctrl.expand = false;
+    $ctrl.expand = false;
 
-    ctrl.hide = function () {
-        ctrl.expand = false;console.log(ctrl.expand);
+    $ctrl.hide = function () {
+        $ctrl.expand = 0;console.log($ctrl.expand);
     };
 }
 
