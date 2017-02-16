@@ -1,7 +1,7 @@
 <div id="select-improved" class="btn-group bootstrap-select" ng-class="{'open': $ctrl.expand}">
     <button type="button"
             class="btn dropdown-toggle btn-default"
-            ng-click="$ctrl.hide()"
+            ng-click="$ctrl.expand = !$ctrl.expand"
             role="button" title="Select color">
         <span class="filter-option pull-left">Select color</span>&nbsp;
         <span class="bs-caret">
@@ -10,21 +10,19 @@
     </button>
     <div ng-class="{'open': $ctrl.expand}" role="combobox">
         <ul class="dropdown-menu" role="listbox">
-            <li>
-                <input type="text" ng-model="$ctrl.search" class="form-control" autocomplete="off" role="textbox"/>
+            <li class="sel-search-input">
+                <input type="text" placeholder="Type color..." ng-model="$ctrl.search" class="form-control" autocomplete="off" role="textbox"/>
             </li>
             <li ng-repeat="item in $ctrl.list | filter:$ctrl.search" ng-class="{'active': $ctrl.selvalue == item.name}" ng-click="$ctrl.selvalue = item.name">
                 <a role="option">
                     <span class="text">{{item.val}}</span>
-                    <span class="glyphicon glyphicon-ok check-mark"></span>
+                    <span ng-show="$ctrl.selvalue == item.name" class="glyphicon glyphicon-ok check-mark"></span>
                 </a>
             </li>
         </ul>
     </div>
-</div>{{$ctrl.expand}}
+</div>
 <my-click-out
     selectors="['div', 'ul']"
     on-click-out="$ctrl.hide()"
->
-
-</my-click-out>
+></my-click-out>

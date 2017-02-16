@@ -5,11 +5,14 @@ var MainController = function (authSvc, $cookies, $rootScope, $location) {
     var vm = this;
 
     vm.themes = [
-        {name: 'primary', val: 'dark blue'},
-        {name: 'success', val: 'green'},
-        {name: 'info', val: 'blue'},
-        {name: 'warning', val:'yellow'},
-        {name: 'danger', val: 'red'}
+        {name: 'primary', val: 'Dark blue'},
+        {name: 'success', val: 'Green'},
+        {name: 'info', val: 'Blue'},
+        {name: 'warning', val:'Yellow'},
+        {name: 'danger', val: 'Red'},
+        {name: 'grey', val: 'Grey'},
+        {name: 'codeit', val:'CodeIT'},
+        {name: 'dark-red', val: 'Dark red'}
     ];
 
     vm.location = $location.path();

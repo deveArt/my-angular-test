@@ -17,19 +17,17 @@ angular
         controller: myClickOutController,
         bindings: {
             selectors: '<',
-            onClickOut: '&',
-            fromParent: '@',
+            onClickOut: '&'
         }
     });
 
-myClickOutController.$inject = ['$window', '$document', '$element', '$timeout', '$scope', '$attrs'];
-function myClickOutController($window, $document, $element, $timeout, $scope, $attrs) {
+myClickOutController.$inject = ['$window', '$element', '$scope'];
+function myClickOutController($window, $element, $scope) {
     var $ctrl = this;
 
     $ctrl.$postLink = $postLink;
 
     function $postLink() {
-        setupForTests();
 
         document.onmousedown = checkIfClickOutsideSelectionArea;
         angular.element($window).on('blur' ,checkIfClickOutsideSelectionArea);
@@ -38,19 +36,6 @@ function myClickOutController($window, $document, $element, $timeout, $scope, $a
             document.onmousedown = null;
             angular.element($window).unbind('blur', checkIfClickOutsideSelectionArea);
         });
-    }
-
-    /**
-     * For testing only. Normal triggering does not seem to work well. See global.test-helper.js
-     */
-    function setupForTests() {
-        if (window.zTest) {
-            window.zTest.clickOutEvents = window.zTest.clickOutEvents || {};
-            window.zTest.clickOutEvents[$attrs.selector] = function() {
-                $ctrl.onClickOut();
-                $scope.$apply();
-            };
-        }
     }
 
     /**
@@ -95,12 +80,9 @@ function myClickOutController($window, $document, $element, $timeout, $scope, $a
      * Call the bound clickOut method. If it returns true, do a $apply in this scope.
      */
     function doClickOut() {
-        $ctrl.onClickOut();
-        console.log($ctrl.onClickOut);
-      //  var result = $ctrl.onClickOut();
-        // if (result === true) {
-        //     $scope.$apply();
-        // }
+        if ($ctrl.onClickOut()) {
+            $scope.$apply();
+        }
     }
 
     /**

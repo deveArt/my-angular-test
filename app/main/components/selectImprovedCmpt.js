@@ -4,7 +4,8 @@ function SelectImprovedController() {
     $ctrl.expand = false;
 
     $ctrl.hide = function () {
-        $ctrl.expand = 0;console.log($ctrl.expand);
+        $ctrl.expand = false;
+        return true;
     };
 }
 
