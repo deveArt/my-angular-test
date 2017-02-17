@@ -38,6 +38,11 @@ function config($routeProvider, $locationProvider, $httpProvider) {
             controller: 'searchCtrl',
             controllerAs: 'vm'
         })
+        .when('/notes', {
+            templateUrl: '/app/notes/views/notes.html',
+            controller: 'notesCtrl',
+            controllerAs: 'vm'
+        })
         .otherwise({redirectTo:'/'});
 
     $httpProvider.defaults.useXDomain = true;

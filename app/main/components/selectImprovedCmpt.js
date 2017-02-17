@@ -1,14 +1,3 @@
-function SelectImprovedController() {
-    var $ctrl = this;
-
-    $ctrl.expand = false;
-
-    $ctrl.hide = function () {
-        $ctrl.expand = false;
-        return true;
-    };
-}
-
 angular
     .module('app')
     .component('selectImproved', {
@@ -19,3 +8,14 @@ angular
             list: '<'
         }
     });
+
+  function SelectImprovedController() {
+      var $ctrl = this;
+
+      $ctrl.expand = false;
+
+      $ctrl.hide = function () {
+          $ctrl.expand = false;
+          return true;
+      };
+  }
