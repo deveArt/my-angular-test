@@ -4,10 +4,15 @@ function DndElementController($window, $document, $element, $timeout, $scope, $a
 
 console.log($element);
 
-    $element.on('click', function (e) {
-        $ctrl.dndZone.dragElement = $element;
-        $ctrl.dndZone.startX = e.pageX;
-        $ctrl.dndZone.startY = e.pageY;
+    $element.on('mousedown', function (e) {
+
+        var dragTarget = {
+            dragElement: $element,
+            startX: e.pageX,
+            startY: e.pageY
+        };
+
+        $ctrl.dndZone.dragTarget = dragTarget;
 
         console.dir($ctrl.dndZone);
     });

@@ -1,15 +1,15 @@
 function DndZoneController($window, $document, $element, $timeout, $scope, $attrs) {
     var $ctrl = this;
-    $ctrl.dragElement = null;
-    $ctrl.startX = null;
-    $ctrl.startY = null;
+    $ctrl.dragTarget = null;
     $ctrl._elem = null;
 
     $ctrl.$postLink = init;
 
     function init() {
+        $element[0].mode = $ctrl.mode;
+console.dir($element);
         $document.on('mousemove', function (e) {
-            if (!$ctrl.dragElement) {
+            if (!$ctrl.dragTarget) {
                 return;
             }
 
@@ -22,28 +22,69 @@ function DndZoneController($window, $document, $element, $timeout, $scope, $attr
             }
 
             onDragMove(e);
+
+            $ctrl._dropTarget = findDropTarget();
+        });
+
+        $document.on('mouseup', function (e) {
+
+            if (e.which != 1) { // не левой кнопкой
+                return false;
+            }
+
+            if (!$ctrl.dragTarget) {
+                return;
+            }
+
+            if ($ctrl._elem) {
+                if ($ctrl._dropTarget) {
+                    $ctrl._dropTarget.appendChild($ctrl._elem);
+                } else {
+                    rollBack();
+                }
+            }
+
+            $ctrl.dragTarget = null; // ????????????
+
         });
     }
 
+    function rollBack() {
+        $ctrl.old.parent.insertBefore($ctrl._elem, $ctrl.old.nextSibling);
+        $ctrl._elem.style.position = $ctrl.old.position;
+        $ctrl._elem.style.left = $ctrl.old.left;
+        $ctrl._elem.style.top = $ctrl.old.top;
+        $ctrl._elem.style.zIndex = $ctrl.old.zIndex;
+
+        $ctrl._elem = null; // ?????????????????/
+    }
+
     function dragStart() {
-        if (!$ctrl.dragElement) {
+        if (!$ctrl.dragTarget) {
             return;
         }
 
-        $ctrl._elem = $ctrl.dragElement[0].cloneNode(true);
+        // создать вспомогательные свойства shiftX/shiftY
+        $ctrl._elem = $ctrl.dragTarget.dragElement[0];
+        var coords = getCoords($ctrl._elem);
+        $ctrl._shiftX = $ctrl.dragTarget.startX - coords.left;
+        $ctrl._shiftY = $ctrl.dragTarget.startY - coords.top;
 
-        document.body.appendChild( $ctrl._elem);
+        $ctrl.old = {
+            parent: $ctrl._elem.parentNode,
+            nextSibling: $ctrl._elem.nextSibling,
+            position: $ctrl._elem.position || '',
+            left: $ctrl._elem.left || '',
+            top: $ctrl._elem.top || '',
+            zIndex: $ctrl._elem.zIndex || ''
+        };
+
+        document.body.appendChild($ctrl._elem);
         $ctrl._elem.style.zIndex = 9999;
         $ctrl._elem.style.position = 'absolute';
 
-        // создать вспомогательные свойства shiftX/shiftY
-        var coords = getCoords($ctrl.dragElement[0]);
-        $ctrl._shiftX = $ctrl.startX - coords.left;
-        $ctrl._shiftY = $ctrl.startY - coords.top;
-
-console.log($ctrl._shiftX, $ctrl._shiftY);
+//console.log($ctrl._shiftX, $ctrl._shiftY);
         // инициировать начало переноса
-
 
         return true;
     }
@@ -73,7 +114,7 @@ console.log($ctrl._shiftX, $ctrl._shiftY);
         // (4)
         var top  = box.top +  scrollTop - clientTop;
         var left = box.left + scrollLeft - clientLeft;
-        console.log(box);console.log(clientTop);
+        //console.log(box);console.log(clientTop);
         // (5)
         return { top: Math.round(top), left: Math.round(left) };
     }
@@ -87,10 +128,28 @@ console.log($ctrl._shiftX, $ctrl._shiftY);
         elem.style.display = display;
 
         if (!target || target == document) { // это бывает при выносе за границы окна
-            target = document.body; // поправить значение, чтобы был именно элемент
+            target = document.body;
         }
 
         return target;
+    }
+
+    function findDropTarget() {
+        if (!$ctrl._currentTargetElem) {
+            return null;
+        }
+
+        var elem = $ctrl._currentTargetElem;
+
+        while (elem != document && elem.mode !== 'drop') {
+            elem = elem.parentNode;
+        }
+
+        if (elem == document) {
+            return null;
+        }
+        console.dir(elem);
+        return elem.firstElementChild;
     }
 }
 
@@ -99,6 +158,6 @@ angular
     .component('dndZone', {
         controller: DndZoneController,
         bindings: {
-            mode: '<'
+            mode: '@'
         }
     });
