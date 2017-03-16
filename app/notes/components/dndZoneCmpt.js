@@ -8,6 +8,16 @@ function DndZoneController($window, $document, $element, $timeout, $scope, $attr
     function init() {
         $element[0].mode = $ctrl.mode;
 console.dir($element);
+
+        if ($ctrl.mode == 'drop') {
+            $element.on('dropready', function (e) {
+                console.log('ready to drop');
+            });
+            $element.on('dragleave', function (e) {
+                console.log('drag el left');
+            });
+        }
+
         $document.on('mousemove', function (e) {
             if (!$ctrl.dragTarget) {
                 return;
@@ -23,7 +33,16 @@ console.dir($element);
 
             onDragMove(e);
 
-            $ctrl._dropTarget = findDropTarget();
+            var newDropTarget = findDropTarget();
+
+            if (newDropTarget != $ctrl._dropTarget) {
+                $ctrl._dropTarget && angular.element($ctrl._dropTarget).triggerHandler('dragleave');
+                newDropTarget && angular.element(newDropTarget).triggerHandler('dropready');
+            }
+
+            $ctrl._dropTarget  = newDropTarget;
+
+          //  dropTarget && dropTarget.onDragMove(avatar, e);
         });
 
         $document.on('mouseup', function (e) {
@@ -148,8 +167,8 @@ console.dir($element);
         if (elem == document) {
             return null;
         }
-        console.dir(elem);
-        return elem.firstElementChild;
+    //    console.dir(elem);
+        return elem;
     }
 }
 
