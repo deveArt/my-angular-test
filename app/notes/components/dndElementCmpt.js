@@ -1,25 +1,21 @@
 function DndElementController($window, $document, $element, $timeout, $scope, $attrs) {
     var $ctrl = this;
 
-
-console.log($element);
-
-    $element.on('mousedown', function (e) {
-
-        var dragTarget = {
-            dragElement: $element,
-            startX: e.pageX,
-            startY: e.pageY
-        };
-
-        $ctrl.dndZone.dragTarget = dragTarget;
-
-        console.dir($ctrl.dndZone);
-    });
-    $ctrl.$postLink = init;
+    $ctrl.$onInit = init;
 
     function init() {
-        
+        $element.on('mousedown', function (e) {
+
+            var dragTarget = {
+                dragElement: $element,
+                startX: e.pageX,
+                startY: e.pageY
+            };
+
+            $ctrl.dndZone.dragTarget = dragTarget;
+
+            console.dir($element);
+        });
     }
 }
 

@@ -5,15 +5,38 @@ function DndZoneController($window, $document, $element, $timeout, $scope, $attr
 
     $ctrl.$postLink = init;
 
+    $ctrl.highlight = function() {
+        var overlayData = $element[0].getBoundingClientRect();
+        var overlayElement = angular.element('<div id="dnd-overlay"></div>').css({
+            'background-color': '#7FFFD4',
+            opacity: 0.5,
+            position: 'absolute',
+            top: overlayData.top + 'px',
+            left: overlayData.left + 'px',
+            width: overlayData.width + 'px',
+            height: overlayData.height + 'px'
+        });
+
+        $element.append(overlayElement);
+    };
+
+    $ctrl.nolight = function() {
+        var overlayElement = document.getElementById('dnd-overlay');
+        angular.element(overlayElement).remove();
+    };
+
     function init() {
         $element[0].mode = $ctrl.mode;
+        window.myEl = $element;
 console.dir($element);
 
         if ($ctrl.mode == 'drop') {
             $element.on('dropready', function (e) {
+                $ctrl.highlight();
                 console.log('ready to drop');
             });
             $element.on('dragleave', function (e) {
+                $ctrl.nolight();
                 console.log('drag el left');
             });
         }
@@ -41,8 +64,6 @@ console.dir($element);
             }
 
             $ctrl._dropTarget  = newDropTarget;
-
-          //  dropTarget && dropTarget.onDragMove(avatar, e);
         });
 
         $document.on('mouseup', function (e) {
@@ -56,32 +77,45 @@ console.dir($element);
             }
 
             if ($ctrl._elem) {
+                console.log($ctrl._dropTarget);
                 if ($ctrl._dropTarget) {
-                    $ctrl._dropTarget.appendChild($ctrl._elem);
+                    dragEnd();
                 } else {
                     rollBack();
                 }
             }
 
             $ctrl.dragTarget = null; // ????????????
-
+            $ctrl._elem = null;
+            $ctrl._dropTarget = null;
+            $ctrl.old = null;
         });
     }
 
     function rollBack() {
+        console.log('rollback');
+
         $ctrl.old.parent.insertBefore($ctrl._elem, $ctrl.old.nextSibling);
         $ctrl._elem.style.position = $ctrl.old.position;
-        $ctrl._elem.style.left = $ctrl.old.left;
-        $ctrl._elem.style.top = $ctrl.old.top;
+        $ctrl._elem.style.left = $ctrl.old.left + 'px';
+        $ctrl._elem.style.top = $ctrl.old.top + 'px';
         $ctrl._elem.style.zIndex = $ctrl.old.zIndex;
+    }
 
-        $ctrl._elem = null; // ?????????????????/
+    function dragEnd() {
+        if ($ctrl._dropTarget == null) {
+            return null;
+        }
+        console.log('drag end');
+        $ctrl._dropTarget.appendChild($ctrl._elem);
+        angular.element($ctrl._dropTarget).triggerHandler('dragleave');
     }
 
     function dragStart() {
         if (!$ctrl.dragTarget) {
             return;
         }
+        console.log('drag start');
 
         // создать вспомогательные свойства shiftX/shiftY
         $ctrl._elem = $ctrl.dragTarget.dragElement[0];
@@ -92,12 +126,13 @@ console.dir($element);
         $ctrl.old = {
             parent: $ctrl._elem.parentNode,
             nextSibling: $ctrl._elem.nextSibling,
-            position: $ctrl._elem.position || '',
-            left: $ctrl._elem.left || '',
-            top: $ctrl._elem.top || '',
-            zIndex: $ctrl._elem.zIndex || ''
+            position: $ctrl._elem.style.position || '',
+            left: coords.left || '',
+            top: coords.top || '',
+            zIndex: $ctrl._elem.style.zIndex || ''
         };
 
+        console.dir($ctrl.old);
         document.body.appendChild($ctrl._elem);
         $ctrl._elem.style.zIndex = 9999;
         $ctrl._elem.style.position = 'absolute';
