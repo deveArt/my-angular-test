@@ -85,7 +85,7 @@ console.dir($element);
                 }
             }
 
-            $ctrl.dragTarget = null; // ????????????
+            $ctrl.dragTarget = null; // ????????
             $ctrl._elem = null;
             $ctrl._dropTarget = null;
             $ctrl.old = null;
