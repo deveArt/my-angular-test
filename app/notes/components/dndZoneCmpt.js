@@ -11,8 +11,6 @@ function DndZoneController($window, $document, $element, $timeout, $scope, $attr
             'background-color': '#7FFFD4',
             opacity: 0.5,
             position: 'absolute',
-            top: overlayData.top + 'px',
-            left: overlayData.left + 'px',
             width: overlayData.width + 'px',
             height: overlayData.height + 'px'
         });
@@ -28,7 +26,6 @@ function DndZoneController($window, $document, $element, $timeout, $scope, $attr
     function init() {
         $element[0].mode = $ctrl.mode;
         window.myEl = $element;
-console.dir($element);
 
         if ($ctrl.mode == 'drop') {
             $element.on('dropready', function (e) {
@@ -71,7 +68,6 @@ console.dir($element);
             if (e.which != 1) { // не левой кнопкой
                 return false;
             }
-
             if (!$ctrl.dragTarget) {
                 return;
             }
@@ -96,9 +92,11 @@ console.dir($element);
         console.log('rollback');
 
         $ctrl.old.parent.insertBefore($ctrl._elem, $ctrl.old.nextSibling);
+
+        var coords = getCoords($ctrl.old.parent);
         $ctrl._elem.style.position = $ctrl.old.position;
-        $ctrl._elem.style.left = $ctrl.old.left + 'px';
-        $ctrl._elem.style.top = $ctrl.old.top + 'px';
+        $ctrl._elem.style.left = $ctrl.old.left - coords.left + 'px';
+        $ctrl._elem.style.top = $ctrl.old.top - coords.top + 'px';
         $ctrl._elem.style.zIndex = $ctrl.old.zIndex;
     }
 
@@ -108,6 +106,10 @@ console.dir($element);
         }
         console.log('drag end');
         $ctrl._dropTarget.appendChild($ctrl._elem);
+
+        var coords = getCoords($ctrl._dropTarget);
+        $ctrl._elem.style.left = $ctrl._elemX - coords.left + 'px';
+        $ctrl._elem.style.top = $ctrl._elemY - coords.top + 'px';
         angular.element($ctrl._dropTarget).triggerHandler('dragleave');
     }
 
@@ -137,39 +139,36 @@ console.dir($element);
         $ctrl._elem.style.zIndex = 9999;
         $ctrl._elem.style.position = 'absolute';
 
-//console.log($ctrl._shiftX, $ctrl._shiftY);
-        // инициировать начало переноса
-
         return true;
     }
 
     function onDragMove(event) {
-        $ctrl._elem.style.left = event.pageX - $ctrl._shiftX + 'px';
-        $ctrl._elem.style.top = event.pageY - $ctrl._shiftY + 'px';
+
+        $ctrl._elemX = event.pageX - $ctrl._shiftX;
+        $ctrl._elemY = event.pageY - $ctrl._shiftY;
+
+        $ctrl._elem.style.left = $ctrl._elemX + 'px';
+        $ctrl._elem.style.top = $ctrl._elemY + 'px';
 
         $ctrl._currentTargetElem = getElementUnderClientXY($ctrl._elem, event.clientX, event.clientY);
     }
 
     function getCoords(elem) {
-        // (1)
         var box = elem.getBoundingClientRect();
 
         var body = document.body;
         var docEl = document.documentElement;
 
-        // (2)
         var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
         var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
 
-        // (3)
         var clientTop = docEl.clientTop || body.clientTop || 0;
         var clientLeft = docEl.clientLeft || body.clientLeft || 0;
 
-        // (4)
         var top  = box.top +  scrollTop - clientTop;
         var left = box.left + scrollLeft - clientLeft;
         //console.log(box);console.log(clientTop);
-        // (5)
+
         return { top: Math.round(top), left: Math.round(left) };
     }
 
@@ -202,7 +201,7 @@ console.dir($element);
         if (elem == document) {
             return null;
         }
-    //    console.dir(elem);
+
         return elem;
     }
 }

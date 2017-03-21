@@ -6,15 +6,12 @@ function DndElementController($window, $document, $element, $timeout, $scope, $a
     function init() {
         $element.on('mousedown', function (e) {
 
-            var dragTarget = {
+            $ctrl.dndZone.dragTarget = {
                 dragElement: $element,
                 startX: e.pageX,
                 startY: e.pageY
             };
-
-            $ctrl.dndZone.dragTarget = dragTarget;
-
-            console.dir($element);
+            
         });
     }
 }
