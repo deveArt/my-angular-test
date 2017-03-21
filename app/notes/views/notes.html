@@ -1,12 +1,7 @@
+<link type="text/css" rel="stylesheet" href="public/css/dnd.css"/>
 <div class="container">
 
-    <dnd-zone mode="drag" style="
-    margin:0 auto;
-    display: block;
-    max-width:200px;
-    height:200px;
-    background-color:green;
-    ">
+    <dnd-zone mode="drag" class="dragzone col-md-2">
 
             <dnd-element>
                 <button>aaaaa</button>
@@ -17,8 +12,11 @@
 
     </dnd-zone>
 
-    <dnd-zone mode="drop" style="margin:0 auto; display: block; max-width:200px; height:200px;">
+    <dnd-zone mode="drop" class="dropzone-main col-md-6 col-md-offset-4">
 
+    </dnd-zone>
+
+    <dnd-zone mode="drop" class="dropzone-other col-md-6 col-md-offset-4">
 
     </dnd-zone>
 </div>
