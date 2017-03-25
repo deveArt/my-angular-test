@@ -1,22 +1,58 @@
 <link type="text/css" rel="stylesheet" href="public/css/dnd.css"/>
 <div class="container">
 
-    <dnd-zone mode="drag" class="dragzone col-md-2">
+    <div class="row form-block">
+            <form id="noteForm" name="vm.noteForm" class="" ng-submit="vm.addNote()" role="form" novalidate>
 
-            <dnd-element>
-                <button>aaaaa</button>
-            </dnd-element>
-            <dnd-element>
-                <button>aaaaassss</button>
-            </dnd-element>
+                    <div class="col-sm-12"
+                         ng-class="{'has-error': vm.noteForm.text.$invalid && vm.noteForm.text.$dirty,
+                                'has-success': vm.noteForm.text.$valid}">
 
-    </dnd-zone>
+                        <div class="input-group input-group-md">
+                            <input id="text" ng-model="vm.text" type="text" class="form-control input-md" name="text" value="" required placeholder="Note text...">
 
-    <dnd-zone mode="drop" class="dropzone-main col-md-6 col-md-offset-4">
+                            <span class="input-group-btn">
+                                <button class="super-btn btn btn-default btn-md btn-{{color}}" type="submit">
+                                    <span>Add</span></button>
+                                <!--<button type="submit" class="btn btn-lg btn-{{color}}">Add</button>-->
+                            </span>
 
-    </dnd-zone>
+                        </div>
+                        <div ng-show="vm.noteForm.text.$dirty" ng-messages="vm.noteForm.text.$error">
+                            <p class="text-danger" ng-message="required">This field is required</p>
+                        </div>
+                    </div>
 
-    <dnd-zone mode="drop" class="dropzone-other col-md-6 col-md-offset-4">
+            </form>
 
-    </dnd-zone>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4 todo-base">
+            <dnd-zone mode="drag" id="dragZone" class="dragzone">
+                <dnd-element>
+                    Збагнути Хто Ми Є
+                </dnd-element>
+                <dnd-element>
+                    При виділинні правою, можна залишити де завгодно
+                </dnd-element>
+            </dnd-zone>
+        </div>
+
+        <div class="col-sm-8">
+            <dnd-zone mode="drop" class="dropzone-main">
+
+            </dnd-zone>
+
+            <dnd-zone mode="drop" class="dropzone-other">
+
+            </dnd-zone>
+        </div>
+    </div>
+
+
+
+
+
 </div>

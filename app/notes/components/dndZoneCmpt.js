@@ -27,6 +27,7 @@ function DndZoneController($window, $document, $element, $timeout, $scope, $attr
         $element[0].mode = $ctrl.mode;
         window.myEl = $element;
 
+
         if ($ctrl.mode == 'drop') {
             $element.on('dropready', function (e) {
                 $ctrl.highlight();
