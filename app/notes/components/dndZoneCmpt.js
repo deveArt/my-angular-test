@@ -93,11 +93,11 @@ function DndZoneController($window, $document, $element, $timeout, $scope, $attr
         console.log('rollback');
 
         $ctrl.old.parent.insertBefore($ctrl._elem, $ctrl.old.nextSibling);
-
+console.log($ctrl.old.parent);
         var coords = getCoords($ctrl.old.parent);
         $ctrl._elem.style.position = $ctrl.old.position;
-        $ctrl._elem.style.left = $ctrl.old.left - coords.left + 'px';
-        $ctrl._elem.style.top = $ctrl.old.top - coords.top + 'px';
+        $ctrl._elem.style.left = $ctrl.old.left - coords.left - $ctrl._margin + 'px';
+        $ctrl._elem.style.top = $ctrl.old.top - coords.top - $ctrl._margin + 'px';
         $ctrl._elem.style.zIndex = $ctrl.old.zIndex;
     }
 
@@ -109,8 +109,8 @@ function DndZoneController($window, $document, $element, $timeout, $scope, $attr
         $ctrl._dropTarget.appendChild($ctrl._elem);
 
         var coords = getCoords($ctrl._dropTarget);
-        $ctrl._elem.style.left = $ctrl._elemX - coords.left + 'px';
-        $ctrl._elem.style.top = $ctrl._elemY - coords.top + 'px';
+        $ctrl._elem.style.left = $ctrl._elemX - coords.left - $ctrl._margin + 'px';
+        $ctrl._elem.style.top = $ctrl._elemY - coords.top - $ctrl._margin + 'px';
         angular.element($ctrl._dropTarget).triggerHandler('dragleave');
     }
 
@@ -122,6 +122,8 @@ function DndZoneController($window, $document, $element, $timeout, $scope, $attr
 
         // создать вспомогательные свойства shiftX/shiftY
         $ctrl._elem = $ctrl.dragTarget.dragElement[0];
+        $ctrl._margin = parseInt(getComputedStyle($ctrl._elem, null).getPropertyValue('margin'));
+
         var coords = getCoords($ctrl._elem);
         $ctrl._shiftX = $ctrl.dragTarget.startX - coords.left;
         $ctrl._shiftY = $ctrl.dragTarget.startY - coords.top;
@@ -148,8 +150,12 @@ function DndZoneController($window, $document, $element, $timeout, $scope, $attr
         $ctrl._elemX = event.pageX - $ctrl._shiftX;
         $ctrl._elemY = event.pageY - $ctrl._shiftY;
 
-        $ctrl._elem.style.left = $ctrl._elemX + 'px';
-        $ctrl._elem.style.top = $ctrl._elemY + 'px';
+        $ctrl._elem.style.left = $ctrl._elemX
+            - $ctrl._margin
+            + 'px';
+        $ctrl._elem.style.top = $ctrl._elemY
+            - $ctrl._margin
+            + 'px';
 
         $ctrl._currentTargetElem = getElementUnderClientXY($ctrl._elem, event.clientX, event.clientY);
     }
