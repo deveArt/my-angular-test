@@ -27,8 +27,7 @@ function DndZoneController($window, $document, $element, $timeout, $scope, $attr
         $element[0].mode = $ctrl.mode;
         window.myEl = $element;
 
-
-        if ($ctrl.mode == 'drop') {
+        if ($ctrl.mode !== 'drag') {
             $element.on('dropready', function (e) {
                 $ctrl.highlight();
                 console.log('ready to drop');
@@ -61,7 +60,7 @@ function DndZoneController($window, $document, $element, $timeout, $scope, $attr
                 newDropTarget && angular.element(newDropTarget).triggerHandler('dropready');
             }
 
-            $ctrl._dropTarget  = newDropTarget;
+            $ctrl._dropTarget = newDropTarget;
         });
 
         $document.on('mouseup', function (e) {
@@ -93,7 +92,7 @@ function DndZoneController($window, $document, $element, $timeout, $scope, $attr
         console.log('rollback');
 
         $ctrl.old.parent.insertBefore($ctrl._elem, $ctrl.old.nextSibling);
-console.log($ctrl.old.parent);
+
         var coords = getCoords($ctrl.old.parent);
         $ctrl._elem.style.position = $ctrl.old.position;
         $ctrl._elem.style.left = $ctrl.old.left - coords.left - $ctrl._margin + 'px';
@@ -106,12 +105,19 @@ console.log($ctrl.old.parent);
             return null;
         }
         console.log('drag end');
+        angular.element($ctrl._dropTarget).triggerHandler('dragleave');
+
+        if ($ctrl._dropTarget.mode === 'trash') {
+            angular.element($ctrl._elem).remove();
+            return;
+        }
+
         $ctrl._dropTarget.appendChild($ctrl._elem);
 
         var coords = getCoords($ctrl._dropTarget);
         $ctrl._elem.style.left = $ctrl._elemX - coords.left - $ctrl._margin + 'px';
         $ctrl._elem.style.top = $ctrl._elemY - coords.top - $ctrl._margin + 'px';
-        angular.element($ctrl._dropTarget).triggerHandler('dragleave');
+
     }
 
     function dragStart() {
@@ -201,7 +207,7 @@ console.log($ctrl.old.parent);
 
         var elem = $ctrl._currentTargetElem;
 
-        while (elem != document && elem.mode !== 'drop') {
+        while (elem != document && elem.mode !== 'drop' && elem.mode !== 'trash') {
             elem = elem.parentNode;
         }
 

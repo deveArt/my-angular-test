@@ -4,6 +4,7 @@ function DndElementController($window, $document, $element, $timeout, $scope, $a
     $ctrl.$onInit = init;
 
     function init() {
+console.log($scope);
         $element.on('mousedown', function (e) {
             if (e.which != 1) { // не левой кнопкой
                 return false;
@@ -14,7 +15,7 @@ function DndElementController($window, $document, $element, $timeout, $scope, $a
                 startX: e.pageX,
                 startY: e.pageY
             };
-            
+
         });
     }
 }
@@ -24,6 +25,6 @@ angular
     .component('dndElement', {
         controller: DndElementController,
         require: {
-            dndZone: '^dndZone'
+            dndZone: '^^dndZone'
         }
     });

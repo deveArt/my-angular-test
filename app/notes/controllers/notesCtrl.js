@@ -7,25 +7,33 @@ function NotesController($scope, $compile) {
 
 	var vm = this;
 
+	const ncount_max = 10;
 	vm.ncount = 0;
+	vm.number = 0;
 	vm.text = '';
 	vm.dragScope = {};
 
 	vm.addNote = function() {
-		if (!vm.noteForm.$valid) {
+		vm.ncount = angular.element(document).find('dnd-element').length;
+		if (!vm.noteForm.$valid || vm.ncount >= ncount_max) {
 			return false;
 		}
 
-		vm.ncount++;
-		var subject = 'Note #'+ vm.ncount;
-
+		vm.number ++;
+		var subject = 'Note #'+ vm.number;
 		var dragZone = document.getElementById('dragZone');
+		var dragEl = angular.element(
+			'<dnd-element>' +
+				'<b>'+subject+'</b>' +
+				'<p>'+vm.text+'</p>' +
+			'</dnd-element>'
+		);
 
-		var dragHtml = '<dnd-element><b>'+subject+'</b><p>'+vm.text+'</p></dnd-element>';
-		angular.element(dragZone).append(dragHtml);
+		angular.element(dragZone).append(dragEl);
 
 		var newScope = $scope.$new(true);
-		$compile(dragZone)(newScope);
+		$compile(dragEl)(newScope);
 
 	};
+
 }
