@@ -112,12 +112,35 @@ function DndZoneController($window, $document, $element, $timeout, $scope, $attr
             return;
         }
 
+        var coordsEl = getCoords($ctrl._elem);
+        var coordsZone = getCoords($ctrl._dropTarget);
+        var diffLeft = coordsZone.left - coordsEl.left + 10;
+        var diffTop = coordsZone.top - coordsEl.top + 10;
+        var diffRight = coordsZone.right - coordsEl.right - 10;
+        var diffBottom = coordsZone.bottom - coordsEl.bottom - 10;
+
+        var left = $ctrl._elemX - coordsZone.left - $ctrl._margin;
+        var top = $ctrl._elemY - coordsZone.top - $ctrl._margin;
+
+        if (coordsZone.left > coordsEl.left) {
+            left += diffLeft;
+        }
+
+        if (coordsZone.top > coordsEl.top) {
+            top += diffTop;
+        }
+
+        if (coordsZone.bottom < coordsEl.bottom) {
+            top += diffBottom;
+        }
+
+        if (coordsZone.right < coordsEl.right) {
+            left += diffRight;
+        }
+
         $ctrl._dropTarget.appendChild($ctrl._elem);
-
-        var coords = getCoords($ctrl._dropTarget);
-        $ctrl._elem.style.left = $ctrl._elemX - coords.left - $ctrl._margin + 'px';
-        $ctrl._elem.style.top = $ctrl._elemY - coords.top - $ctrl._margin + 'px';
-
+        $ctrl._elem.style.left = left + 'px';
+        $ctrl._elem.style.top = top + 'px';
     }
 
     function dragStart() {
@@ -178,11 +201,15 @@ function DndZoneController($window, $document, $element, $timeout, $scope, $attr
         var clientTop = docEl.clientTop || body.clientTop || 0;
         var clientLeft = docEl.clientLeft || body.clientLeft || 0;
 
-        var top  = box.top +  scrollTop - clientTop;
+        var top  = box.top + scrollTop - clientTop;
         var left = box.left + scrollLeft - clientLeft;
-        //console.log(box);console.log(clientTop);
 
-        return { top: Math.round(top), left: Math.round(left) };
+        return {
+            top: Math.round(top),
+            left: Math.round(left),
+            right: Math.round(box.right),
+            bottom: Math.round(box.bottom)
+        };
     }
 
     function getElementUnderClientXY(elem, clientX, clientY) {

@@ -24,7 +24,7 @@ function NotesController($scope, $compile) {
 		var dragZone = document.getElementById('dragZone');
 		var dragEl = angular.element(
 			'<dnd-element>' +
-				'<b>'+subject+'</b>' +
+				'<p><b>'+subject+'</b></p>' +
 				'<p>'+vm.text+'</p>' +
 			'</dnd-element>'
 		);

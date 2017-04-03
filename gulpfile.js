@@ -47,4 +47,4 @@ gulp.task('watch', function () {
     gulp.watch(['*.html', 'app/**/*.js'], gulp.series('concat'));
 });
 
-gulp.task('start', gulp.parallel('watch', 'webserver'));
+gulp.task('start', gulp.parallel('build', 'watch', 'webserver'));
