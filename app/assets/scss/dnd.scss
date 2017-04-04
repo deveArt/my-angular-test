@@ -69,6 +69,20 @@ dnd-element p::selection, dnd-element b::selection {
 }
 
 resizable {
-  overflow: auto;
+  //overflow: auto;
   display: inline-block;
+  position: relative;
+}
+
+.resize-control {
+  width: 0px;
+  height: 0px;
+  position:absolute;
+  right: 0;
+  bottom: 0;
+  cursor: nwse-resize;
+
+  border-bottom: 10px solid black;
+  border-left: 10px solid transparent;
+  border-right: 0px solid transparent;
 }
