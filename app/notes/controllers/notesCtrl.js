@@ -30,10 +30,9 @@ function NotesController($scope, $compile) {
 		);
 
 		angular.element(dragZone).append(dragEl);
-		vm.makeResizable();
 
-		//var newScope = $scope.$new(true);
-		//$compile(dragEl)(newScope);
+		var newScope = $scope.$new(true);
+		$compile(dragEl)(newScope);
 
 		dragEl.on('$destroy', function () {
 			newScope.$destroy();
@@ -41,32 +40,74 @@ function NotesController($scope, $compile) {
 	};
 
 	vm.makeResizable = function() {
-		vm.removeResizable();
 
-		var elem = angular.element(document.querySelector(':not(resizable) > dnd-element'));
-		var resizeEl = angular.element(
-			'<resizable>' +
-			'</resizable>'
-		);
+		var elems = angular.element(document.querySelectorAll(':not(resizable) > dnd-element'));
 
-		var dragZone = elem.parent();
-		dragZone.append(resizeEl);
-		resizeEl.append(elem);
-		// resizeEl.css({
-		// 	position: elem.css('position'),
-		// 	left: elem.css('left'),
-		// 	top: elem.css('top')
-		// });
+		angular.forEach(elems, function (el, key) {
+			var el = angular.element(el);
+			var dragZone = el.parent();
+			var resizeEl = angular.element(
+				'<resizable>' +
+				'</resizable>'
+			);
 
-		var newScope = $scope.$new(true);
-		$compile(resizeEl)(newScope);
+			var w = el.css('width');
+			var h = el.css('height');
+			dragZone.append(resizeEl);
+			resizeEl.append(el);
+			resizeEl.css({
+			//	position: el.css('position'),
+				left: el.css('left'),
+				top: el.css('top'),
+				width: w,
+				height: h
+			});
 
-		resizeEl.on('$destroy', function () {
-			newScope.$destroy();
+			el.prop('style', null);
+			el.css({
+				width: w,
+				height: h
+			});
+
+			var newScope = $scope.$new(true);
+			$compile(resizeEl)(newScope);
+
+			resizeEl.on('$destroy', function () {
+				newScope.$destroy();
+			});
+
 		});
+
 	};
 
-	vm.removeResizable = function () {console.log(angular.element(document.querySelector('resizable:empty')));
-		angular.element(document.querySelector('resizable:empty')).remove();
+	vm.removeResizable = function () {
+
+		var elems = angular.element(document).find('resizable');
+
+		angular.forEach(elems, function (el, key) {
+			var el = angular.element(el);
+			var dragZone = el.parent();
+
+			var dndEl = el.find('dnd-element').clone();
+
+			dndEl.css({
+				position: 'absolute',
+				left: el.css('left'),
+				top: el.css('top'),
+				width: el.css('width'),
+				height: el.css('height')
+			});
+
+			el.remove();
+			dragZone.append(dndEl);
+
+			var newScope = $scope.$new(true);
+			$compile(dndEl)(newScope);
+
+			dndEl.on('$destroy', function () {
+				newScope.$destroy();
+			});
+
+		});
 	}
 }

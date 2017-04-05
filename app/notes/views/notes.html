@@ -24,12 +24,13 @@
                     </div>
 
             </form>
+        <button ng-click="vm.makeResizable()">aaa</button>
     </div>
 
     <div class="row">
         <div class="col-sm-4 todo-base">
-            <!--<dnd-zone mode="drag" id="dragZone" class="dragzone" on-end="vm.makeResizable()">-->
-            <dnd-zone mode="drag" id="dragZone" class="dragzone">
+            <dnd-zone mode="drag" id="dragZone" class="dragzone" on-start="vm.removeResizable()">
+            <!--<dnd-zone mode="drag" id="dragZone" class="dragzone">-->
                 <resizable>
                     <dnd-element>
                         <div>
