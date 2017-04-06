@@ -58,9 +58,10 @@ function NotesController($scope, $compile) {
 			dragZone.append(resizeEl);
 			resizeEl.append(newEl);
 			resizeEl.css({
-			//	position: el.css('position'),
+				position: 'absolute',
 				left: el.css('left'),
 				top: el.css('top'),
+				zIndex: el.css('z-index'),
 				width: w,
 				height: h
 			});
@@ -92,25 +93,32 @@ function NotesController($scope, $compile) {
 			var el = angular.element(el);
 			var dragZone = el.parent();
 
-			var dndEl = el.find('dnd-element').clone();
-
-			dndEl.css({
-				position: 'absolute',
-				left: el.css('left'),
-				top: el.css('top'),
-				width: el.css('width'),
-				height: el.css('height')
-			});
+			var _dndEl = el.find('dnd-element');
 
 			el.remove();
-			dragZone.append(dndEl);
 
-			var newScope = $scope.$new(true);
-			$compile(dndEl)(newScope);
+			if ( _dndEl.length > 0 ) {
+				var elCss = {
+					position: 'absolute',
+					left: el.css('left'),
+					top: el.css('top'),
+					zIndex: el.css('z-index'),
+					width: _dndEl.css('width'),
+					height: _dndEl.css('height')
+				};
 
-			dndEl.on('$destroy', function () {
-				newScope.$destroy();
-			});
+				var dndEl = _dndEl.clone();
+				dndEl.css(elCss);
+
+				dragZone.append(dndEl);
+
+				var newScope = $scope.$new(true);
+				$compile(dndEl)(newScope);
+
+				dndEl.on('$destroy', function () {
+					newScope.$destroy();
+				});
+			}
 
 		});
 	}

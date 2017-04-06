@@ -1,5 +1,7 @@
 var injectParams = [];
 
+// @todo перенести нужные методы из dnd сюда
+
 function geometryService() {
 
     this.getCoords = function (elem) {
