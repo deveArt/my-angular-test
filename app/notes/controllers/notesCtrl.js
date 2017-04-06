@@ -53,8 +53,10 @@ function NotesController($scope, $compile) {
 
 			var w = el.css('width');
 			var h = el.css('height');
+
+			var newEl = el.clone();
 			dragZone.append(resizeEl);
-			resizeEl.append(el);
+			resizeEl.append(newEl);
 			resizeEl.css({
 			//	position: el.css('position'),
 				left: el.css('left'),
@@ -63,8 +65,10 @@ function NotesController($scope, $compile) {
 				height: h
 			});
 
-			el.prop('style', null);
-			el.css({
+			el.remove();
+
+			newEl.prop('style', null);
+			newEl.css({
 				width: w,
 				height: h
 			});
