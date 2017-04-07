@@ -41,6 +41,7 @@ html {
 .sel-search-input {
     padding-left: 5px;
     padding-right: 5px;
+    padding-bottom: 5px;
 }
 
 .search-panel {
@@ -52,4 +53,8 @@ html {
 
 .srch-input {
     margin-right: 5px;
+}
+
+dnd-zone {
+    position: relative;
 }

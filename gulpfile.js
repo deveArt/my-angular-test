@@ -35,6 +35,8 @@ gulp.task('build', gulp.series(
 gulp.task('webserver', function() {
     return gulp.src('./')
         .pipe(webserver({
+            host: '217.12.196.41',
+            port: 3434,
             livereload: {
                 enable: true, // need this set to true to enable livereload
                 filter: fileName => fileName.match(/.map$/)? false: true
@@ -47,4 +49,4 @@ gulp.task('watch', function () {
     gulp.watch(['*.html', 'app/**/*.js'], gulp.series('concat'));
 });
 
-gulp.task('start', gulp.parallel('watch', 'webserver'));
+gulp.task('start', gulp.parallel('build', 'watch', 'webserver'));
