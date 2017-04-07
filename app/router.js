@@ -1,10 +1,6 @@
-'use strict';
 angular
-    .module('app', ['ngRoute', 'ngCookies', 'ngMessages'])
-    .config(['$routeProvider', '$locationProvider', '$httpProvider', config])
-    .run(function($rootScope) {
-        $rootScope.color = 'success';
-    });
+    .module('app')
+    .config(config);
 
 function config($routeProvider, $locationProvider, $httpProvider) {
 

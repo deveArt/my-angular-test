@@ -15,6 +15,7 @@ function ResizableController($element, $document, geomSvc) {
     function init() {
         $ctrl._elem = $element.children()[0];
         $ctrl.$elem = angular.element($ctrl._elem);
+        $ctrl._margin = parseInt(getComputedStyle($ctrl._elem, null).getPropertyValue('margin'));
 
         $element.on('mouseenter', function (e) {
             showControls();
@@ -30,14 +31,17 @@ function ResizableController($element, $document, geomSvc) {
             }
 
             var position = geomSvc.getCoords($ctrl._elem);
-           // var margin = parseInt($ctrl.$elem.css('margin'));
 
             var css = {
-                width: e.pageX - position.left + 10 + 'px', // @todo убрать хардкод
-                height: e.pageY - position.top + 10 + 'px'
+                width: e.pageX - position.left + 'px',
+                height: e.pageY - position.top + 'px'
             };
-
             $ctrl.$elem.css(css);
+
+            var css = {
+                width: e.pageX - position.left + $ctrl._margin + 'px',
+                height: e.pageY - position.top + $ctrl._margin + 'px'
+            };
             $element.css(css);
         });
 

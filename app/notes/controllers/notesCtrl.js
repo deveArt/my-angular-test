@@ -56,14 +56,13 @@ function NotesController($scope, $compile) {
 
 			var newEl = el.clone();
 			dragZone.append(resizeEl);
-			resizeEl.append(newEl);
 			resizeEl.css({
-				position: 'absolute',
+				position: el.css('position'),
 				left: el.css('left'),
 				top: el.css('top'),
-				zIndex: el.css('z-index'),
-				width: w,
-				height: h
+				zIndex: el.css('z-index')
+	//			width: w,
+	//			height: h
 			});
 
 			el.remove();
@@ -73,6 +72,7 @@ function NotesController($scope, $compile) {
 				width: w,
 				height: h
 			});
+      resizeEl.append(newEl);
 
 			var newScope = $scope.$new(true);
 			$compile(resizeEl)(newScope);
@@ -99,7 +99,7 @@ function NotesController($scope, $compile) {
 
 			if ( _dndEl.length > 0 ) {
 				var elCss = {
-					position: 'absolute',
+					position: el.css('position'),
 					left: el.css('left'),
 					top: el.css('top'),
 					zIndex: el.css('z-index'),
