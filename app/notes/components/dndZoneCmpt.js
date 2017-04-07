@@ -1,3 +1,15 @@
+angular
+    .module('app')
+    .component('dndZone', {
+        controller: DndZoneController,
+        bindings: {
+            mode: '@',
+            onStart: '&',
+            onEnd: '&'
+        }
+    });
+
+
 function DndZoneController($document, $element, geomSvc) {
     var $ctrl = this;
     $ctrl.dragTarget = null;
@@ -48,6 +60,7 @@ function DndZoneController($document, $element, geomSvc) {
             }
 
             if ( $ctrl._elem === null ) {
+                $ctrl.onStart && $ctrl.onStart();
                 dragStart();
             }
 
@@ -172,11 +185,8 @@ function DndZoneController($document, $element, geomSvc) {
 
         console.dir($ctrl.old);
         document.body.appendChild($ctrl._elem);
-        $ctrl._elem.style.zIndex = 9999;
+        $ctrl._elem.style.zIndex = 20;
         $ctrl._elem.style.position = 'absolute';
-
-
-        $ctrl.onStart && $ctrl.onStart();
 
         return true;
     }
@@ -229,14 +239,3 @@ function DndZoneController($document, $element, geomSvc) {
         return elem;
     }
 }
-
-angular
-    .module('app')
-    .component('dndZone', {
-        controller: DndZoneController,
-        bindings: {
-            mode: '@',
-            onStart: '&',
-            onEnd: '&'
-        }
-    });

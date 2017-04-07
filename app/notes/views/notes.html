@@ -9,14 +9,19 @@
                                 'has-success': vm.noteForm.text.$valid}">
 
                         <div class="input-group input-group-md">
-                            <input id="text" ng-model="vm.text" type="text" class="form-control input-md" name="text" value="" required placeholder="Note text...">
 
                             <span class="input-group-btn">
                                 <button class="super-btn btn btn-default btn-md btn-{{color}}" type="submit">
-                                    <span>Add</span></button>
-                                <!--<button type="submit" class="btn btn-lg btn-{{color}}">Add</button>-->
+                                    <span>Add</span>
+                                </button>
+                                                            <!--<button type="submit" class="btn btn-lg btn-{{color}}">Add</button>-->
                             </span>
 
+                            <input id="text" ng-model="vm.text" type="text" class="form-control input-md" name="text" value="" required placeholder="Note text...">
+
+                            <span class="input-group-btn">
+                                <a href="" class="super-btn btn btn-default btn-md btn-{{color}}" ng-click="vm.makeResizable()">Resize mode</a>
+                            </span>
                         </div>
                         <div ng-show="vm.noteForm.text.$dirty" ng-messages="vm.noteForm.text.$error">
                             <p class="text-danger" ng-message="required">This field is required</p>
@@ -24,20 +29,13 @@
                     </div>
 
             </form>
-        <button ng-click="vm.makeResizable()">aaa</button>
+
     </div>
 
     <div class="row">
         <div class="col-sm-4 todo-base">
-            <dnd-zone mode="drag" id="dragZone" class="dragzone" on-start="vm.removeResizable()">
+            <dnd-zone mode="drag" id="dragZone" class="dragzone" on-end="vm.removeResizable()">
             <!--<dnd-zone mode="drag" id="dragZone" class="dragzone">-->
-                <resizable>
-                    <dnd-element>
-                        <div>
-                            <p>R E S I Z A B L E</p>
-                        </div>
-                    </dnd-element>
-                </resizable>
             </dnd-zone>
             <dnd-zone mode="trash" class="dropzone-other">
             </dnd-zone>
@@ -45,13 +43,11 @@
 
         <div class="col-sm-8">
 
-                <dnd-zone mode="drop" class="dropzone-main">
-
+                <dnd-zone mode="drop" class="dropzone-main" on-end="vm.removeResizable()">
                 </dnd-zone>
 
 
-            <dnd-zone mode="drop" class="dropzone-main">
-
+            <dnd-zone mode="drop" class="dropzone-main" on-end="vm.removeResizable()">
             </dnd-zone>
         </div>
     </div>

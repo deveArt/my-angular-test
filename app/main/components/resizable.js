@@ -20,28 +20,29 @@ function ResizableController($element, $document, geomSvc) {
             showControls();
         });
 
-        $element.on('mouseleave', function (e) {
+        $element.on('mouseleave mousedown', function (e) {
             removeControls();
         });
 
         $document.on('mousemove', function (e) {
             if (!$ctrl.active || !$ctrl._elem) {
-                if (e.which === 1) {
-                    removeControls();
-                }
-
                 return;
             }
 
             var position = geomSvc.getCoords($ctrl._elem);
+           // var margin = parseInt($ctrl.$elem.css('margin'));
 
-            $ctrl.$elem.css({
-                width: e.pageX - position.left + 'px',
-                height: e.pageY - position.top + 'px'
-            });
+            var css = {
+                width: e.pageX - position.left + 10 + 'px', // @todo убрать хардкод
+                height: e.pageY - position.top + 10 + 'px'
+            };
+
+            $ctrl.$elem.css(css);
+            $element.css(css);
         });
 
         $document.on('mouseup', function (e) {
+            removeControls();
             clearSize();
             $ctrl.active = false;
         });
