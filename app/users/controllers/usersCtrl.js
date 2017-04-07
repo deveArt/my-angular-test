@@ -33,7 +33,7 @@ function UsersController(storageSvc, $routeParams) {
     vm.userId = null;
 
     init();
-    
+
     function init() {
         vm.users = storageSvc.getLocal('users');
         if (!vm.users) {

@@ -41,6 +41,7 @@
                 </div>
 
                 <div style="margin-bottom: 25px" class="form-group"
+                     ng-if="!vm.userId"
                      ng-class="{'has-error': vm.usersForm.password.$invalid && vm.usersForm.password.$dirty,
                                    'has-success': vm.usersForm.password.$valid}">
                     <label for="registration-password">Password</label>
@@ -60,12 +61,11 @@
                      ng-class="{'has-error': vm.usersForm.newpassword.$invalid && vm.usersForm.newpassword.$dirty,
                             'has-success': vm.usersForm.newpassword.$valid}">
                     <label for="registration-newpassword">New password</label>
-                    <input id="registration-newpassword" type="password" class="form-control" required name="newpassword" placeholder="newpassword"
+                    <input id="registration-newpassword" type="password" class="form-control" name="newpassword" placeholder="newpassword"
                            ng-pattern="vm.pwdRegex"
                            ng-model="vm.data.newpassword"
                            ng-minlength="8">
                     <div ng-show="vm.usersForm.newpassword.$dirty" ng-messages="vm.usersForm.newpassword.$error">
-                        <p class="text-danger" ng-message="required">This field is required</p>
                         <p class="text-danger" ng-message="minlength">This field has less than 8 characters</p>
                         <p class="text-danger" ng-message="pattern">This field must contain at least 1 number, 1 symbol, 1 capitalized letter</p>
                     </div>
@@ -76,12 +76,11 @@
                      ng-class="{'has-error': vm.usersForm.newpasswordrepeat.$invalid && vm.usersForm.newpasswordrepeat.$dirty,
                             'has-success': vm.usersForm.newpasswordrepeat.$valid}">
                     <label for="registration-newpasswordrepeat">Repeat new password</label>
-                    <input id="registration-newpasswordrepeat" type="password" class="form-control" required name="newpasswordrepeat" placeholder="newpasswordrepeat"
+                    <input id="registration-newpasswordrepeat" type="password" class="form-control" name="newpasswordrepeat" placeholder="newpasswordrepeat"
                            ng-show="vm.userId"
                            ng-model="vm.data.newpasswordrepeat"
                            pwd-dir="vm.data.newpassword">
                     <div ng-show="vm.usersForm.newpasswordrepeat.$dirty" ng-messages="vm.usersForm.newpasswordrepeat.$error">
-                        <p class="text-danger" ng-message="required">This field is required</p>
                         <p class="text-danger" ng-message="pwdmatch">Passwords must be equal</p>
                     </div>
                 </div>
