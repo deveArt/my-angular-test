@@ -2,8 +2,8 @@ angular
     .module('app')
     .controller('notesCtrl', NotesController);
 
-NotesController.$inject = ['$scope', '$compile'];
-function NotesController($scope, $compile) {
+NotesController.$inject = ['$scope', '$compile', 'geomSvc'];
+function NotesController($scope, $compile, geomSvc) {
 
 	var vm = this;
 
@@ -41,9 +41,10 @@ function NotesController($scope, $compile) {
 
 	vm.makeResizable = function() {
 
-		var elems = angular.element(document.querySelectorAll(':not(resizable) > dnd-element'));
+		var elems = angular.element(document.querySelectorAll(':not(resizable) > .dropzone dnd-element'));
 
 		angular.forEach(elems, function (el, key) {
+			var _el = el;
 			var el = angular.element(el);
 			var dragZone = el.parent();
 			var resizeEl = angular.element(
@@ -51,8 +52,7 @@ function NotesController($scope, $compile) {
 				'</resizable>'
 			);
 
-			var w = el.css('width');
-			var h = el.css('height');
+			var position = geomSvc.getCoords(_el);
 
 			var newEl = el.clone();
 			dragZone.append(resizeEl);
@@ -60,18 +60,19 @@ function NotesController($scope, $compile) {
 				position: el.css('position'),
 				left: el.css('left'),
 				top: el.css('top'),
-				zIndex: el.css('z-index')
-	//			width: w,
-	//			height: h
+				zIndex: el.css('z-index'),
+				width: position.width + 'px',
+				height: position.height + 'px',
 			});
 
 			el.remove();
 
 			newEl.prop('style', null);
 			newEl.css({
-				width: w,
-				height: h
+				width: position.width + 'px',
+				height: position.height + 'px'
 			});
+
       resizeEl.append(newEl);
 
 			var newScope = $scope.$new(true);

@@ -8,17 +8,14 @@ function ResizableController($element, $document, geomSvc) {
     var $ctrl = this;
 
     $ctrl.$postLink = init;
-    $ctrl.maxHeightIn = null;
-    $ctrl.maxWidthIn = null;
     $ctrl.active = false;
 
     function init() {
         $ctrl._elem = $element.children()[0];
         $ctrl.$elem = angular.element($ctrl._elem);
-        $ctrl._margin = parseInt(getComputedStyle($ctrl._elem, null).getPropertyValue('margin'));
 
         $element.on('mouseenter', function (e) {
-            showControls();
+            showControls(e);
         });
 
         $element.on('mouseleave mousedown', function (e) {
@@ -30,38 +27,41 @@ function ResizableController($element, $document, geomSvc) {
                 return;
             }
 
-            var position = geomSvc.getCoords($ctrl._elem);
-
             var css = {
-                width: e.pageX - position.left + 'px',
-                height: e.pageY - position.top + 'px'
+                width: e.pageX + $ctrl.stWidth - $ctrl.cornerSX + 'px',
+                height: e.pageY + $ctrl.stHeight - $ctrl.cornerSY + 'px'
             };
+
             $ctrl.$elem.css(css);
-
-            var css = {
-                width: e.pageX - position.left + $ctrl._margin + 'px',
-                height: e.pageY - position.top + $ctrl._margin + 'px'
-            };
             $element.css(css);
         });
 
         $document.on('mouseup', function (e) {
             removeControls();
-            clearSize();
             $ctrl.active = false;
         });
     }
 
-    function showControls() {
-        getMaxSize($element[0]);
+    function showControls(e) {
 
         var overlayElement = angular.element('<div class="resize-control" data-mode="resize-corner"></div>');
 
-        overlayElement.on('mousedown', function (e) {
+        overlayElement.on('mousedown', function (event) {
             $ctrl.active = true;
+
+            var position = geomSvc.getCoords($ctrl._elem);
+
+            $ctrl.stWidth = position.width;
+            $ctrl.stHeight = position.height;
+
+            $ctrl.cornerSX = event.pageX;
+            $ctrl.cornerSY = event.pageY;
+
+            event.stopPropagation();
         });
 
         $element.append(overlayElement);
+
     }
 
     function removeControls() {
@@ -69,26 +69,4 @@ function ResizableController($element, $document, geomSvc) {
         angular.element(resizeElements).remove();
     }
 
-    function getMaxSize(elem) {
-        var posData = elem.getBoundingClientRect();
-
-        if ($ctrl.maxWidthIn === null || posData.width > $ctrl.maxWidthIn) {
-            $ctrl.maxWidthIn = posData.width;
-        }
-
-        if ($ctrl.maxHeightIn === null || posData.height > $ctrl.maxHeightIn) {
-            $ctrl.maxHeightIn = posData.height;
-        }
-
-        if (elem.children.length !== 0) {
-            angular.forEach(elem.children, function (chEl) {
-                getMaxSize(chEl);
-            });
-        }
-    }
-
-    function clearSize() {
-        $ctrl.maxHeightIn = null;
-        $ctrl.maxWidthIn = null;
-    }
 }

@@ -25,7 +25,9 @@ function geometryService() {
             top: Math.round(top),
             left: Math.round(left),
             right: Math.round(right),
-            bottom: Math.round(bottom)
+            bottom: Math.round(bottom),
+            width: box.width,
+            height: box.height
         };
     };
 }
