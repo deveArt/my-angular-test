@@ -12,8 +12,10 @@ function NotesController($scope, $compile, geomSvc) {
 	vm.number = 0;
 	vm.text = '';
 	vm.dragScope = {};
-
+	vm.resizeMode = false;
+	
 	vm.addNote = function() {
+		
 		vm.ncount = angular.element(document).find('dnd-element').length;
 		if (!vm.noteForm.$valid || vm.ncount >= ncount_max) {
 			return false;
@@ -37,15 +39,23 @@ function NotesController($scope, $compile, geomSvc) {
 		dragEl.on('$destroy', function () {
 			newScope.$destroy();
 		});
+
+		vm.text = '';
+		vm.noteForm.$setPristine();
 	};
 
 	vm.makeResizable = function() {
 
-		var elems = angular.element(document.querySelectorAll(':not(resizable) > .dropzone dnd-element'));
+		var elems = angular.element(document.querySelectorAll(':not(resizable) > dnd-element'));
 
 		angular.forEach(elems, function (el, key) {
 			var _el = el;
 			var el = angular.element(el);
+
+			if (_el.parentNode.mode !== 'drop') {
+				return;
+			}
+
 			var dragZone = el.parent();
 			var resizeEl = angular.element(
 				'<resizable>' +
@@ -73,7 +83,7 @@ function NotesController($scope, $compile, geomSvc) {
 				height: position.height + 'px'
 			});
 
-      resizeEl.append(newEl);
+			resizeEl.append(newEl);
 
 			var newScope = $scope.$new(true);
 			$compile(resizeEl)(newScope);
@@ -122,5 +132,29 @@ function NotesController($scope, $compile, geomSvc) {
 			}
 
 		});
-	}
+		
+	};
+	
+	vm.resizeRefresh = function () {
+
+		if (!vm.resizeMode) {
+			return;
+		}
+		
+		var elems = angular.element(document.querySelectorAll('resizable:empty'));
+		elems.remove();
+
+		vm.makeResizable();
+		
+	};
+
+	vm.toggleResize = function () {
+		if (vm.resizeMode) {
+			vm.removeResizable();
+			vm.resizeMode = false;
+		} else {
+			vm.makeResizable();
+			vm.resizeMode = true;
+		}
+	};
 }

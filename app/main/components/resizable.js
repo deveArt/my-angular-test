@@ -4,6 +4,11 @@ angular
         controller: ResizableController
     });
 
+/**
+ * Resize controller
+ * 
+ * @constructor
+ */
 function ResizableController($element, $document, geomSvc) {
     var $ctrl = this;
 
@@ -42,6 +47,11 @@ function ResizableController($element, $document, geomSvc) {
         });
     }
 
+	/**
+     * Show resize controls
+     * 
+     * @param e
+     */
     function showControls(e) {
 
         var overlayElement = angular.element('<div class="resize-control" data-mode="resize-corner"></div>');
@@ -64,6 +74,10 @@ function ResizableController($element, $document, geomSvc) {
 
     }
 
+	/**
+     * 
+     * Remove resize controls
+     */
     function removeControls() {
         var resizeElements = document.getElementsByClassName('resize-control');
         angular.element(resizeElements).remove();

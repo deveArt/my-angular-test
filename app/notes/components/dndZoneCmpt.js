@@ -9,7 +9,13 @@ angular
         }
     });
 
-
+/**
+ *
+ * Dnd zone controller
+ * dnd flow manage
+ *
+ * @constructor
+ */
 function DndZoneController($document, $element, geomSvc) {
     var $ctrl = this;
     $ctrl.dragTarget = null;
@@ -35,6 +41,9 @@ function DndZoneController($document, $element, geomSvc) {
         angular.element(overlayElement).remove();
     };
 
+	/**
+     * Main setup listeners
+     */
     function init() {
         $element[0].mode = $ctrl.mode;
         window.myEl = $element;
@@ -124,39 +133,38 @@ function DndZoneController($document, $element, geomSvc) {
 
         if ($ctrl._dropTarget.mode === 'trash') {
             angular.element($ctrl._elem).remove();
-            return;
+        } else {
+            var coordsEl = geomSvc.getCoords($ctrl._elem);
+            var coordsZone = geomSvc.getCoords($ctrl._dropTarget);
+            var diffLeft = coordsZone.left - coordsEl.left + 10;
+            var diffTop = coordsZone.top - coordsEl.top + 10;
+            var diffRight = coordsZone.right - coordsEl.right - 10;
+            var diffBottom = coordsZone.bottom - coordsEl.bottom - 10;
+
+            var left = $ctrl._elemX - coordsZone.left - $ctrl._margin;
+            var top = $ctrl._elemY - coordsZone.top - $ctrl._margin;
+
+            if (coordsZone.left > coordsEl.left) {
+                left += diffLeft;
+            }
+
+            if (coordsZone.top > coordsEl.top) {
+                top += diffTop;
+            }
+
+            if (coordsZone.bottom < coordsEl.bottom) {
+                top += diffBottom;
+            }
+
+            if (coordsZone.right < coordsEl.right) {
+                left += diffRight;
+            }
+
+            $ctrl._dropTarget.appendChild($ctrl._elem);
+            $ctrl._elem.style.left = left + 'px';
+            $ctrl._elem.style.top = top + 'px';
         }
-
-        var coordsEl = geomSvc.getCoords($ctrl._elem);
-        var coordsZone = geomSvc.getCoords($ctrl._dropTarget);
-        var diffLeft = coordsZone.left - coordsEl.left + 10;
-        var diffTop = coordsZone.top - coordsEl.top + 10;
-        var diffRight = coordsZone.right - coordsEl.right - 10;
-        var diffBottom = coordsZone.bottom - coordsEl.bottom - 10;
-
-        var left = $ctrl._elemX - coordsZone.left - $ctrl._margin;
-        var top = $ctrl._elemY - coordsZone.top - $ctrl._margin;
-
-        if (coordsZone.left > coordsEl.left) {
-            left += diffLeft;
-        }
-
-        if (coordsZone.top > coordsEl.top) {
-            top += diffTop;
-        }
-
-        if (coordsZone.bottom < coordsEl.bottom) {
-            top += diffBottom;
-        }
-
-        if (coordsZone.right < coordsEl.right) {
-            left += diffRight;
-        }
-
-        $ctrl._dropTarget.appendChild($ctrl._elem);
-        $ctrl._elem.style.left = left + 'px';
-        $ctrl._elem.style.top = top + 'px';
-
+        
         $ctrl.onEnd && $ctrl.onEnd();
     }
 

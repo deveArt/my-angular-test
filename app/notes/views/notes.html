@@ -5,8 +5,10 @@
             <form id="noteForm" name="vm.noteForm" class="" ng-submit="vm.addNote()" role="form" novalidate>
 
                     <div class="col-sm-12"
-                         ng-class="{'has-error': vm.noteForm.text.$invalid && vm.noteForm.text.$dirty,
-                                'has-success': vm.noteForm.text.$valid}">
+                         ng-class="{
+                                'has-error': vm.noteForm.text.$invalid && vm.noteForm.text.$dirty,
+                                'has-success': vm.noteForm.text.$valid
+                    }">
 
                         <div class="input-group input-group-md">
 
@@ -14,13 +16,17 @@
                                 <button class="super-btn btn btn-default btn-md btn-{{color}}" type="submit">
                                     <span>Add</span>
                                 </button>
-                                                            <!--<button type="submit" class="btn btn-lg btn-{{color}}">Add</button>-->
+                                <!--<button type="submit" class="btn btn-lg btn-{{color}}">Add</button>-->
                             </span>
 
                             <input id="text" ng-model="vm.text" type="text" class="form-control input-md" name="text" value="" required placeholder="Note text...">
 
                             <span class="input-group-btn">
-                                <a href="" class="super-btn btn btn-default btn-md btn-{{color}}" ng-click="vm.makeResizable()">Resize mode</a>
+                                <a href="" class="super-btn btn btn-default btn-md btn-{{color}}"
+                                   ng-class="{'active': vm.resizeMode}"
+                                   ng-click="vm.toggleResize()">
+                                    Resize mode
+                                </a>
                             </span>
                         </div>
                         <div ng-show="vm.noteForm.text.$dirty" ng-messages="vm.noteForm.text.$error">
@@ -34,7 +40,7 @@
 
     <div class="row">
         <div class="col-sm-4 todo-base">
-            <dnd-zone mode="drag" id="dragZone" class="dragzone" on-end="vm.removeResizable()">
+            <dnd-zone mode="drag" id="dragZone" class="dragzone" on-end="vm.resizeRefresh()">
             <!--<dnd-zone mode="drag" id="dragZone" class="dragzone">-->
             </dnd-zone>
             <dnd-zone mode="trash" class="dropzone-other">
@@ -43,12 +49,12 @@
 
         <div class="col-sm-8">
 
-                <dnd-zone mode="drop" class="dropzone" on-end="vm.removeResizable()">
-                </dnd-zone>
-
-
-            <dnd-zone mode="drop" class="dropzone" on-end="vm.removeResizable()">
+            <dnd-zone mode="drop" class="dropzone" on-end="vm.resizeRefresh()">
             </dnd-zone>
+
+            <dnd-zone mode="drop" class="dropzone" on-end="vm.resizeRefresh()">
+            </dnd-zone>
+
         </div>
     </div>
 </div>
