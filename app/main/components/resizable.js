@@ -6,7 +6,7 @@ angular
 
 /**
  * Resize controller
- * 
+ *
  * @constructor
  */
 function ResizableController($element, $document, geomSvc) {
@@ -49,7 +49,7 @@ function ResizableController($element, $document, geomSvc) {
 
 	/**
      * Show resize controls
-     * 
+     *
      * @param e
      */
     function showControls(e) {
@@ -75,7 +75,7 @@ function ResizableController($element, $document, geomSvc) {
     }
 
 	/**
-     * 
+     *
      * Remove resize controls
      */
     function removeControls() {

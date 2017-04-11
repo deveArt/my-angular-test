@@ -40,19 +40,25 @@
 
     <div class="row">
         <div class="col-sm-4 todo-base">
+            <h4>New notes</h4>
             <dnd-zone mode="drag" id="dragZone" class="dragzone" on-end="vm.resizeRefresh()">
             <!--<dnd-zone mode="drag" id="dragZone" class="dragzone">-->
             </dnd-zone>
+                <h4>Trash zone</h4>
             <dnd-zone mode="trash" class="dropzone-other">
+
             </dnd-zone>
         </div>
 
         <div class="col-sm-8">
-
+            <h4>Back-end notes</h4>
             <dnd-zone mode="drop" class="dropzone" on-end="vm.resizeRefresh()">
+
             </dnd-zone>
 
+            <h4>Front-end notes</h4>
             <dnd-zone mode="drop" class="dropzone" on-end="vm.resizeRefresh()">
+
             </dnd-zone>
 
         </div>

@@ -1,10 +1,12 @@
 var injectParams = [];
 
-// @todo перенести нужные методы из dnd сюда
-
 function geometryService() {
 
-    this.getCoords = function (elem) {
+    /**
+    * Get geometry values of the element
+    *
+    **/
+    this.getCoords = function(elem) {
         var box = elem.getBoundingClientRect();
 
         var body = document.body;
@@ -29,6 +31,25 @@ function geometryService() {
             width: box.width,
             height: box.height
         };
+    };
+
+    /**
+    * Find target under cursor
+    *
+    **/
+    this.getElementUnderClientXY = function(elem, clientX, clientY) {
+        var display = elem.style.display || '';
+        elem.style.display = 'none';
+
+        var target = document.elementFromPoint(clientX, clientY);
+
+        elem.style.display = display;
+
+        if (!target || target == document) { // это бывает при выносе за границы окна
+            target = document.body;
+        }
+
+        return target;
     };
 }
 

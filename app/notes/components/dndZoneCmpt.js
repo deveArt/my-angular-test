@@ -41,7 +41,7 @@ function DndZoneController($document, $element, geomSvc) {
         angular.element(overlayElement).remove();
     };
 
-	/**
+	   /**
      * Main setup listeners
      */
     function init() {
@@ -103,13 +103,17 @@ function DndZoneController($document, $element, geomSvc) {
                 }
             }
 
-            $ctrl.dragTarget = null; // ????????
+            $ctrl.dragTarget = null;
             $ctrl._elem = null;
             $ctrl._dropTarget = null;
             $ctrl.old = null;
         });
     }
 
+    /**
+    * Revert move actions
+    *
+    **/
     function rollBack() {
         console.log('rollback');
 
@@ -124,6 +128,10 @@ function DndZoneController($document, $element, geomSvc) {
         $ctrl.onEnd && $ctrl.onEnd();
     }
 
+    /**
+    * End of drag action. Append to target zone. Position adjustment.
+    *
+    **/
     function dragEnd() {
         if ($ctrl._dropTarget == null) {
             return null;
@@ -164,10 +172,14 @@ function DndZoneController($document, $element, geomSvc) {
             $ctrl._elem.style.left = left + 'px';
             $ctrl._elem.style.top = top + 'px';
         }
-        
+
         $ctrl.onEnd && $ctrl.onEnd();
     }
 
+    /**
+    * Start drag. Save old position. Move element to body scope.
+    *
+    **/
     function dragStart() {
         if (!$ctrl.dragTarget) {
             return;
@@ -199,6 +211,10 @@ function DndZoneController($document, $element, geomSvc) {
         return true;
     }
 
+    /**
+    * Move element following the cursor
+    *
+    **/
     function onDragMove(event) {
 
         $ctrl._elemX = event.pageX - $ctrl._shiftX;
@@ -211,24 +227,13 @@ function DndZoneController($document, $element, geomSvc) {
             - $ctrl._margin
             + 'px';
 
-        $ctrl._currentTargetElem = getElementUnderClientXY($ctrl._elem, event.clientX, event.clientY);
+        $ctrl._currentTargetElem = geomSvc.getElementUnderClientXY($ctrl._elem, event.clientX, event.clientY);
     }
 
-    function getElementUnderClientXY(elem, clientX, clientY) {
-        var display = elem.style.display || '';
-        elem.style.display = 'none';
-
-        var target = document.elementFromPoint(clientX, clientY);
-
-        elem.style.display = display;
-
-        if (!target || target == document) { // это бывает при выносе за границы окна
-            target = document.body;
-        }
-
-        return target;
-    }
-
+    /**
+    * Find drop zone
+    *
+    **/
     function findDropTarget() {
         if (!$ctrl._currentTargetElem) {
             return null;
