@@ -46,7 +46,7 @@ gulp.task('webserver', function() {
 
 gulp.task('watch', function () {
     gulp.watch('app/assets/scss/**/*.scss', gulp.series('sass'));
-    gulp.watch(['*.html', 'app/**/*.html','app/**/*.js'], gulp.series('concat'));
+    gulp.watch(['*.html', 'app/**/*.html', 'app/**/*.js'], gulp.series('concat'));
 });
 
 gulp.task('start', gulp.parallel('build', 'watch', 'webserver'));

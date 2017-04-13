@@ -1,5 +1,5 @@
 angular
-    .module('app')
+    .module('app.common')
     .component('selectImproved', {
         templateUrl: '/app/main/views/selectImproved.html',
         controller: SelectImprovedController,
