@@ -1,10 +1,21 @@
-function DndElementController($window, $document, $element, $timeout, $scope, $attrs) {
+angular
+    .module('app.notes')
+    .component('dndElement', {
+        controller: DndElementController,
+        require: {
+            dndZone: '^^dndZone'
+        }
+    });
+
+DndElementController.$inject = ['$element'];
+
+function DndElementController($element) {
     var $ctrl = this;
 
     $ctrl.$onInit = init;
 
     function init() {
-console.log($scope);
+
         $element.on('mousedown', function (e) {
             if (e.which != 1) { // не левой кнопкой
                 return false;
@@ -19,12 +30,3 @@ console.log($scope);
         });
     }
 }
-
-angular
-    .module('app')
-    .component('dndElement', {
-        controller: DndElementController,
-        require: {
-            dndZone: '^^dndZone'
-        }
-    });

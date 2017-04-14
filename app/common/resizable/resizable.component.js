@@ -1,15 +1,17 @@
 angular
-    .module('app')
+    .module('app.common')
     .component('resizable', {
         controller: ResizableController
     });
+
+ResizableController.$inject = ['$element', '$document', 'geometryService'];
 
 /**
  * Resize controller
  *
  * @constructor
  */
-function ResizableController($element, $document, geomSvc) {
+function ResizableController($element, $document, geometryService) {
     var $ctrl = this;
 
     $ctrl.$postLink = init;
@@ -59,7 +61,7 @@ function ResizableController($element, $document, geomSvc) {
         overlayElement.on('mousedown', function (event) {
             $ctrl.active = true;
 
-            var position = geomSvc.getCoords($ctrl._elem);
+            var position = geometryService.getCoords($ctrl._elem);
 
             $ctrl.stWidth = position.width;
             $ctrl.stHeight = position.height;

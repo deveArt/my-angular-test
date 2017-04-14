@@ -1,5 +1,5 @@
 angular
-    .module('app')
+    .module('app.common')
     .filter('searchFilter', searchFilter);
 
 function searchFilter() {

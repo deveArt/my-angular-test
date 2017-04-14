@@ -1,6 +1,12 @@
-var injectParams = ['authSvc', '$cookies', '$rootScope', '$location'];
+angular
+    .module('app.main')
+    .component('main', {
+        controller: MainController,
+        templateUrl: '/app/main/views/main.component.tmpl.html'
+    });
 
-var MainController = function (authSvc, $cookies, $rootScope, $location) {
+MainController.$inject = ['authSvc', '$cookies', '$rootScope', '$location'];
+function MainController(authSvc, $cookies, $rootScope, $location) {
 
     var vm = this;
 
@@ -30,14 +36,4 @@ var MainController = function (authSvc, $cookies, $rootScope, $location) {
         });
     };
 
-    init();
-
-    function init() {
-        $rootScope.$on('$routeChangeSuccess', function() {
-            vm.location = $location.path();
-        });
-    }
-};
-
-MainController.$inject = injectParams;
-angular.module('app').controller('mainCtrl', MainController);
+}

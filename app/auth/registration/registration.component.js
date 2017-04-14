@@ -1,6 +1,11 @@
-var injectParams = ['authSvc', '$cookies', '$rootScope', '$location'];
+angular.module('app.auth')
+    .component('registration', {
+        controller: RegistrationController,
+        templateUrl: '/app/auth/registration/registration.component.tmpl.html'
+    });
 
-var RegistrationController = function(authSvc, $cookies, $rootScope, $location) {
+RegistrationController.$inject = ['authSvc'];
+function RegistrationController(authSvc) {
 
     var vm = this;
     vm.data = {};
@@ -14,7 +19,4 @@ var RegistrationController = function(authSvc, $cookies, $rootScope, $location) 
             console.error(error);
         });
     };
-};
-
-RegistrationController.$inject = injectParams;
-angular.module('app').controller('registrationCtrl', RegistrationController);
+}

@@ -1,6 +1,7 @@
-var injectParams = ['$http', '$timeout'];
+angular.module('app').service('authService', authService);
 
-var authService = function ($http, $timeout) {
+authService.$inject = ['$http', '$timeout'];
+function authService($http, $timeout) {
     const url = 'http://dcodeit.net/tendermasterweb/public/api/';
 
     var options = {
@@ -30,7 +31,5 @@ var authService = function ($http, $timeout) {
     this.registrate = function () {
         return $timeout(1000);
     };
-};
+}
 
-authService.$inject = injectParams;
-angular.module('app').service('authSvc', authService);

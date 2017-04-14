@@ -2,8 +2,8 @@ angular
     .module('app')
     .controller('notesCtrl', NotesController);
 
-NotesController.$inject = ['$scope', '$compile', 'geomSvc'];
-function NotesController($scope, $compile, geomSvc) {
+NotesController.$inject = ['$scope', '$compile', 'geometryService'];
+function NotesController($scope, $compile, geometryService) {
 
 	var vm = this;
 
@@ -62,7 +62,7 @@ function NotesController($scope, $compile, geomSvc) {
 				'</resizable>'
 			);
 
-			var position = geomSvc.getCoords(_el);
+			var position = geometryService.getCoords(_el);
 
 			var newEl = el.clone();
 			dragZone.append(resizeEl);

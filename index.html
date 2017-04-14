@@ -12,34 +12,13 @@
     <link type="text/css" rel="stylesheet" href="public/css/panels.css"/>
     <base href="/" target="_blank">
 </head>
-<body ng-controller="mainCtrl as main">
+<body>
 
-    <nav class="navbar navbar-default navbar-static-top">
-        <div class="container">
+    <header ui-view="header"></header>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse">
-                <navbar location="main.location"></navbar>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="head-btns">
-                        <select-improved list="main.themes" selvalue="color"></select-improved>
-                    </li>
-                    <li ng-show="loggedIn" class="head-btns" ng-cloak>
-                        <button type="button" ng-click="main.logout()" class="btn btn-default navbar-btn">Logout</button>
-                    </li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
+    <div ui-view="container"></div>
 
-    <div>
-        <div ng-view></div>
-    </div>
-
-
-    <div class="panel-footer foot-st">
-        2017
-    </div>
+    <div class="panel-footer foot-st" ui-view="footer"></div>
     <script src="public/js/app.js"></script>
 </body>
 </html>

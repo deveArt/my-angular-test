@@ -1,6 +1,7 @@
 angular
     .module('app.common', [
-      'ui.router',
-      'ngCookies',
-      'ngMessages'
+        'ui.router',
+        'app.router',
+        'ngCookies',
+        'ngMessages'
     ]);

@@ -2,8 +2,8 @@ angular
     .module('app')
     .controller('usersCtrl', UsersController);
 
-UsersController.$inject = ['storageSvc', '$routeParams'];
-function UsersController(storageSvc, $routeParams) {
+UsersController.$inject = ['storageService', '$routeParams'];
+function UsersController(storageService, $routeParams) {
 
     var defaultUsers = [
         {
@@ -35,9 +35,9 @@ function UsersController(storageSvc, $routeParams) {
     init();
 
     function init() {
-        vm.users = storageSvc.getLocal('users');
+        vm.users = storageService.getLocal('users');
         if (!vm.users) {
-            storageSvc.setLocal('users', defaultUsers);
+            storageService.setLocal('users', defaultUsers);
             vm.users = defaultUsers;
         }
 
@@ -55,7 +55,7 @@ function UsersController(storageSvc, $routeParams) {
         }
 
         vm.usersForm.$setPristine();
-        storageSvc.setLocal('users', vm.users);
+        storageService.setLocal('users', vm.users);
     }
 
     function add() {

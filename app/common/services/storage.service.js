@@ -1,8 +1,8 @@
 angular
-    .module('app')
-    .service('storageSvc', storageSvc);
+    .module('app.common')
+    .service('storageService', storageService);
 
-function storageSvc() {
+function storageService() {
 
     var self = this;
 

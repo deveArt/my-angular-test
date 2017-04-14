@@ -1,4 +1,6 @@
-var injectParams = [];
+angular
+    .module('app.common')
+    .service('geometryService', geometryService);
 
 function geometryService() {
 
@@ -52,6 +54,3 @@ function geometryService() {
         return target;
     };
 }
-
-geometryService.$inject = injectParams;
-angular.module('app').service('geomSvc', geometryService);

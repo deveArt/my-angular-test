@@ -1,6 +1,11 @@
-var injectParams = ['authSvc', '$cookies', '$rootScope', '$location'];
+angular.module('app.auth')
+    .component('login', {
+        controller: LoginController,
+        templateUrl: '/app/auth/login/login.component.tmpl.html'
+    });
 
-var LoginController = function(authSvc, $cookies, $rootScope, $location) {
+LoginController.$inject = ['authSvc', '$cookies', '$rootScope', '$location'];
+function LoginController(authSvc, $cookies, $rootScope, $location) {
 
     var vm = this;
     vm.data = {};
@@ -32,7 +37,5 @@ var LoginController = function(authSvc, $cookies, $rootScope, $location) {
             console.error(error);
         });
     };
-};
+}
 
-LoginController.$inject = injectParams;
-angular.module('app').controller('loginCtrl', LoginController);

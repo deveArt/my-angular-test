@@ -2,8 +2,8 @@ angular
     .module('app')
     .controller('translationsCtrl', TranslationsController);
 
-TranslationsController.$inject = ['translationSvc'];
-function TranslationsController(translationSvc) {
+TranslationsController.$inject = ['translationService'];
+function TranslationsController(translationService) {
 
     var vm = this;
 
@@ -14,7 +14,7 @@ function TranslationsController(translationSvc) {
     init();
 
     function init() {
-        translationSvc.getLangs().then(function (langs) {
+        translationService.getLangs().then(function (langs) {
             vm.langs = langs;
         }).catch(function (err) {
             console.log(err);
@@ -24,9 +24,9 @@ function TranslationsController(translationSvc) {
     }
 
     function switchLang() {
-        vm.pageWords = translationSvc.getLocal(vm.curLang);
+        vm.pageWords = translationService.getLocal(vm.curLang);
         if (vm.pageWords === null) {
-            translationSvc.load(vm.curLang).then(function (data) {
+            translationService.load(vm.curLang).then(function (data) {
                 vm.pageWords = data;
             })
             .catch(function (err) {

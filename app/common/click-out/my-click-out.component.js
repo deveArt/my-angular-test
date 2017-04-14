@@ -2,27 +2,26 @@
  * Provides a way to capture whenever a click happens outside of an element (even if the element has no blur event). Due
  * to performance optimization, this DOES NOT run an $apply after the onClickOut handler unless you return true. e.g.
  *
- *      <z-click-out ng-if="editMode" on-click-out="finishEditing()" selector=".task-edit"></z-click-out>
+ *      <my-click-out ng-if="editMode" on-click-out="finishEditing()" selector=".task-edit"></my-click-out>
  *
  * @binding selector The string of what does not trigger the click out. This can be any valid jQuery selector and can
  *                   specify multiple elements.
  * @binding onClickOut This i   s called when the element is no longer clicked on. Return true to do a $apply. But do so
  *                     carefully because $apply are very expensive and can have large performance penalties when there
  *                     are lots of other clickouts. For example, in grids.
- * @binding fromParent If true, the selector will be applied from the parent on this element instead of the document.
  */
 angular
-    .module('app')
+    .module('app.common')
     .component('myClickOut', {
-        controller: myClickOutController,
+        controller: MyClickOutController,
         bindings: {
             selectors: '<',
             onClickOut: '&'
         }
     });
 
-myClickOutController.$inject = ['$window', '$element', '$scope'];
-function myClickOutController($window, $element, $scope) {
+MyClickOutController.$inject = ['$window', '$element', '$scope'];
+function MyClickOutController($window, $element, $scope) {
     var $ctrl = this;
 
     $ctrl.$postLink = $postLink;

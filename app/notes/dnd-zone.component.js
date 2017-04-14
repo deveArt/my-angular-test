@@ -1,5 +1,5 @@
 angular
-    .module('app')
+    .module('app.notes')
     .component('dndZone', {
         controller: DndZoneController,
         bindings: {
@@ -9,6 +9,8 @@ angular
         }
     });
 
+DndZoneController.$inject = ['$document', '$element', 'geometryService'];
+
 /**
  *
  * Dnd zone controller
@@ -16,7 +18,7 @@ angular
  *
  * @constructor
  */
-function DndZoneController($document, $element, geomSvc) {
+function DndZoneController($document, $element, geometryService) {
     var $ctrl = this;
     $ctrl.dragTarget = null;
     $ctrl._elem = null;
@@ -119,7 +121,7 @@ function DndZoneController($document, $element, geomSvc) {
 
         $ctrl.old.parent.insertBefore($ctrl._elem, $ctrl.old.nextSibling);
 
-        var coords = geomSvc.getCoords($ctrl.old.parent);
+        var coords = geometryService.getCoords($ctrl.old.parent);
         $ctrl._elem.style.position = $ctrl.old.position;
         $ctrl._elem.style.left = $ctrl.old.left - coords.left - $ctrl._margin + 'px';
         $ctrl._elem.style.top = $ctrl.old.top - coords.top - $ctrl._margin + 'px';
@@ -142,8 +144,8 @@ function DndZoneController($document, $element, geomSvc) {
         if ($ctrl._dropTarget.mode === 'trash') {
             angular.element($ctrl._elem).remove();
         } else {
-            var coordsEl = geomSvc.getCoords($ctrl._elem);
-            var coordsZone = geomSvc.getCoords($ctrl._dropTarget);
+            var coordsEl = geometryService.getCoords($ctrl._elem);
+            var coordsZone = geometryService.getCoords($ctrl._dropTarget);
             var diffLeft = coordsZone.left - coordsEl.left + 10;
             var diffTop = coordsZone.top - coordsEl.top + 10;
             var diffRight = coordsZone.right - coordsEl.right - 10;
@@ -190,7 +192,7 @@ function DndZoneController($document, $element, geomSvc) {
         $ctrl._elem = $ctrl.dragTarget.dragElement[0];
         $ctrl._margin = parseInt(getComputedStyle($ctrl._elem, null).getPropertyValue('margin'));
 
-        var coords = geomSvc.getCoords($ctrl._elem);
+        var coords = geometryService.getCoords($ctrl._elem);
         $ctrl._shiftX = $ctrl.dragTarget.startX - coords.left;
         $ctrl._shiftY = $ctrl.dragTarget.startY - coords.top;
 
@@ -227,7 +229,7 @@ function DndZoneController($document, $element, geomSvc) {
             - $ctrl._margin
             + 'px';
 
-        $ctrl._currentTargetElem = geomSvc.getElementUnderClientXY($ctrl._elem, event.clientX, event.clientY);
+        $ctrl._currentTargetElem = geometryService.getElementUnderClientXY($ctrl._elem, event.clientX, event.clientY);
     }
 
     /**

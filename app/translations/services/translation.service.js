@@ -1,13 +1,13 @@
 angular
-    .module('app')
-    .service('translationSvc', translationService);
+    .module('app.translations')
+    .service('translationService', translationService);
 
-translationService.$inject = ['$http', '$q', 'storageSvc'];
-function translationService($http, $q, storageSvc) {
+translationService.$inject = ['$http', '$q', 'storageService'];
+function translationService($http, $q, storageService) {
 
     var options = {
         method: 'GET',
-        url: 'http://dcodeit.net/angularTest/translation.php',
+        url: 'http://dcodeit.net/angularTest/translation.php'
     };
 
     var self = this;
@@ -32,6 +32,6 @@ function translationService($http, $q, storageSvc) {
     };
 
     function init() {
-        angular.extend(self, storageSvc);
+        angular.extend(self, storageService);
     }
 }

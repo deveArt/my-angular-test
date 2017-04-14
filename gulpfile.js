@@ -20,7 +20,12 @@ gulp.task('sass', function () {
 });
 
 gulp.task('concat', function () {
-    return gulp.src(['app/**/*.js', 'app/*.js']/*, {since: gulp.lastRun('concat')}*/)
+    return gulp.src([
+            'app/*module.js',
+            'app/**/*module.js',
+            'app/*!(module).js',
+            'app/**/*!(module).js'
+        ])
         .pipe(sourcemaps.init())
         .pipe(concat('app.js'))
         .pipe(sourcemaps.write())
@@ -35,8 +40,8 @@ gulp.task('build', gulp.series(
 gulp.task('webserver', function() {
     return gulp.src('./')
         .pipe(webserver({
-            host: '217.12.196.41',
-            port: 3434,
+            host: '127.0.0.1',
+            port: 8000,
             livereload: {
                 enable: true, // need this set to true to enable livereload
                 filter: fileName => fileName.match(/.map$/)? false: true
