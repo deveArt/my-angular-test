@@ -11,6 +11,9 @@ function mainRun(routerHelper) {
 			state: 'app.main',
 			config: {
 				url: '/',
+				params: {
+					title: 'Home'
+				},
 				views: {
 					'container@' : {
 						component: 'main'

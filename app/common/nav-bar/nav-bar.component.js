@@ -1,7 +1,3 @@
-function NavbarController() {
-
-}
-
 angular
     .module('app.common')
     .component('navBar', {
@@ -11,3 +7,24 @@ angular
             location: '<'
         }
     });
+
+NavbarController.$inject = ['$state'];
+
+function NavbarController($state) {
+    var $ctrl = this;
+
+    $ctrl.states = $state.get().filter(state =>
+        state.name !== "" && state.url !== ""
+    );
+    
+    $ctrl.isActive = isActive;
+    $ctrl.goTo = goTo;
+
+    function goTo(state) {
+        return $state.go(state);
+    }
+    
+    function isActive(state) {
+        return $state.includes(state);
+    }
+}

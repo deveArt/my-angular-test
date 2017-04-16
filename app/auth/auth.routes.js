@@ -10,6 +10,9 @@ function authRun(routerHelper) {
 			state: 'app.login',
 			config: {
 				url: '/login',
+				params: {
+					title: 'Login'
+				},
 				views: {
 					'container@' : {
 						//	component: 'main'
@@ -22,6 +25,9 @@ function authRun(routerHelper) {
 			state: 'app.registration',
 			config: {
 				url: '/registration',
+				params: {
+					title: 'Registration'
+				},
 				views: {
 					'container@' : {
 						//	component: 'main'

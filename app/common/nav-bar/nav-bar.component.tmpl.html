@@ -4,20 +4,17 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li ng-class="{active: $ctrl.location == '/'}"><a href="/">Home</a></li>
-                <li ng-class="{active: $ctrl.location == '/login'}"><a href="#!/login">Login</a></li>
-                <li ng-class="{active: $ctrl.location == '/registration'}"><a href="#!/registration">Registration</a></li>
-                <li ng-class="{active: $ctrl.location == '/translations'}"><a href="#!/translations">Translations</a></li>
-                <li ng-class="{active: $ctrl.location == '/users'}"><a href="#!/users">Users</a></li>
-                <li ng-class="{active: $ctrl.location == '/search'}"><a href="#!/search">Search</a></li>
-                <li ng-class="{active: $ctrl.location == '/notes'}"><a href="#!/notes">Notes</a></li>
+                <li ng-repeat="state in $ctrl.states"
+                    ng-class="{active: $ctrl.isActive(state.name)}"
+                ><a href="" ng-click="$ctrl.goTo(state.name)">{{state.params.title}}</a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="head-btns">
                     <select-improved list="main.themes" selvalue="color"></select-improved>
                 </li>
                 <li ng-show="loggedIn" class="head-btns" ng-cloak>
-                    <button type="button" ng-click="main.logout()" class="btn btn-default navbar-btn">Logout</button>
+                    <button type="button" ng-click="$ctrl.logout()" class="btn btn-default navbar-btn">Logout</button>
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->
