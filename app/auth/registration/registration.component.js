@@ -4,8 +4,8 @@ angular.module('app.auth')
         templateUrl: '/app/auth/registration/registration.component.tmpl.html'
     });
 
-RegistrationController.$inject = ['authSvc'];
-function RegistrationController(authSvc) {
+RegistrationController.$inject = ['authService'];
+function RegistrationController(authService) {
 
     var vm = this;
     vm.data = {};
@@ -13,7 +13,7 @@ function RegistrationController(authSvc) {
 
     vm.submit = function() {
         console.log('valid');
-        authSvc.registrate(vm.data).then(function (response) {
+        authService.registrate(vm.data).then(function (response) {
             console.log('ok');
         }).catch(function (error) {
             console.error(error);

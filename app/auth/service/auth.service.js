@@ -1,4 +1,6 @@
-angular.module('app').service('authService', authService);
+angular
+    .module('app.auth')
+    .service('authService', authService);
 
 authService.$inject = ['$http', '$timeout'];
 function authService($http, $timeout) {

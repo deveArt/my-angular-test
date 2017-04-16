@@ -1,5 +1,5 @@
 function NavbarController() {
-    var ctrl = this;
+
 }
 
 angular

@@ -3,22 +3,22 @@ angular
 	.run(mainRun);
 
 mainRun.$inject = ['routerHelper'];
+
 /* @ngInject */
 function mainRun(routerHelper) {
-	routerHelper.configureStates(getStates());
-
-	function getStates() {
-		return [
-			{
-				state: 'app.main',
-				config: {
-					component: 'main',
-					url: '/'
-				},
+	let states = [
+		{
+			state: 'app.main',
+			config: {
+				url: '/',
 				views: {
-					'container@' : {}
+					'container@' : {
+						component: 'main'
+					}
 				}
 			}
-		];
-	}
+		}
+	];
+
+	routerHelper.configureStates(states);
 }

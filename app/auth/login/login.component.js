@@ -4,8 +4,8 @@ angular.module('app.auth')
         templateUrl: '/app/auth/login/login.component.tmpl.html'
     });
 
-LoginController.$inject = ['authSvc', '$cookies', '$rootScope', '$location'];
-function LoginController(authSvc, $cookies, $rootScope, $location) {
+LoginController.$inject = ['authService', '$cookies', '$rootScope', '$location'];
+function LoginController(authService, $cookies, $rootScope, $location) {
 
     var vm = this;
     vm.data = {};
@@ -13,7 +13,7 @@ function LoginController(authSvc, $cookies, $rootScope, $location) {
 
     vm.submit = function() {
 
-        authSvc.login(vm.data).then(function (response) {
+        authService.login(vm.data).then(function (response) {
 
             vm.formErrors = response.data.errors || {};
 

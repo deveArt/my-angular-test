@@ -2,11 +2,11 @@ angular
     .module('app.main')
     .component('main', {
         controller: MainController,
-        templateUrl: '/app/main/views/main.component.tmpl.html'
+        templateUrl: '/app/main/main.component.tmpl.html'
     });
 
-MainController.$inject = ['authSvc', '$cookies', '$rootScope', '$location'];
-function MainController(authSvc, $cookies, $rootScope, $location) {
+MainController.$inject = ['authService', '$cookies', '$rootScope', '$location'];
+function MainController(authService, $cookies, $rootScope, $location) {
 
     var vm = this;
 
@@ -23,7 +23,7 @@ function MainController(authSvc, $cookies, $rootScope, $location) {
 
     vm.location = $location.path();
     vm.logout = function () {
-        authSvc.logout().then(function (response) {
+        authService.logout().then(function (response) {
             if (!response.data.errors) {
                 console.log($cookies.getAll());
                 $rootScope.loggedIn = false;

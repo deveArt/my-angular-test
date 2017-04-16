@@ -5,30 +5,32 @@ angular
 authRun.$inject = ['routerHelper'];
 /* @ngInject */
 function authRun(routerHelper) {
-	routerHelper.configureStates(getStates());
-
-	function getStates() {
-		return [
-			{
-				state: 'app.login',
-				config: {
-					component: 'login',
-					url: '/login'
-				},
+	let states = [
+		{
+			state: 'app.login',
+			config: {
+				url: '/login',
 				views: {
-					'container@' : {}
-				}
-			},
-			{
-				state: 'app.registration',
-				config: {
-					component: 'registration',
-					url: '/registration'
-				},
-				views: {
-					'container@' : {}
+					'container@' : {
+						//	component: 'main'
+						template: 'huiiiiirfrfef'
+					}
 				}
 			}
-		];
-	}
+		},
+		{
+			state: 'app.registration',
+			config: {
+				url: '/registration',
+				views: {
+					'container@' : {
+						//	component: 'main'
+						template: 'regggssdgdsgsdfg'
+					}
+				}
+			}
+		}
+	];
+
+	routerHelper.configureStates(states);
 }

@@ -6,14 +6,14 @@ config.$inject = ['$locationProvider', '$httpProvider', '$stateProvider'];
 function config($locationProvider, $httpProvider, $stateProvider) {
 
     $stateProvider
-        .state('app',{
+        .state('app', {
             url: '',
             abstract: true,
             views: {
                 'header': {
                     component: 'navBar'
                 },
-                'footer':{
+                'footer': {
                     template: '2017'
                 }
             }
