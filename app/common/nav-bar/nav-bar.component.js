@@ -13,17 +13,14 @@ NavbarController.$inject = ['$state'];
 function NavbarController($state) {
     var $ctrl = this;
 
-    $ctrl.states = $state.get().filter(state =>
-        state.name !== "" && state.url !== ""
-    );
-    
+    $ctrl.states = $state.get().filter(state => !state.abstract);
     $ctrl.isActive = isActive;
     $ctrl.goTo = goTo;
 
     function goTo(state) {
         return $state.go(state);
     }
-    
+
     function isActive(state) {
         return $state.includes(state);
     }

@@ -1,13 +1,13 @@
-<div class="container" ng-controller="translationsCtrl as vm">
+<div class="container">
 
     <div class="panel panel-{{color}}">
         <div class="panel-heading">
             <div class="row">
                 <div class="col-sm-3">Translations page</div>
                 <div class="col-sm-3 col-sm-offset-6">
-                    <select class="form-control" ng-change="vm.switch()" ng-model="vm.curLang">
-                        <option ng-repeat="lang in vm.langs"
-                                ng-selected="lang === vm.curLang"
+                    <select class="form-control" ng-change="$ctrl.switch()" ng-model="$ctrl.curLang">
+                        <option ng-repeat="lang in $ctrl.langs"
+                                ng-selected="lang === $ctrl.curLang"
                                 value="{{lang}}">
                             {{lang}}
                         </option>
@@ -17,7 +17,7 @@
         </div>
         <div class="translation-container well">
             <ul>
-                <li ng-repeat="word in vm.pageWords">{{ word }}</li>
+                <li ng-repeat="word in $ctrl.pageWords">{{ word }}</li>
             </ul>
         </div>
     </div>

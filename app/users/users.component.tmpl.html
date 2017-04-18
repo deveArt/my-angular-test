@@ -7,7 +7,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="list-group">
-                        <a ng-repeat="(id, user) in vm.users" href="#!/users/{{id}}" class="list-group-item">
+                        <a ng-repeat="(id, user) in $ctrl.users" href="" ng-click="$ctrl.selectUser(id)" class="list-group-item">
                             <strong>{{user.username}}</strong> {{user.email}} - {{user.country}}
                         </a>
                     </div>
@@ -15,41 +15,41 @@
             </div>
         </div>
         <div class="col-md-6 col-md-offset-2">
-            <form id="usersForm" name="vm.usersForm" class="form-horizontal" ng-submit="vm.submit(vm.userId)" role="form" novalidate>
+            <form id="usersForm" name="$ctrl.usersForm" class="form-horizontal" ng-submit="$ctrl.submit($ctrl.userId)" role="form" novalidate>
                 <div style="margin-bottom: 25px" class="form-group"
-                     ng-class="{'has-error': vm.usersForm.email.$invalid && vm.usersForm.email.$dirty,
-                                   'has-success': vm.usersForm.email.$valid}">
+                     ng-class="{'has-error': $ctrl.usersForm.email.$invalid && $ctrl.usersForm.email.$dirty,
+                                'has-success': $ctrl.usersForm.email.$valid}">
                     <label for="registration-email">Email</label>
-                    <input id="registration-email" ng-model="vm.data.email" type="email" class="form-control" name="email" value="" required placeholder="email">
-                    <div ng-show="vm.usersForm.email.$dirty" ng-messages="vm.usersForm.email.$error">
+                    <input id="registration-email" ng-model="$ctrl.data.email" type="email" class="form-control" name="email" value="" required placeholder="email">
+                    <div ng-show="$ctrl.usersForm.email.$dirty" ng-messages="$ctrl.usersForm.email.$error">
                         <p class="text-danger" ng-message="required">This field is required</p>
                         <p class="text-danger" ng-message="email">Wrong email format</p>
                     </div>
                 </div>
 
                 <div style="margin-bottom: 25px" class="form-group"
-                     ng-class="{'has-error': vm.usersForm.username.$invalid && vm.usersForm.username.$dirty,
-                                   'has-success': vm.usersForm.username.$valid}">
+                     ng-class="{'has-error': $ctrl.usersForm.username.$invalid && $ctrl.usersForm.username.$dirty,
+                                'has-success': $ctrl.usersForm.username.$valid}">
                     <label for="registration-username">User name</label>
                     <input id="registration-username" type="text" class="form-control" name="username" value="" required placeholder="user name"
-                           ng-model="vm.data.username"
+                           ng-model="$ctrl.data.username"
                            ng-maxlength="60">
-                    <div ng-show="vm.usersForm.username.$dirty" ng-messages="vm.usersForm.username.$error">
+                    <div ng-show="$ctrl.usersForm.username.$dirty" ng-messages="$ctrl.usersForm.username.$error">
                         <p class="text-danger" ng-message="required">This field is required</p>
                         <p class="text-danger" ng-message="maxlength">This field has more than 60 characters</p>
                     </div>
                 </div>
 
                 <div style="margin-bottom: 25px" class="form-group"
-                     ng-if="!vm.userId"
-                     ng-class="{'has-error': vm.usersForm.password.$invalid && vm.usersForm.password.$dirty,
-                                   'has-success': vm.usersForm.password.$valid}">
+                     ng-if="$ctrl.userId === null"
+                     ng-class="{'has-error': $ctrl.usersForm.password.$invalid && $ctrl.usersForm.password.$dirty,
+                                'has-success': $ctrl.usersForm.password.$valid}">
                     <label for="registration-password">Password</label>
                     <input id="registration-password" type="password" class="form-control" required name="password" placeholder="password"
-                           ng-pattern="vm.pwdRegex"
-                           ng-model="vm.data.password"
+                           ng-pattern="$ctrl.pwdRegex"
+                           ng-model="$ctrl.data.password"
                            ng-minlength="8">
-                    <div ng-show="vm.usersForm.password.$dirty" ng-messages="vm.usersForm.password.$error">
+                    <div ng-show="$ctrl.usersForm.password.$dirty" ng-messages="$ctrl.usersForm.password.$error">
                         <p class="text-danger" ng-message="required">This field is required</p>
                         <p class="text-danger" ng-message="minlength">This field has less than 8 characters</p>
                         <p class="text-danger" ng-message="pattern">This field must contain at least 1 number, 1 symbol, 1 capitalized letter</p>
@@ -57,42 +57,41 @@
                 </div>
 
                 <div style="margin-bottom: 25px" class="form-group"
-                     ng-if="vm.userId"
-                     ng-class="{'has-error': vm.usersForm.newpassword.$invalid && vm.usersForm.newpassword.$dirty,
-                            'has-success': vm.usersForm.newpassword.$valid}">
+                     ng-if="$ctrl.userId !== null"
+                     ng-class="{'has-error': $ctrl.usersForm.newpassword.$invalid && $ctrl.usersForm.newpassword.$dirty,
+                                'has-success': $ctrl.usersForm.newpassword.$valid}">
                     <label for="registration-newpassword">New password</label>
                     <input id="registration-newpassword" type="password" class="form-control" name="newpassword" placeholder="newpassword"
-                           ng-pattern="vm.pwdRegex"
-                           ng-model="vm.data.newpassword"
+                           ng-pattern="$ctrl.pwdRegex"
+                           ng-model="$ctrl.data.newpassword"
                            ng-minlength="8">
-                    <div ng-show="vm.usersForm.newpassword.$dirty" ng-messages="vm.usersForm.newpassword.$error">
+                    <div ng-show="$ctrl.usersForm.newpassword.$dirty" ng-messages="$ctrl.usersForm.newpassword.$error">
                         <p class="text-danger" ng-message="minlength">This field has less than 8 characters</p>
                         <p class="text-danger" ng-message="pattern">This field must contain at least 1 number, 1 symbol, 1 capitalized letter</p>
                     </div>
                 </div>
 
                 <div style="margin-bottom: 25px" class="form-group"
-                     ng-if="vm.userId"
-                     ng-class="{'has-error': vm.usersForm.newpasswordrepeat.$invalid && vm.usersForm.newpasswordrepeat.$dirty,
-                            'has-success': vm.usersForm.newpasswordrepeat.$valid}">
+                     ng-if="$ctrl.userId !== null"
+                     ng-class="{'has-error': $ctrl.usersForm.newpasswordrepeat.$invalid && $ctrl.usersForm.newpasswordrepeat.$dirty,
+                                'has-success': $ctrl.usersForm.newpasswordrepeat.$valid}">
                     <label for="registration-newpasswordrepeat">Repeat new password</label>
                     <input id="registration-newpasswordrepeat" type="password" class="form-control" name="newpasswordrepeat" placeholder="newpasswordrepeat"
-                           ng-show="vm.userId"
-                           ng-model="vm.data.newpasswordrepeat"
-                           pwd-dir="vm.data.newpassword">
-                    <div ng-show="vm.usersForm.newpasswordrepeat.$dirty" ng-messages="vm.usersForm.newpasswordrepeat.$error">
+                           ng-model="$ctrl.data.newpasswordrepeat"
+                           pwd-dir="$ctrl.data.newpassword">
+                    <div ng-show="$ctrl.usersForm.newpasswordrepeat.$dirty" ng-messages="$ctrl.usersForm.newpasswordrepeat.$error">
                         <p class="text-danger" ng-message="pwdmatch">Passwords must be equal</p>
                     </div>
                 </div>
 
                 <div style="margin-bottom: 25px" class="form-group"
-                     ng-class="{'has-error': vm.usersForm.country.$invalid && vm.usersForm.country.$dirty,
-                            'has-success': vm.usersForm.country.$valid}">
+                     ng-class="{'has-error': $ctrl.usersForm.country.$invalid && $ctrl.usersForm.country.$dirty,
+                                'has-success': $ctrl.usersForm.country.$valid}">
                     <label for="registration-country">Country</label>
                     <input id="registration-country" name="country" class="form-control" required placeholder="Country"
-                           ng-model="vm.data.country"
+                           ng-model="$ctrl.data.country"
                            ng-maxlength="60">
-                    <div ng-show="vm.usersForm.country.$dirty" ng-messages="vm.usersForm.country.$error">
+                    <div ng-show="$ctrl.usersForm.country.$dirty" ng-messages="$ctrl.usersForm.country.$error">
                         <p class="text-danger" ng-message="required">This field is required</p>
                         <p class="text-danger" ng-message="maxlength">This field has more than 60 characters</p>
                     </div>
@@ -100,11 +99,14 @@
 
                 <div style="margin-top:10px" class="form-group">
                     <!-- Button -->
-                    <div class="col-sm-4 controls">
-                        <button form="usersForm" ng-disabled="vm.usersForm.$invalid || vm.userId" id="btn-add" type="submit" class="btn btn-default">Add</button>
+                    <div class="col-md-4 controls">
+                        <button form="usersForm" ng-disabled="$ctrl.usersForm.$invalid || $ctrl.userId" id="btn-add" type="submit" class="btn btn-{{color}}">Add</button>
                     </div>
-                    <div class="col-sm-4 col-sm-offset-4 controls">
-                        <button form="usersForm" ng-disabled="vm.usersForm.$invalid || !vm.userId" id="btn-edit" type="submit" class="btn btn-default">Edit</button>
+                    <div class="col-md-4 controls">
+                        <button form="usersForm" ng-disabled="$ctrl.usersForm.$invalid || !$ctrl.userId" id="btn-edit" type="submit" class="btn btn-{{color}}">Edit</button>
+                    </div>
+                    <div class="col-md-4 controls">
+                        <button form="usersForm" ng-click="$ctrl.selectUser(null)" ng-show="$ctrl.userId !== null" id="btn-cancel" class="btn btn-{{color}}">Cancel</button>
                     </div>
                 </div>
             </form>

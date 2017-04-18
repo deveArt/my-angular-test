@@ -5,12 +5,9 @@ angular
         'app.common',
         /* feature modules */
         'app.main',
-        'app.auth'
-    //    'app.search',
-    //    'app.translations',
-    //    'app.users',
-    //    'app.notes'
-    ])
-    .run(function($rootScope) {
-        $rootScope.color = 'success';
-    });
+        'app.auth',
+        'app.search',
+        'app.translations',
+        'app.users',
+        'app.notes'
+    ]);

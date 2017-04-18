@@ -1,4 +1,4 @@
 angular
-    .module('app.auth', [
+    .module('app.users', [
       'app.common'
     ]);

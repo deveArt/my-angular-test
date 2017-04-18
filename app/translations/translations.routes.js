@@ -1,6 +1,6 @@
 (function() {
     angular
-    	.module('app.main')
+    	.module('app.translations')
     	.run(run);
 
     run.$inject = ['routerHelper'];
@@ -9,15 +9,15 @@
     function run(routerHelper) {
     	let states = [
     		{
-    			state: 'app.main',
+    			state: 'app.translations',
     			config: {
-    				url: '/',
+    				url: '/translations',
     				params: {
-    					title: 'Home'
+    					title: 'Translations'
     				},
     				views: {
     					'container@' : {
-    						component: 'main'
+    						component: 'translations'
     					}
     				}
     			}
@@ -26,4 +26,5 @@
 
     	routerHelper.configureStates(states);
     }
+
 })();

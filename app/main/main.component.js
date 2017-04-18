@@ -8,9 +8,9 @@ angular
 MainController.$inject = ['authService', '$cookies', '$rootScope', '$location'];
 function MainController(authService, $cookies, $rootScope, $location) {
 
-    var vm = this;
+    var $ctrl = this;
 
-    vm.themes = [
+    $ctrl.themes = [
         {name: 'primary', val: 'Dark blue'},
         {name: 'success', val: 'Green'},
         {name: 'info', val: 'Blue'},
@@ -21,8 +21,8 @@ function MainController(authService, $cookies, $rootScope, $location) {
         {name: 'dark-red', val: 'Dark red'}
     ];
 
-    vm.location = $location.path();
-    vm.logout = function () {
+    $ctrl.location = $location.path();
+    $ctrl.logout = function () {
         authService.logout().then(function (response) {
             if (!response.data.errors) {
                 console.log($cookies.getAll());

@@ -1,6 +1,6 @@
 (function() {
     angular
-    	.module('app.main')
+    	.module('app.search')
     	.run(run);
 
     run.$inject = ['routerHelper'];
@@ -9,15 +9,15 @@
     function run(routerHelper) {
     	let states = [
     		{
-    			state: 'app.main',
+    			state: 'app.search',
     			config: {
-    				url: '/',
+    				url: '/search',
     				params: {
-    					title: 'Home'
+    					title: 'Search'
     				},
     				views: {
     					'container@' : {
-    						component: 'main'
+    						component: 'search'
     					}
     				}
     			}
@@ -26,4 +26,5 @@
 
     	routerHelper.configureStates(states);
     }
+
 })();

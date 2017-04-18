@@ -1,33 +1,36 @@
 angular
-    .module('app')
-    .controller('notesCtrl', NotesController);
+    .module('app.notes')
+    .component('notes', {
+        controller: NotesController,
+        templateUrl: '/app/notes/notes.component.tmpl.html'
+    });
 
 NotesController.$inject = ['$scope', '$compile', 'geometryService'];
 function NotesController($scope, $compile, geometryService) {
 
-	var vm = this;
+	var $ctrl = this;
 
 	const ncount_max = 10;
-	vm.ncount = 0;
-	vm.number = 0;
-	vm.text = '';
-	vm.dragScope = {};
-	vm.resizeMode = false;
-	
-	vm.addNote = function() {
-		
-		vm.ncount = angular.element(document).find('dnd-element').length;
-		if (!vm.noteForm.$valid || vm.ncount >= ncount_max) {
+	$ctrl.ncount = 0;
+	$ctrl.number = 0;
+	$ctrl.text = '';
+	$ctrl.dragScope = {};
+	$ctrl.resizeMode = false;
+
+	$ctrl.addNote = function() {
+
+		$ctrl.ncount = angular.element(document).find('dnd-element').length;
+		if (!$ctrl.noteForm.$valid || $ctrl.ncount >= ncount_max) {
 			return false;
 		}
 
-		vm.number ++;
-		var subject = 'Note #'+ vm.number;
+		$ctrl.number ++;
+		var subject = 'Note #'+ $ctrl.number;
 		var dragZone = document.getElementById('dragZone');
 		var dragEl = angular.element(
 			'<dnd-element>' +
 				'<p><b>'+subject+'</b></p>' +
-				'<p>'+vm.text+'</p>' +
+				'<p>'+$ctrl.text+'</p>' +
 			'</dnd-element>'
 		);
 
@@ -40,11 +43,11 @@ function NotesController($scope, $compile, geometryService) {
 			newScope.$destroy();
 		});
 
-		vm.text = '';
-		vm.noteForm.$setPristine();
+		$ctrl.text = '';
+		$ctrl.noteForm.$setPristine();
 	};
 
-	vm.makeResizable = function() {
+	$ctrl.makeResizable = function() {
 
 		var elems = angular.element(document.querySelectorAll(':not(resizable) > dnd-element'));
 
@@ -96,7 +99,7 @@ function NotesController($scope, $compile, geometryService) {
 
 	};
 
-	vm.removeResizable = function () {
+	$ctrl.removeResizable = function () {
 
 		var elems = angular.element(document).find('resizable');
 
@@ -132,29 +135,29 @@ function NotesController($scope, $compile, geometryService) {
 			}
 
 		});
-		
-	};
-	
-	vm.resizeRefresh = function () {
 
-		if (!vm.resizeMode) {
+	};
+
+	$ctrl.resizeRefresh = function () {
+
+		if (!$ctrl.resizeMode) {
 			return;
 		}
-		
+
 		var elems = angular.element(document.querySelectorAll('resizable:empty'));
 		elems.remove();
 
-		vm.makeResizable();
-		
+		$ctrl.makeResizable();
+
 	};
 
-	vm.toggleResize = function () {
-		if (vm.resizeMode) {
-			vm.removeResizable();
-			vm.resizeMode = false;
+	$ctrl.toggleResize = function () {
+		if ($ctrl.resizeMode) {
+			$ctrl.removeResizable();
+			$ctrl.resizeMode = false;
 		} else {
-			vm.makeResizable();
-			vm.resizeMode = true;
+			$ctrl.makeResizable();
+			$ctrl.resizeMode = true;
 		}
 	};
 }

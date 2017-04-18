@@ -7,13 +7,13 @@ angular.module('app.auth')
 RegistrationController.$inject = ['authService'];
 function RegistrationController(authService) {
 
-    var vm = this;
-    vm.data = {};
-    vm.pwdRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[$@!%*#?&])[A-Za-z\d$@!%*#?&]+$/;
+    var $ctrl = this;
+    $ctrl.data = {};
+    $ctrl.pwdRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[$@!%*#?&])[A-Za-z\d$@!%*#?&]+$/;
 
-    vm.submit = function() {
+    $ctrl.submit = function() {
         console.log('valid');
-        authService.registrate(vm.data).then(function (response) {
+        authService.registrate($ctrl.data).then(function (response) {
             console.log('ok');
         }).catch(function (error) {
             console.error(error);

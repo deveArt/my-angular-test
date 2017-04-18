@@ -1,6 +1,6 @@
 (function() {
     angular
-    	.module('app.main')
+    	.module('app.notes')
     	.run(run);
 
     run.$inject = ['routerHelper'];
@@ -9,15 +9,15 @@
     function run(routerHelper) {
     	let states = [
     		{
-    			state: 'app.main',
+    			state: 'app.notes',
     			config: {
-    				url: '/',
+    				url: '/notes',
     				params: {
-    					title: 'Home'
+    					title: 'Notes'
     				},
     				views: {
     					'container@' : {
-    						component: 'main'
+    						component: 'notes'
     					}
     				}
     			}

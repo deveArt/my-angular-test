@@ -1,4 +1,5 @@
-angular.module('app.auth')
+angular
+    .module('app.auth')
     .component('login', {
         controller: LoginController,
         templateUrl: '/app/auth/login/login.component.tmpl.html'
@@ -7,15 +8,15 @@ angular.module('app.auth')
 LoginController.$inject = ['authService', '$cookies', '$rootScope', '$location'];
 function LoginController(authService, $cookies, $rootScope, $location) {
 
-    var vm = this;
-    vm.data = {};
-    vm.data.rememberMe = true;
+    var $ctrl = this;
+    $ctrl.data = {};
+    $ctrl.data.rememberMe = true;
 
-    vm.submit = function() {
+    $ctrl.submit = function() {
 
-        authService.login(vm.data).then(function (response) {
+        authService.login($ctrl.data).then(function (response) {
 
-            vm.formErrors = response.data.errors || {};
+            $ctrl.formErrors = response.data.errors || {};
 
             if (!response.data.errors) {
                 console.log($cookies.getAll());
@@ -23,10 +24,10 @@ function LoginController(authService, $cookies, $rootScope, $location) {
                 $location.path("/translations");
             }
 
-            for (var i in vm.loginForm.$$controls) {
-                var control = vm.loginForm.$$controls[i];
+            for (var i in $ctrl.loginForm.$$controls) {
+                var control = $ctrl.loginForm.$$controls[i];
 
-                if (vm.formErrors[control.$name]) {
+                if ($ctrl.formErrors[control.$name]) {
                     control.$setValidity(control.$name, false);
                 } else {
                     control.$setValidity(control.$name, true);
@@ -38,4 +39,3 @@ function LoginController(authService, $cookies, $rootScope, $location) {
         });
     };
 }
-

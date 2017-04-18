@@ -1,42 +1,43 @@
-angular
-	.module('app.auth')
-	.run(authRun);
+(function() {
+    angular
+    	.module('app.auth')
+    	.run(run);
 
-authRun.$inject = ['routerHelper'];
-/* @ngInject */
-function authRun(routerHelper) {
-	let states = [
-		{
-			state: 'app.login',
-			config: {
-				url: '/login',
-				params: {
-					title: 'Login'
-				},
-				views: {
-					'container@' : {
-						//	component: 'main'
-						template: 'huiiiiirfrfef'
-					}
-				}
-			}
-		},
-		{
-			state: 'app.registration',
-			config: {
-				url: '/registration',
-				params: {
-					title: 'Registration'
-				},
-				views: {
-					'container@' : {
-						//	component: 'main'
-						template: 'regggssdgdsgsdfg'
-					}
-				}
-			}
-		}
-	];
+    run.$inject = ['routerHelper'];
+    /* @ngInject */
+    function run(routerHelper) {
+    	let states = [
+    		{
+    			state: 'app.login',
+    			config: {
+    				url: '/login',
+    				params: {
+    					title: 'Login'
+    				},
+    				views: {
+    					'container@' : {
+    						component: 'login'
+    					}
+    				}
+    			}
+    		},
+    		{
+    			state: 'app.registration',
+    			config: {
+    				url: '/registration',
+    				params: {
+    					title: 'Registration'
+    				},
+    				views: {
+    					'container@' : {
+    						component: 'registration'
+    					}
+    				}
+    			}
+    		}
+    	];
 
-	routerHelper.configureStates(states);
-}
+    	routerHelper.configureStates(states);
+    }
+
+})();

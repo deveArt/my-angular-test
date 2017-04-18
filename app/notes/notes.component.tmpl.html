@@ -2,13 +2,13 @@
 <div class="container">
 
     <div class="row form-block">
-            <form id="noteForm" name="vm.noteForm" class="" ng-submit="vm.addNote()" role="form" novalidate>
+            <form id="noteForm" name="$ctrl.noteForm" class="" ng-submit="$ctrl.addNote()" role="form" novalidate>
 
                     <div class="col-sm-12"
                          ng-class="{
-                                'has-error': vm.noteForm.text.$invalid && vm.noteForm.text.$dirty,
-                                'has-success': vm.noteForm.text.$valid
-                    }">
+                                'has-error': $ctrl.noteForm.text.$invalid && $ctrl.noteForm.text.$dirty,
+                                'has-success': $ctrl.noteForm.text.$valid
+                        }">
 
                         <div class="input-group input-group-md">
 
@@ -19,17 +19,17 @@
                                 <!--<button type="submit" class="btn btn-lg btn-{{color}}">Add</button>-->
                             </span>
 
-                            <input id="text" ng-model="vm.text" type="text" class="form-control input-md" name="text" value="" required placeholder="Note text...">
+                            <input id="text" ng-model="$ctrl.text" type="text" class="form-control input-md" name="text" value="" required placeholder="Note text...">
 
                             <span class="input-group-btn">
                                 <a href="" class="super-btn btn btn-default btn-md btn-{{color}}"
-                                   ng-class="{'active': vm.resizeMode}"
-                                   ng-click="vm.toggleResize()">
+                                   ng-class="{'active': $ctrl.resizeMode}"
+                                   ng-click="$ctrl.toggleResize()">
                                     Resize mode
                                 </a>
                             </span>
                         </div>
-                        <div ng-show="vm.noteForm.text.$dirty" ng-messages="vm.noteForm.text.$error">
+                        <div ng-show="$ctrl.noteForm.text.$dirty" ng-messages="$ctrl.noteForm.text.$error">
                             <p class="text-danger" ng-message="required">This field is required</p>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
     <div class="row">
         <div class="col-sm-4 todo-base">
             <h4>New notes</h4>
-            <dnd-zone mode="drag" id="dragZone" class="dragzone" on-end="vm.resizeRefresh()">
+            <dnd-zone mode="drag" id="dragZone" class="dragzone" on-end="$ctrl.resizeRefresh()">
             <!--<dnd-zone mode="drag" id="dragZone" class="dragzone">-->
             </dnd-zone>
                 <h4>Trash zone</h4>
@@ -52,12 +52,12 @@
 
         <div class="col-sm-8">
             <h4>Back-end notes</h4>
-            <dnd-zone mode="drop" class="dropzone" on-end="vm.resizeRefresh()">
+            <dnd-zone mode="drop" class="dropzone" on-end="$ctrl.resizeRefresh()">
 
             </dnd-zone>
 
             <h4>Front-end notes</h4>
-            <dnd-zone mode="drop" class="dropzone" on-end="vm.resizeRefresh()">
+            <dnd-zone mode="drop" class="dropzone" on-end="$ctrl.resizeRefresh()">
 
             </dnd-zone>
 

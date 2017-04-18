@@ -8,35 +8,35 @@
                 <div class="row">
                     <div class="col-md-7"><label for="srch-word"><h4>Search word</h4></label></div>
                     <div class="col-md-5">
-                        <button class="btn btn-{{color}} srch-input" ng-class="{'active': vm.curFields.Name}" ng-click="vm.curFields.Name = !vm.curFields.Name">
+                        <button class="btn btn-{{color}} srch-input" ng-class="{'active': $ctrl.curFields.Name}" ng-click="$ctrl.curFields.Name = !$ctrl.curFields.Name">
                             By name
                         </button>
-                        <button class="btn btn-{{color}} srch-input" ng-class="{'active': vm.curFields.Type}" ng-click="vm.curFields.Type = !vm.curFields.Type">
+                        <button class="btn btn-{{color}} srch-input" ng-class="{'active': $ctrl.curFields.Type}" ng-click="$ctrl.curFields.Type = !$ctrl.curFields.Type">
                             By type
                         </button>
-                        <button class="btn btn-{{color}} srch-input" ng-class="{'active': vm.curFields['Designed by']}" ng-click="vm.curFields['Designed by'] = !vm.curFields['Designed by']">
+                        <button class="btn btn-{{color}} srch-input" ng-class="{'active': $ctrl.curFields['Designed by']}" ng-click="$ctrl.curFields['Designed by'] = !$ctrl.curFields['Designed by']">
                             By designer
                         </button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-7">
-                        <input id="srch-word" class="form-control" type="text" ng-model="vm.searchWord"/>
+                        <input id="srch-word" class="form-control" type="text" ng-model="$ctrl.searchWord"/>
                     </div>
                     <div class="col-md-5">
                         <label class="srch-input">
                             <span>Case insensetive</span>
-                            <input type="checkbox" value="" ng-model="vm.insens"/>
+                            <input type="checkbox" value="" ng-model="$ctrl.insens"/>
                         </label>
                         <label class="srch-input">
                             <span>Exact match</span>
-                            <input type="checkbox" value="" ng-model="vm.exact"/>
+                            <input type="checkbox" value="" ng-model="$ctrl.exact"/>
                         </label>
                     </div>
                 </div>
             </div>
             <div class="list-group">
-                <a ng-repeat="(i, item) in vm.data | searchFilter:vm.searchWord:vm.curFields:vm.insens:vm.exact" class="list-group-item">
+                <a ng-repeat="(i, item) in $ctrl.data | searchFilter:$ctrl.searchWord:$ctrl.curFields:$ctrl.insens:$ctrl.exact" class="list-group-item">
                     <strong>{{item.Name}}</strong> {{item.Type}} - {{item['Designed by']}}
                 </a>
             </div>

@@ -1,6 +1,6 @@
 (function() {
     angular
-    	.module('app.main')
+    	.module('app.users')
     	.run(run);
 
     run.$inject = ['routerHelper'];
@@ -9,15 +9,19 @@
     function run(routerHelper) {
     	let states = [
     		{
-    			state: 'app.main',
+    			state: 'app.users',
     			config: {
-    				url: '/',
+    				url: '/users/{userId:int}',
     				params: {
-    					title: 'Home'
+    					title: 'Users',
+                        userId: {
+                            value: null,
+                            squash: true // param is optional
+                        }
     				},
     				views: {
     					'container@' : {
-    						component: 'main'
+    						component: 'users'
     					}
     				}
     			}

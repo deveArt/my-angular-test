@@ -40,8 +40,9 @@ gulp.task('build', gulp.series(
 gulp.task('webserver', function() {
     return gulp.src('./')
         .pipe(webserver({
-            host: '127.0.0.1',
-            port: 8000,
+            host: '217.12.196.41',
+            port: 3434,
+            fallback: 'index.html',
             livereload: {
                 enable: true, // need this set to true to enable livereload
                 filter: fileName => fileName.match(/.map$/)? false: true
