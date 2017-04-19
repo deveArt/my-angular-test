@@ -13,10 +13,10 @@
             <li class="sel-search-input">
                 <input type="text" placeholder="Type color..." ng-model="$ctrl.search" class="form-control" autocomplete="off" role="textbox"/>
             </li>
-            <li ng-repeat="item in $ctrl.list | filter:$ctrl.search" ng-class="{'active': $ctrl.selvalue == item.name}" ng-click="$ctrl.selvalue = item.name">
+            <li ng-repeat="item in $ctrl.list | filter:$ctrl.search" ng-class="{'active': $ctrl.current == item.name}" ng-click="$ctrl.setVal(item.name)">
                 <a role="option">
                     <span class="text">{{item.val}}</span>
-                    <span ng-show="$ctrl.selvalue == item.name" class="glyphicon glyphicon-ok check-mark"></span>
+                    <span ng-show="$ctrl.current == item.name" class="glyphicon glyphicon-ok check-mark"></span>
                 </a>
             </li>
         </ul>

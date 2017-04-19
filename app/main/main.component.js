@@ -5,22 +5,12 @@ angular
         templateUrl: '/app/main/main.component.tmpl.html'
     });
 
-MainController.$inject = ['authService', '$cookies', '$rootScope', '$location'];
-function MainController(authService, $cookies, $rootScope, $location) {
+MainController.$inject = ['authService', '$cookies', '$rootScope', '$location', 'globalVars'];
+function MainController(authService, $cookies, $rootScope, $location, globalVars) {
 
     var $ctrl = this;
 
-    $ctrl.themes = [
-        {name: 'primary', val: 'Dark blue'},
-        {name: 'success', val: 'Green'},
-        {name: 'info', val: 'Blue'},
-        {name: 'warning', val:'Yellow'},
-        {name: 'danger', val: 'Red'},
-        {name: 'grey', val: 'Grey'},
-        {name: 'codeit', val:'CodeIT'},
-        {name: 'dark-red', val: 'Dark red'}
-    ];
-
+    $ctrl.globalVars = globalVars.data;
     $ctrl.location = $location.path();
     $ctrl.logout = function () {
         authService.logout().then(function (response) {
