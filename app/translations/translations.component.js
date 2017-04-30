@@ -5,11 +5,12 @@ angular
         templateUrl: '/app/translations/translations.component.tmpl.html'
     });
 
-TranslationsController.$inject = ['translationService'];
-function TranslationsController(translationService) {
+TranslationsController.$inject = ['translationService', 'globalVars'];
+function TranslationsController(translationService, globalVars) {
 
     var $ctrl = this;
 
+    $ctrl.globalVars = globalVars.data;
     $ctrl.curLang = 'eng';
     $ctrl.pageWords = {};
     $ctrl.switch = switchLang;

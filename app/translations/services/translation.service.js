@@ -5,17 +5,17 @@ angular
 translationService.$inject = ['$http', '$q', 'storageService'];
 function translationService($http, $q, storageService) {
 
-    var options = {
+    let options = {
         method: 'GET',
         url: 'http://dcodeit.net/angularTest/translation.php'
     };
 
-    var self = this;
+    let self = this;
 
     init();
 
     self.getLangs = function () {
-        var langs = ['eng', 'rus', 'de', 'no', 'it', 'sv'];
+        let langs = ['eng', 'rus', 'de', 'no', 'it', 'sv'];
 
         return $q(function (resolve, reject) {
             resolve(langs);

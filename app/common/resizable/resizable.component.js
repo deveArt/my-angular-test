@@ -34,7 +34,7 @@ function ResizableController($element, $document, geometryService) {
                 return;
             }
 
-            var css = {
+            let css = {
                 width: e.pageX + $ctrl.stWidth - $ctrl.cornerSX + 'px',
                 height: e.pageY + $ctrl.stHeight - $ctrl.cornerSY + 'px'
             };
@@ -56,12 +56,12 @@ function ResizableController($element, $document, geometryService) {
      */
     function showControls(e) {
 
-        var overlayElement = angular.element('<div class="resize-control" data-mode="resize-corner"></div>');
+        let overlayElement = angular.element('<div class="resize-control" data-mode="resize-corner"></div>');
 
         overlayElement.on('mousedown', function (event) {
             $ctrl.active = true;
 
-            var position = geometryService.getCoords($ctrl._elem);
+            let position = geometryService.getCoords($ctrl._elem);
 
             $ctrl.stWidth = position.width;
             $ctrl.stHeight = position.height;
@@ -81,7 +81,7 @@ function ResizableController($element, $document, geometryService) {
      * Remove resize controls
      */
     function removeControls() {
-        var resizeElements = document.getElementsByClassName('resize-control');
+        let resizeElements = document.getElementsByClassName('resize-control');
         angular.element(resizeElements).remove();
     }
 

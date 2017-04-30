@@ -5,10 +5,10 @@ angular
         templateUrl: '/app/users/users.component.tmpl.html'
     });
 
-UsersController.$inject = ['storageService', '$stateParams', '$state'];
-function UsersController(storageService, $stateParams, $state) {
+UsersController.$inject = ['storageService', '$stateParams', '$state', 'globalVars'];
+function UsersController(storageService, $stateParams, $state, globalVars) {
 
-    var defaultUsers = [
+    let defaultUsers = [
         {
             username: 'Sam',
             email: 'samuel33@gmail.com',
@@ -30,6 +30,8 @@ function UsersController(storageService, $stateParams, $state) {
     ];
 
     var $ctrl = this;
+
+    $ctrl.globalVars = globalVars.data;
     $ctrl.data = {};
     $ctrl.pwdRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[$@!%*#?&])[A-Za-z\d$@!%*#?&]+$/;
     $ctrl.submit = submit;

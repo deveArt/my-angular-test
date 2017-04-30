@@ -1,5 +1,5 @@
 angular
-    .module('app.notes')
+    .module('app.common')
     .component('dndZone', {
         controller: DndZoneController,
         bindings: {
@@ -26,8 +26,8 @@ function DndZoneController($document, $element, geometryService) {
     $ctrl.$postLink = init;
 
     $ctrl.highlight = function() {
-        var overlayData = $element[0].getBoundingClientRect();
-        var overlayElement = angular.element('<div id="dnd-overlay"></div>').css({
+        let overlayData = $element[0].getBoundingClientRect();
+        let overlayElement = angular.element('<div id="dnd-overlay"></div>').css({
             'background-color': '#7FFFD4',
             opacity: 0.5,
             position: 'absolute',
@@ -39,7 +39,7 @@ function DndZoneController($document, $element, geometryService) {
     };
 
     $ctrl.nolight = function() {
-        var overlayElement = document.getElementById('dnd-overlay');
+        let overlayElement = document.getElementById('dnd-overlay');
         angular.element(overlayElement).remove();
     };
 
@@ -77,7 +77,7 @@ function DndZoneController($document, $element, geometryService) {
 
             onDragMove(e);
 
-            var newDropTarget = findDropTarget();
+            let newDropTarget = findDropTarget();
 
             if (newDropTarget != $ctrl._dropTarget) {
                 $ctrl._dropTarget && angular.element($ctrl._dropTarget).triggerHandler('dragleave');
@@ -121,7 +121,7 @@ function DndZoneController($document, $element, geometryService) {
 
         $ctrl.old.parent.insertBefore($ctrl._elem, $ctrl.old.nextSibling);
 
-        var coords = geometryService.getCoords($ctrl.old.parent);
+        let coords = geometryService.getCoords($ctrl.old.parent);
         $ctrl._elem.style.position = $ctrl.old.position;
         $ctrl._elem.style.left = $ctrl.old.left - coords.left - $ctrl._margin + 'px';
         $ctrl._elem.style.top = $ctrl.old.top - coords.top - $ctrl._margin + 'px';
@@ -144,15 +144,15 @@ function DndZoneController($document, $element, geometryService) {
         if ($ctrl._dropTarget.mode === 'trash') {
             angular.element($ctrl._elem).remove();
         } else {
-            var coordsEl = geometryService.getCoords($ctrl._elem);
-            var coordsZone = geometryService.getCoords($ctrl._dropTarget);
-            var diffLeft = coordsZone.left - coordsEl.left + 10;
-            var diffTop = coordsZone.top - coordsEl.top + 10;
-            var diffRight = coordsZone.right - coordsEl.right - 10;
-            var diffBottom = coordsZone.bottom - coordsEl.bottom - 10;
+            let coordsEl = geometryService.getCoords($ctrl._elem);
+            let coordsZone = geometryService.getCoords($ctrl._dropTarget);
+            let diffLeft = coordsZone.left - coordsEl.left + 10;
+            let diffTop = coordsZone.top - coordsEl.top + 10;
+            let diffRight = coordsZone.right - coordsEl.right - 10;
+            let diffBottom = coordsZone.bottom - coordsEl.bottom - 10;
 
-            var left = $ctrl._elemX - coordsZone.left - $ctrl._margin;
-            var top = $ctrl._elemY - coordsZone.top - $ctrl._margin;
+            let left = $ctrl._elemX - coordsZone.left - $ctrl._margin;
+            let top = $ctrl._elemY - coordsZone.top - $ctrl._margin;
 
             if (coordsZone.left > coordsEl.left) {
                 left += diffLeft;
@@ -192,7 +192,7 @@ function DndZoneController($document, $element, geometryService) {
         $ctrl._elem = $ctrl.dragTarget.dragElement[0];
         $ctrl._margin = parseInt(getComputedStyle($ctrl._elem, null).getPropertyValue('margin'));
 
-        var coords = geometryService.getCoords($ctrl._elem);
+        let coords = geometryService.getCoords($ctrl._elem);
         $ctrl._shiftX = $ctrl.dragTarget.startX - coords.left;
         $ctrl._shiftY = $ctrl.dragTarget.startY - coords.top;
 
@@ -241,7 +241,7 @@ function DndZoneController($document, $element, geometryService) {
             return null;
         }
 
-        var elem = $ctrl._currentTargetElem;
+        let elem = $ctrl._currentTargetElem;
 
         while (elem != document && elem.mode !== 'drop' && elem.mode !== 'trash') {
             elem = elem.parentNode;

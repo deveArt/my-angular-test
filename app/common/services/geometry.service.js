@@ -9,21 +9,21 @@ function geometryService() {
     *
     **/
     this.getCoords = function(elem) {
-        var box = elem.getBoundingClientRect();
+        let box = elem.getBoundingClientRect();
 
-        var body = document.body;
-        var docEl = document.documentElement;
+        let body = document.body;
+        let docEl = document.documentElement;
 
-        var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
-        var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+        let scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+        let scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
 
-        var clientTop = docEl.clientTop || body.clientTop || 0;
-        var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+        let clientTop = docEl.clientTop || body.clientTop || 0;
+        let clientLeft = docEl.clientLeft || body.clientLeft || 0;
 
-        var top  = box.top + scrollTop - clientTop;
-        var left = box.left + scrollLeft - clientLeft;
-        var right = box.right + scrollLeft - clientLeft;
-        var bottom = box.bottom + scrollTop - clientTop;
+        let top  = box.top + scrollTop - clientTop;
+        let left = box.left + scrollLeft - clientLeft;
+        let right = box.right + scrollLeft - clientLeft;
+        let bottom = box.bottom + scrollTop - clientTop;
 
         return {
             top: Math.round(top),
@@ -40,10 +40,10 @@ function geometryService() {
     *
     **/
     this.getElementUnderClientXY = function(elem, clientX, clientY) {
-        var display = elem.style.display || '';
+        let display = elem.style.display || '';
         elem.style.display = 'none';
 
-        var target = document.elementFromPoint(clientX, clientY);
+        let target = document.elementFromPoint(clientX, clientY);
 
         elem.style.display = display;
 

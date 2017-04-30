@@ -5,10 +5,12 @@ angular
         templateUrl: '/app/auth/login/login.component.tmpl.html'
     });
 
-LoginController.$inject = ['authService', '$cookies', '$rootScope', '$location'];
-function LoginController(authService, $cookies, $rootScope, $location) {
+LoginController.$inject = ['authService', '$cookies', '$rootScope', '$location', 'globalVars'];
+function LoginController(authService, $cookies, $rootScope, $location, globalVars) {
 
     var $ctrl = this;
+
+    $ctrl.globalVars = globalVars.data;
     $ctrl.data = {};
     $ctrl.data.rememberMe = true;
 
@@ -24,8 +26,8 @@ function LoginController(authService, $cookies, $rootScope, $location) {
                 $location.path("/translations");
             }
 
-            for (var i in $ctrl.loginForm.$$controls) {
-                var control = $ctrl.loginForm.$$controls[i];
+            for (let i in $ctrl.loginForm.$$controls) {
+                let control = $ctrl.loginForm.$$controls[i];
 
                 if ($ctrl.formErrors[control.$name]) {
                     control.$setValidity(control.$name, false);

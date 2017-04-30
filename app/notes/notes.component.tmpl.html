@@ -13,16 +13,16 @@
                         <div class="input-group input-group-md">
 
                             <span class="input-group-btn">
-                                <button class="super-btn btn btn-default btn-md btn-{{color}}" type="submit">
+                                <button class="super-btn btn btn-default btn-md btn-{{$ctrl.globalVars.color}}" type="submit">
                                     <span>Add</span>
                                 </button>
-                                <!--<button type="submit" class="btn btn-lg btn-{{color}}">Add</button>-->
+                                <!--<button type="submit" class="btn btn-lg btn-{{$ctrl.globalVars.color}}">Add</button>-->
                             </span>
 
                             <input id="text" ng-model="$ctrl.text" type="text" class="form-control input-md" name="text" value="" required placeholder="Note text...">
 
                             <span class="input-group-btn">
-                                <a href="" class="super-btn btn btn-default btn-md btn-{{color}}"
+                                <a href="" class="super-btn btn btn-default btn-md btn-{{$ctrl.globalVars.color}}"
                                    ng-class="{'active': $ctrl.resizeMode}"
                                    ng-click="$ctrl.toggleResize()">
                                     Resize mode

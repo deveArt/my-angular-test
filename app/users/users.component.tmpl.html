@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-            <div class="panel panel-{{color}}">
+            <div class="panel panel-{{$ctrl.globalVars.color}}">
                 <div class="panel-heading">
                     <div class="panel-title">Users management</div>
                 </div>
@@ -100,13 +100,13 @@
                 <div style="margin-top:10px" class="form-group">
                     <!-- Button -->
                     <div class="col-md-4 controls">
-                        <button form="usersForm" ng-disabled="$ctrl.usersForm.$invalid || $ctrl.userId" id="btn-add" type="submit" class="btn btn-{{color}}">Add</button>
+                        <button form="usersForm" ng-disabled="$ctrl.usersForm.$invalid || $ctrl.userId" id="btn-add" type="submit" class="btn btn-{{$ctrl.globalVars.color}}">Add</button>
                     </div>
                     <div class="col-md-4 controls">
-                        <button form="usersForm" ng-disabled="$ctrl.usersForm.$invalid || !$ctrl.userId" id="btn-edit" type="submit" class="btn btn-{{color}}">Edit</button>
+                        <button form="usersForm" ng-disabled="$ctrl.usersForm.$invalid || !$ctrl.userId" id="btn-edit" type="submit" class="btn btn-{{$ctrl.globalVars.color}}">Edit</button>
                     </div>
                     <div class="col-md-4 controls">
-                        <button form="usersForm" ng-click="$ctrl.selectUser(null)" ng-show="$ctrl.userId !== null" id="btn-cancel" class="btn btn-{{color}}">Cancel</button>
+                        <button form="usersForm" ng-click="$ctrl.selectUser(null)" ng-show="$ctrl.userId !== null" id="btn-cancel" class="btn btn-{{$ctrl.globalVars.color}}">Cancel</button>
                     </div>
                 </div>
             </form>

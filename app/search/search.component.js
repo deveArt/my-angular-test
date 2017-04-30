@@ -5,13 +5,14 @@ angular
         templateUrl: '/app/search/search.component.tmpl.html'
     });
 
-SearchController.$inject = ['$http'];
-function SearchController($http) {
+SearchController.$inject = ['$http', 'globalVars'];
+function SearchController($http, globalVars) {
 
     const listUrl = 'http://dcodeit.net/angularTest/data.json';
 
     var $ctrl = this;
 
+    $ctrl.globalVars = globalVars.data;
     $ctrl.data = [];
     $ctrl.searchWord = '';
     $ctrl.curFields = {

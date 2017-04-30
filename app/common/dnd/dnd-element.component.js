@@ -1,5 +1,5 @@
 angular
-    .module('app.notes')
+    .module('app.common')
     .component('dndElement', {
         controller: DndElementController,
         require: {

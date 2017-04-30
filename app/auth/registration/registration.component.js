@@ -4,10 +4,12 @@ angular.module('app.auth')
         templateUrl: '/app/auth/registration/registration.component.tmpl.html'
     });
 
-RegistrationController.$inject = ['authService'];
-function RegistrationController(authService) {
+RegistrationController.$inject = ['authService', 'globalVars'];
+function RegistrationController(authService, globalVars) {
 
     var $ctrl = this;
+
+    $ctrl.globalVars = globalVars.data;
     $ctrl.data = {};
     $ctrl.pwdRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[$@!%*#?&])[A-Za-z\d$@!%*#?&]+$/;
 

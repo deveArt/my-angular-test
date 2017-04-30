@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="panel panel-{{color}} search-panel">
+    <div class="panel panel-{{$ctrl.globalVars.color}} search-panel">
         <div class="panel-heading">
             <div class="panel-title">Search page</div>
         </div>
@@ -8,13 +8,13 @@
                 <div class="row">
                     <div class="col-md-7"><label for="srch-word"><h4>Search word</h4></label></div>
                     <div class="col-md-5">
-                        <button class="btn btn-{{color}} srch-input" ng-class="{'active': $ctrl.curFields.Name}" ng-click="$ctrl.curFields.Name = !$ctrl.curFields.Name">
+                        <button class="btn btn-{{$ctrl.globalVars.color}} srch-input" ng-class="{'active': $ctrl.curFields.Name}" ng-click="$ctrl.curFields.Name = !$ctrl.curFields.Name">
                             By name
                         </button>
-                        <button class="btn btn-{{color}} srch-input" ng-class="{'active': $ctrl.curFields.Type}" ng-click="$ctrl.curFields.Type = !$ctrl.curFields.Type">
+                        <button class="btn btn-{{$ctrl.globalVars.color}} srch-input" ng-class="{'active': $ctrl.curFields.Type}" ng-click="$ctrl.curFields.Type = !$ctrl.curFields.Type">
                             By type
                         </button>
-                        <button class="btn btn-{{color}} srch-input" ng-class="{'active': $ctrl.curFields['Designed by']}" ng-click="$ctrl.curFields['Designed by'] = !$ctrl.curFields['Designed by']">
+                        <button class="btn btn-{{$ctrl.globalVars.color}} srch-input" ng-class="{'active': $ctrl.curFields['Designed by']}" ng-click="$ctrl.curFields['Designed by'] = !$ctrl.curFields['Designed by']">
                             By designer
                         </button>
                     </div>
