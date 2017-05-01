@@ -82,6 +82,8 @@
                     <div ng-show="$ctrl.usersForm.newpasswordrepeat.$dirty" ng-messages="$ctrl.usersForm.newpasswordrepeat.$error">
                         <p class="text-danger" ng-message="pwdmatch">Passwords must be equal</p>
                     </div>
+                    {{$ctrl.data}}
+                    <password-confirm password="$ctrl.data.newpassword"></password-confirm>
                 </div>
 
                 <div style="margin-bottom: 25px" class="form-group"
