@@ -71,20 +71,7 @@
                     </div>
                 </div>
 
-                <div style="margin-bottom: 25px" class="form-group"
-                     ng-if="$ctrl.userId !== null"
-                     ng-class="{'has-error': $ctrl.usersForm.newpasswordrepeat.$invalid && $ctrl.usersForm.newpasswordrepeat.$dirty,
-                                'has-success': $ctrl.usersForm.newpasswordrepeat.$valid}">
-                    <label for="registration-newpasswordrepeat">Repeat new password</label>
-                    <input id="registration-newpasswordrepeat" type="password" class="form-control" name="newpasswordrepeat" placeholder="newpasswordrepeat"
-                           ng-model="$ctrl.data.newpasswordrepeat"
-                           pwd-dir="$ctrl.data.newpassword">
-                    <div ng-show="$ctrl.usersForm.newpasswordrepeat.$dirty" ng-messages="$ctrl.usersForm.newpasswordrepeat.$error">
-                        <p class="text-danger" ng-message="pwdmatch">Passwords must be equal</p>
-                    </div>
-                    {{$ctrl.data}}
-                    <password-confirm password="$ctrl.data.newpassword"></password-confirm>
-                </div>
+                <password-confirm style="margin-bottom: 25px" ng-if="$ctrl.userId !== null" password="$ctrl.data.newpassword"></password-confirm>
 
                 <div style="margin-bottom: 25px" class="form-group"
                      ng-class="{'has-error': $ctrl.usersForm.country.$invalid && $ctrl.usersForm.country.$dirty,
