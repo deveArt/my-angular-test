@@ -1,27 +1,26 @@
-
 .panel-grey {
   border-color: #cecdc5;
-}
-.panel-grey>.panel-heading {
-  color: #494b4a;
-  background-color: #babfb6;
-  border-color: #e4e9e6;
+  >.panel-heading {
+    color: #494b4a;
+    background-color: #babfb6;
+    border-color: #e4e9e6;
+  }
 }
 
 .panel-dark-red {
   border-color: #ce141c;
-}
-.panel-dark-red>.panel-heading {
-  color: #a9151f;
-  background-color: #b1b4ad;
-  border-color: #a58d8d;
+  >.panel-heading {
+    color: #a9151f;
+    background-color: #b1b4ad;
+    border-color: #a58d8d;
+  }
 }
 
 .panel-codeit {
   border-color: #2c3e50;
-}
-.panel-codeit>.panel-heading {
-  color: #ffffff;
-  background-color: #e74c3c;
-  border-color: #2c3e50;
+  >.panel-heading {
+    color: #ffffff;
+    background-color: #e74c3c;
+    border-color: #2c3e50;
+  }
 }
