@@ -4,10 +4,10 @@ angular
 
 function storageService() {
 
-    var self = this;
+    let self = this;
 
     self.getLocal = function(key) {
-        var item = localStorage.getItem(key);
+        let item = localStorage.getItem(key);
         return (item ? JSON.parse(item) : null);
     };
 

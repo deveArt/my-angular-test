@@ -5,12 +5,13 @@ angular
         templateUrl: '/app/notes/notes.component.tmpl.html'
     });
 
-NotesController.$inject = ['$scope', '$compile', 'geometryService'];
-function NotesController($scope, $compile, geometryService) {
+NotesController.$inject = ['$scope', '$compile', 'geometryService', 'globalVars'];
+function NotesController($scope, $compile, geometryService, globalVars) {
 
 	var $ctrl = this;
 
 	const ncount_max = 10;
+	$ctrl.globalVars = globalVars.data;
 	$ctrl.ncount = 0;
 	$ctrl.number = 0;
 	$ctrl.text = '';
@@ -25,9 +26,9 @@ function NotesController($scope, $compile, geometryService) {
 		}
 
 		$ctrl.number ++;
-		var subject = 'Note #'+ $ctrl.number;
-		var dragZone = document.getElementById('dragZone');
-		var dragEl = angular.element(
+		let subject = 'Note #'+ $ctrl.number;
+		let dragZone = document.getElementById('dragZone');
+		let dragEl = angular.element(
 			'<dnd-element>' +
 				'<p><b>'+subject+'</b></p>' +
 				'<p>'+$ctrl.text+'</p>' +
@@ -36,7 +37,7 @@ function NotesController($scope, $compile, geometryService) {
 
 		angular.element(dragZone).append(dragEl);
 
-		var newScope = $scope.$new(true);
+		let newScope = $scope.$new(true);
 		$compile(dragEl)(newScope);
 
 		dragEl.on('$destroy', function () {
@@ -49,25 +50,25 @@ function NotesController($scope, $compile, geometryService) {
 
 	$ctrl.makeResizable = function() {
 
-		var elems = angular.element(document.querySelectorAll(':not(resizable) > dnd-element'));
+		let elems = angular.element(document.querySelectorAll(':not(resizable) > dnd-element'));
 
-		angular.forEach(elems, function (el, key) {
-			var _el = el;
-			var el = angular.element(el);
+		angular.forEach(elems, function (domEl, key) {
+			let _el = domEl;
+			let el = angular.element(domEl);
 
 			if (_el.parentNode.mode !== 'drop') {
 				return;
 			}
 
-			var dragZone = el.parent();
-			var resizeEl = angular.element(
+			let dragZone = el.parent();
+			let resizeEl = angular.element(
 				'<resizable>' +
 				'</resizable>'
 			);
 
-			var position = geometryService.getCoords(_el);
+			let position = geometryService.getCoords(_el);
 
-			var newEl = el.clone();
+			let newEl = el.clone();
 			dragZone.append(resizeEl);
 			resizeEl.css({
 				position: el.css('position'),
@@ -75,7 +76,7 @@ function NotesController($scope, $compile, geometryService) {
 				top: el.css('top'),
 				zIndex: el.css('z-index'),
 				width: position.width + 'px',
-				height: position.height + 'px',
+				height: position.height + 'px'
 			});
 
 			el.remove();
@@ -88,7 +89,7 @@ function NotesController($scope, $compile, geometryService) {
 
 			resizeEl.append(newEl);
 
-			var newScope = $scope.$new(true);
+			let newScope = $scope.$new(true);
 			$compile(resizeEl)(newScope);
 
 			resizeEl.on('$destroy', function () {
@@ -101,18 +102,18 @@ function NotesController($scope, $compile, geometryService) {
 
 	$ctrl.removeResizable = function () {
 
-		var elems = angular.element(document).find('resizable');
+		let elems = angular.element(document).find('resizable');
 
-		angular.forEach(elems, function (el, key) {
-			var el = angular.element(el);
-			var dragZone = el.parent();
+		angular.forEach(elems, function (domEl, key) {
+			let el = angular.element(domEl);
+			let dragZone = el.parent();
 
-			var _dndEl = el.find('dnd-element');
+			let _dndEl = el.find('dnd-element');
 
 			el.remove();
 
 			if ( _dndEl.length > 0 ) {
-				var elCss = {
+				let elCss = {
 					position: el.css('position'),
 					left: el.css('left'),
 					top: el.css('top'),
@@ -121,12 +122,12 @@ function NotesController($scope, $compile, geometryService) {
 					height: _dndEl.css('height')
 				};
 
-				var dndEl = _dndEl.clone();
+				let dndEl = _dndEl.clone();
 				dndEl.css(elCss);
 
 				dragZone.append(dndEl);
 
-				var newScope = $scope.$new(true);
+				let newScope = $scope.$new(true);
 				$compile(dndEl)(newScope);
 
 				dndEl.on('$destroy', function () {
@@ -144,7 +145,7 @@ function NotesController($scope, $compile, geometryService) {
 			return;
 		}
 
-		var elems = angular.element(document.querySelectorAll('resizable:empty'));
+		let elems = angular.element(document.querySelectorAll('resizable:empty'));
 		elems.remove();
 
 		$ctrl.makeResizable();

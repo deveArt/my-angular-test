@@ -47,7 +47,7 @@ function MyClickOutController($window, $element, $scope) {
      * @return {Object} Contains the top and left properties of an element for the entire page.
      */
     function getAbsoluteTopLeft(ele) {
-        var box = ele.getBoundingClientRect();
+        let box = ele.getBoundingClientRect();
 
         // Math.round because it is actually possible to get fractional pixels.
         return {
@@ -65,7 +65,7 @@ function MyClickOutController($window, $element, $scope) {
      * @return {Boolean} If the pointer is in the given element.
      */
     function collisionOnPoint(ele, pointer) {
-        var bounds = getAbsoluteTopLeft(ele),
+        let bounds = getAbsoluteTopLeft(ele),
             leftEdge = bounds.left,
             topEdge = bounds.top,
             bottomEdge = topEdge + ele.offsetHeight,
@@ -103,9 +103,9 @@ function MyClickOutController($window, $element, $scope) {
             $ctrl.selectors = [ $ctrl.selectors ];
         }
 
-        var container = [];
+        let container = [];
         $ctrl.selectors.forEach(function (sel) {
-            var match = $element.parent().find(sel);
+            let match = $element.parent().find(sel);
 
             angular.forEach(match, function (subEl) {
                 container.push(subEl);
@@ -118,7 +118,7 @@ function MyClickOutController($window, $element, $scope) {
             return null;
         }
 
-        var res = [];
+        let res = [];
         container.forEach(function (el) {
             res.push(collisionOnPoint(el, e));
         });

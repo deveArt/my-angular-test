@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-            <div class="panel panel-{{color}}">
+            <div class="panel panel-{{$ctrl.globalVars.color}}">
                 <div class="panel-heading">
                     <div class="panel-title">Users management</div>
                 </div>
@@ -71,18 +71,7 @@
                     </div>
                 </div>
 
-                <div class="form-group inputArea"
-                     ng-if="$ctrl.userId !== null"
-                     ng-class="{'has-error': $ctrl.usersForm.newpasswordrepeat.$invalid && $ctrl.usersForm.newpasswordrepeat.$dirty,
-                                'has-success': $ctrl.usersForm.newpasswordrepeat.$valid}">
-                    <label for="registration-newpasswordrepeat">Repeat new password</label>
-                    <input id="registration-newpasswordrepeat" type="password" class="form-control" name="newpasswordrepeat" placeholder="newpasswordrepeat"
-                           ng-model="$ctrl.data.newpasswordrepeat"
-                           pwd-dir="$ctrl.data.newpassword">
-                    <div ng-show="$ctrl.usersForm.newpasswordrepeat.$dirty" ng-messages="$ctrl.usersForm.newpasswordrepeat.$error">
-                        <p class="text-danger" ng-message="pwdmatch">Passwords must be equal</p>
-                    </div>
-                </div>
+                <password-confirm ng-if="$ctrl.userId !== null" password="$ctrl.data.newpassword"></password-confirm>
 
                 <div class="form-group inputArea"
                      ng-class="{'has-error': $ctrl.usersForm.country.$invalid && $ctrl.usersForm.country.$dirty,
@@ -100,13 +89,13 @@
                 <div class="form-group submitArea">
                     <!-- Button -->
                     <div class="col-md-4 controls">
-                        <button form="usersForm" ng-disabled="$ctrl.usersForm.$invalid || $ctrl.userId" id="btn-add" type="submit" class="btn btn-{{color}}">Add</button>
+                        <button form="usersForm" ng-disabled="$ctrl.usersForm.$invalid || $ctrl.userId" id="btn-add" type="submit" class="btn btn-{{$ctrl.globalVars.color}}">Add</button>
                     </div>
                     <div class="col-md-4 controls">
-                        <button form="usersForm" ng-disabled="$ctrl.usersForm.$invalid || !$ctrl.userId" id="btn-edit" type="submit" class="btn btn-{{color}}">Edit</button>
+                        <button form="usersForm" ng-disabled="$ctrl.usersForm.$invalid || !$ctrl.userId" id="btn-edit" type="submit" class="btn btn-{{$ctrl.globalVars.color}}">Edit</button>
                     </div>
                     <div class="col-md-4 controls">
-                        <button form="usersForm" ng-click="$ctrl.selectUser(null)" ng-show="$ctrl.userId !== null" id="btn-cancel" class="btn btn-{{color}}">Cancel</button>
+                        <button form="usersForm" ng-click="$ctrl.selectUser(null)" ng-show="$ctrl.userId !== null" id="btn-cancel" class="btn btn-{{$ctrl.globalVars.color}}">Cancel</button>
                     </div>
                 </div>
             </form>

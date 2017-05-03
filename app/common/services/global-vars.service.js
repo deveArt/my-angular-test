@@ -4,9 +4,9 @@ angular
 
 function globalVars() {
 
-    var self = this;
+    let self = this;
 
-    var vars = {};
+    let vars = {};
 
     self.getVar = getVar;
     self.setVar = setVar;

@@ -13,7 +13,7 @@ function routerHelperProvider($locationProvider, $stateProvider, $urlRouterProvi
 	RouterHelper.$inject = ['$state'];
 	/* @ngInject */
 	function RouterHelper($state) {
-		var hasOtherwise = false;
+		let hasOtherwise = false;
 
 		return {
 			configureStates: configureStates,
