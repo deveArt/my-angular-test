@@ -2,6 +2,7 @@ angular
     .module('app.common')
     .component('dndZone', {
         controller: DndZoneController,
+        template: '{{$ctrl.overlay}}<div id="dnd-overlay" ng-show="$ctrl.overlay"></div><button ng-click="$ctrl.highlight()">blabla</button>',
         bindings: {
             mode: '@',
             onStart: '&',
@@ -22,33 +23,23 @@ function DndZoneController($document, $element, geometryService) {
     var $ctrl = this;
     $ctrl.dragTarget = null;
     $ctrl._elem = null;
+    $ctrl.overlay = false;
 
     $ctrl.$postLink = init;
 
     $ctrl.highlight = function() {
-        let overlayData = $element[0].getBoundingClientRect();
-        let overlayElement = angular.element('<div id="dnd-overlay"></div>').css({
-            'background-color': '#7FFFD4',
-            opacity: 0.5,
-            position: 'absolute',
-            width: overlayData.width + 'px',
-            height: overlayData.height + 'px'
-        });
-
-        $element.append(overlayElement);
+        $ctrl.overlay = true;
     };
 
     $ctrl.nolight = function() {
-        let overlayElement = document.getElementById('dnd-overlay');
-        angular.element(overlayElement).remove();
+        $ctrl.overlay = false;
     };
 
-	   /**
+	/**
      * Main setup listeners
      */
     function init() {
         $element[0].mode = $ctrl.mode;
-        window.myEl = $element;
 
         if ($ctrl.mode !== 'drag') {
             $element.on('dropready', function (e) {

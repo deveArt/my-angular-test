@@ -8,11 +8,11 @@ const webserver = require('gulp-webserver');
 const del = require('del');
 
 gulp.task('clean', function() {
-    return del();
+    return del(['public/']);
 });
 
 gulp.task('sass', function () {
-    return gulp.src('app/assets/scss/**/*.scss', {base: 'app/assets/scss'})
+    return gulp.src(['app/assets/scss/**/*.scss', 'app/**/*.scss'])
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(sourcemaps.write())
@@ -51,7 +51,7 @@ gulp.task('webserver', function() {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('app/assets/scss/**/*.scss', gulp.series('sass'));
+    gulp.watch(['app/assets/scss/**/*.scss', 'app/**/*.scss'], gulp.series('sass'));
     gulp.watch(['*.html', 'app/**/*.html', 'app/**/*.js'], gulp.series('concat'));
 });
 
