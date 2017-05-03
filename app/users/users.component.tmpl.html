@@ -16,7 +16,7 @@
         </div>
         <div class="col-md-6 col-md-offset-2">
             <form id="usersForm" name="$ctrl.usersForm" class="form-horizontal" ng-submit="$ctrl.submit($ctrl.userId)" role="form" novalidate>
-                <div style="margin-bottom: 25px" class="form-group"
+                <div class="form-group inputArea"
                      ng-class="{'has-error': $ctrl.usersForm.email.$invalid && $ctrl.usersForm.email.$dirty,
                                 'has-success': $ctrl.usersForm.email.$valid}">
                     <label for="registration-email">Email</label>
@@ -27,7 +27,7 @@
                     </div>
                 </div>
 
-                <div style="margin-bottom: 25px" class="form-group"
+                <div class="form-group inputArea"
                      ng-class="{'has-error': $ctrl.usersForm.username.$invalid && $ctrl.usersForm.username.$dirty,
                                 'has-success': $ctrl.usersForm.username.$valid}">
                     <label for="registration-username">User name</label>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
 
-                <div style="margin-bottom: 25px" class="form-group"
+                <div class="form-group inputArea"
                      ng-if="$ctrl.userId === null"
                      ng-class="{'has-error': $ctrl.usersForm.password.$invalid && $ctrl.usersForm.password.$dirty,
                                 'has-success': $ctrl.usersForm.password.$valid}">
@@ -56,7 +56,7 @@
                     </div>
                 </div>
 
-                <div style="margin-bottom: 25px" class="form-group"
+                <div class="form-group inputArea"
                      ng-if="$ctrl.userId !== null"
                      ng-class="{'has-error': $ctrl.usersForm.newpassword.$invalid && $ctrl.usersForm.newpassword.$dirty,
                                 'has-success': $ctrl.usersForm.newpassword.$valid}">
@@ -71,7 +71,7 @@
                     </div>
                 </div>
 
-                <div style="margin-bottom: 25px" class="form-group"
+                <div class="form-group inputArea"
                      ng-if="$ctrl.userId !== null"
                      ng-class="{'has-error': $ctrl.usersForm.newpasswordrepeat.$invalid && $ctrl.usersForm.newpasswordrepeat.$dirty,
                                 'has-success': $ctrl.usersForm.newpasswordrepeat.$valid}">
@@ -84,7 +84,7 @@
                     </div>
                 </div>
 
-                <div style="margin-bottom: 25px" class="form-group"
+                <div class="form-group inputArea"
                      ng-class="{'has-error': $ctrl.usersForm.country.$invalid && $ctrl.usersForm.country.$dirty,
                                 'has-success': $ctrl.usersForm.country.$valid}">
                     <label for="registration-country">Country</label>
@@ -97,7 +97,7 @@
                     </div>
                 </div>
 
-                <div style="margin-top:10px" class="form-group">
+                <div class="form-group submitArea">
                     <!-- Button -->
                     <div class="col-md-4 controls">
                         <button form="usersForm" ng-disabled="$ctrl.usersForm.$invalid || $ctrl.userId" id="btn-add" type="submit" class="btn btn-{{color}}">Add</button>

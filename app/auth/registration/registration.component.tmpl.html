@@ -1,13 +1,14 @@
+<link type="text/css" rel="stylesheet" href="public/css/auth/auth.css"/>
 <div class="container">
-    <div id="registrationbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3">
+    <div id="authBox" class="mainbox col-md-6 col-md-offset-3">
         <div class="panel panel-{{color}}" >
             <div class="panel-heading">
                 <div class="panel-title">Sign Up</div>
             </div>
-            <div style="padding-top:30px" class="panel-body" >
+            <div class="panel-body authBody">
 
                 <form id="registrationForm" name="$ctrl.registrationForm" class="form-horizontal" ng-submit="$ctrl.submit()" role="form" novalidate>
-                    <div style="margin-bottom: 25px" class="form-group"
+                    <div class="form-group inputArea"
                         ng-class="{'has-error': $ctrl.registrationForm.email.$invalid && $ctrl.registrationForm.email.$dirty,
                                    'has-success': $ctrl.registrationForm.email.$valid}">
                         <label for="registration-email">Email</label>
@@ -18,7 +19,7 @@
                         </div>
                     </div>
 
-                    <div style="margin-bottom: 25px" class="form-group"
+                    <div class="form-group inputArea"
                          ng-class="{'has-error': $ctrl.registrationForm.username.$invalid && $ctrl.registrationForm.username.$dirty,
                                    'has-success': $ctrl.registrationForm.username.$valid}">
                         <label for="registration-username">User name</label>
@@ -31,7 +32,7 @@
                         </div>
                     </div>
 
-                    <div style="margin-bottom: 25px" class="form-group"
+                    <div class="form-group inputArea"
                         ng-class="{'has-error': $ctrl.registrationForm.password.$invalid && $ctrl.registrationForm.password.$dirty,
                                    'has-success': $ctrl.registrationForm.password.$valid}">
                         <label for="registration-password">Password</label>
@@ -46,7 +47,7 @@
                         </div>
                     </div>
 
-                    <div style="margin-bottom: 25px" class="form-group"
+                    <div class="form-group inputArea"
                          ng-class="{'has-error': $ctrl.registrationForm.age.$invalid && $ctrl.registrationForm.age.$dirty,
                                    'has-success': $ctrl.registrationForm.age.$valid}">
                         <label for="registration-age">Age</label>
@@ -61,7 +62,7 @@
                         </div>
                     </div>
 
-                    <div style="margin-top:10px" class="form-group">
+                    <div class="form-group submitArea">
                         <!-- Button -->
                         <div class="col-sm-12 controls">
                             <input ng-disabled="$ctrl.registrationForm.$invalid" id="btn-registration" type="submit" href="#" class="btn btn-default">
@@ -69,7 +70,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-12 control">
-                            <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+                            <div id="signUpBtn">
                                 Already have an account?
                                 <a href="login">
                                     Sign in.

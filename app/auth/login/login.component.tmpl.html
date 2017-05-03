@@ -1,11 +1,11 @@
-<link type="text/css" rel="stylesheet" href="public/css/auth/login/login.css"/>
+<link type="text/css" rel="stylesheet" href="public/css/auth/auth.css"/>
 <div class="container">
-    <div id="loginBox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    <div id="authBox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
         <div class="panel panel-{{color}}">
             <div class="panel-heading">
                 <div class="panel-title">Sign In</div>
             </div>
-            <div class="panel-body loginBody" >
+            <div class="panel-body authBody" >
                 <div id="login-alert" class="alert alert-danger col-sm-12" ng-show="$ctrl.formErrors.main">
                     <p ng-repeat="errorMessage in $ctrl.formErrors.main">{{errorMessage}}</p>
                 </div>
@@ -28,7 +28,7 @@
                     <div data-ng-cloak="">
                         <p class="text-danger" ng-repeat="errorMessage in $ctrl.formErrors.password">{{errorMessage}}</p>
                     </div>
-                    <div class="input-group">
+                    <div class="input-group inputArea">
                         <div class="checkbox"
                             ng-class="{'has-error': $ctrl.loginForm.rememberMe.$invalid,
                                        'has-success': $ctrl.loginForm.rememberMe.$valid && $ctrl.loginForm.$submitted}">
