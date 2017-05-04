@@ -4,11 +4,14 @@ angular
 
 function geometryService() {
 
+    this.getCoords = getCoords;
+    this.getElementUnderClientXY = getElementUnderClientXY;
+
     /**
     * Get geometry values of the element
     *
     **/
-    this.getCoords = function(elem) {
+    function getCoords(elem) {
         let box = elem.getBoundingClientRect();
 
         let body = document.body;
@@ -33,13 +36,13 @@ function geometryService() {
             width: box.width,
             height: box.height
         };
-    };
+    }
 
     /**
     * Find target under cursor
     *
     **/
-    this.getElementUnderClientXY = function(elem, clientX, clientY) {
+    function getElementUnderClientXY(elem, clientX, clientY) {
         let display = elem.style.display || '';
         elem.style.display = 'none';
 
@@ -52,5 +55,5 @@ function geometryService() {
         }
 
         return target;
-    };
+    }
 }

@@ -16,7 +16,9 @@ function DndElementController($element) {
 
     function init() {
 
-        $element.on('mousedown', function (e) {
+        $element.on('mousedown', onMouseDown);
+
+        function onMouseDown(e) {
             if (e.which != 1) { // не левой кнопкой
                 return false;
             }
@@ -27,6 +29,6 @@ function DndElementController($element) {
                 startY: e.pageY
             };
 
-        });
+        }
     }
 }

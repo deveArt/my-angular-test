@@ -5,8 +5,8 @@ angular
         templateUrl: '/app/auth/login/login.component.tmpl.html'
     });
 
-LoginController.$inject = ['authService', '$cookies', '$rootScope', '$location', 'globalVars'];
-function LoginController(authService, $cookies, $rootScope, $location, globalVars) {
+LoginController.$inject = ['authService', '$cookies', '$location', 'globalVars'];
+function LoginController(authService, $cookies, $location, globalVars) {
 
     var $ctrl = this;
 
@@ -14,7 +14,9 @@ function LoginController(authService, $cookies, $rootScope, $location, globalVar
     $ctrl.data = {};
     $ctrl.data.rememberMe = true;
 
-    $ctrl.submit = function() {
+    $ctrl.submit = submit;
+
+    function submit() {
 
         authService.login($ctrl.data).then(function (response) {
 
@@ -22,7 +24,7 @@ function LoginController(authService, $cookies, $rootScope, $location, globalVar
 
             if (!response.data.errors) {
                 console.log($cookies.getAll());
-                $rootScope.loggedIn = true;
+                globalVars.setVar('loggedIn', true);
                 $location.path("/translations");
             }
 
@@ -39,5 +41,5 @@ function LoginController(authService, $cookies, $rootScope, $location, globalVar
         }).catch(function (error) {
             console.error(error);
         });
-    };
+    }
 }

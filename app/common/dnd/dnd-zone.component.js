@@ -2,7 +2,6 @@ angular
     .module('app.common')
     .component('dndZone', {
         controller: DndZoneController,
-        template: '{{$ctrl.overlay}}<div id="dnd-overlay" ng-show="$ctrl.overlay"></div><button ng-click="$ctrl.highlight()">blabla</button>',
         bindings: {
             mode: '@',
             onStart: '&',
@@ -23,17 +22,8 @@ function DndZoneController($document, $element, geometryService) {
     var $ctrl = this;
     $ctrl.dragTarget = null;
     $ctrl._elem = null;
-    $ctrl.overlay = false;
 
     $ctrl.$postLink = init;
-
-    $ctrl.highlight = function() {
-        $ctrl.overlay = true;
-    };
-
-    $ctrl.nolight = function() {
-        $ctrl.overlay = false;
-    };
 
 	/**
      * Main setup listeners
@@ -43,16 +33,19 @@ function DndZoneController($document, $element, geometryService) {
 
         if ($ctrl.mode !== 'drag') {
             $element.on('dropready', function (e) {
-                $ctrl.highlight();
+                $element.css({'background-color': '#27ae60'});
                 console.log('ready to drop');
             });
             $element.on('dragleave', function (e) {
-                $ctrl.nolight();
+                $element.css({'background-color': null});
                 console.log('drag el left');
             });
         }
 
-        $document.on('mousemove', function (e) {
+        $document.on('mousemove', onMouseMove);
+        $document.on('mouseup', onMouseUp);
+
+        function onMouseMove(e) {
             if (!$ctrl.dragTarget) {
                 return;
             }
@@ -76,9 +69,9 @@ function DndZoneController($document, $element, geometryService) {
             }
 
             $ctrl._dropTarget = newDropTarget;
-        });
+        }
 
-        $document.on('mouseup', function (e) {
+        function onMouseUp(e) {
 
             if (e.which != 1) { // не левой кнопкой
                 return false;
@@ -100,7 +93,7 @@ function DndZoneController($document, $element, geometryService) {
             $ctrl._elem = null;
             $ctrl._dropTarget = null;
             $ctrl.old = null;
-        });
+        }
     }
 
     /**
@@ -196,7 +189,6 @@ function DndZoneController($document, $element, geometryService) {
             zIndex: $ctrl._elem.style.zIndex || ''
         };
 
-        console.dir($ctrl.old);
         document.body.appendChild($ctrl._elem);
         $ctrl._elem.style.zIndex = 20;
         $ctrl._elem.style.position = 'absolute';

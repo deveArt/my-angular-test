@@ -13,12 +13,14 @@ function RegistrationController(authService, globalVars) {
     $ctrl.data = {};
     $ctrl.pwdRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[$@!%*#?&])[A-Za-z\d$@!%*#?&]+$/;
 
-    $ctrl.submit = function() {
+    $ctrl.submit = submit;
+
+    function submit() {
         console.log('valid');
         authService.registrate($ctrl.data).then(function (response) {
             console.log('ok');
         }).catch(function (error) {
             console.error(error);
         });
-    };
+    }
 }

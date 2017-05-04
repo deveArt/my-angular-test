@@ -11,27 +11,29 @@ function translationService($http, $q, storageService) {
     };
 
     let self = this;
+    self.getLangs = getLangs;
+    self.load = load;
 
     init();
 
-    self.getLangs = function () {
-        let langs = ['eng', 'rus', 'de', 'no', 'it', 'sv'];
+    function init() {
+        angular.extend(self, storageService);
+    }
 
-        return $q(function (resolve, reject) {
-            resolve(langs);
-        });
-    };
-
-    self.load = function(selectedLang) {
+    function load(selectedLang) {
         options.params = {lang : selectedLang};
 
         return $http(options).then(function (response) {
             self.setLocal(selectedLang, response.data);
             return response.data;
         });
-    };
+    }
 
-    function init() {
-        angular.extend(self, storageService);
+    function getLangs() {
+        let langs = ['eng', 'rus', 'de', 'no', 'it', 'sv'];
+
+        return $q(function (resolve, reject) {
+            resolve(langs);
+        });
     }
 }

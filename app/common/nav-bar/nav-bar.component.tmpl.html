@@ -13,10 +13,11 @@
                 <li class="head-btns">
                     <select-improved selvalue="color"></select-improved>
                 </li>
-                <li ng-show="loggedIn" class="head-btns" ng-cloak>
+                <li ng-show="$ctrl.globalVars.loggedIn" class="head-btns" ng-cloak>
                     <button type="button" ng-click="$ctrl.logout()" class="btn btn-default navbar-btn">Logout</button>
                 </li>
             </ul>
+
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>

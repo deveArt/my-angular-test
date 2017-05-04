@@ -19,19 +19,22 @@ function authService($http, $timeout) {
         }
     };
 
-    this.login = function (data) {
+    this.login = login;
+    this.logout = logout;
+    this.registrate = registrate;
+
+    function login(data) {
         options.url = url + 'login';
         options.data = data;
         return $http(options);
-    };
+    }
 
-    this.logout = function () {
+    function logout() {
         options.url = url + 'logout';
         return $http(options);
-    };
-    
-    this.registrate = function () {
-        return $timeout(1000);
-    };
-}
+    }
 
+    function registrate() {
+        return $timeout(1000);
+    }
+}
