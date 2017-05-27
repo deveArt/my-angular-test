@@ -5,8 +5,8 @@ angular
         templateUrl: '/app/notes/notes.component.tmpl.html'
     });
 
-NotesController.$inject = ['$scope', '$compile', 'geometryService', 'globalVars'];
-function NotesController($scope, $compile, geometryService, globalVars) {
+NotesController.$inject = ['$scope', '$compile', 'geometryService', 'globalVars', 'dndData'];
+function NotesController($scope, $compile, geometryService, globalVars, dndData) {
 
 	var $ctrl = this;
 
@@ -23,6 +23,8 @@ function NotesController($scope, $compile, geometryService, globalVars) {
 	$ctrl.removeResizable = removeResizable;
 	$ctrl.resizeRefresh = resizeRefresh;
     $ctrl.toggleResize = toggleResize;
+
+    $ctrl.debug = dndData.zones;
 
     function makeResizable() {
 
@@ -144,24 +146,9 @@ function NotesController($scope, $compile, geometryService, globalVars) {
 			return false;
 		}
 
-		$ctrl.number ++;
-		let subject = 'Note #'+ $ctrl.number;
-		let dragZone = document.getElementById('dragZone');
-		let dragEl = angular.element(
-			'<dnd-element>' +
-				'<p><b>'+subject+'</b></p>' +
-				'<p>'+$ctrl.text+'</p>' +
-			'</dnd-element>'
-		);
-
-		angular.element(dragZone).append(dragEl);
-
-		let newScope = $scope.$new(true);
-		$compile(dragEl)(newScope);
-
-		dragEl.on('$destroy', function () {
-			newScope.$destroy();
-		});
+        dndData.addElement({
+            'text': $ctrl.text
+        });
 
 		$ctrl.text = '';
 		$ctrl.noteForm.$setPristine();

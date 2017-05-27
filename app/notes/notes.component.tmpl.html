@@ -1,6 +1,8 @@
 <link type="text/css" rel="stylesheet" href="public/css/common/dnd/dnd.css"/>
 <div class="container">
-
+<pre>
+    {{$ctrl.debug}}
+</pre>
     <div class="row form-block">
             <form id="noteForm" name="$ctrl.noteForm" class="" ng-submit="$ctrl.addNote()" role="form" novalidate>
 
@@ -42,9 +44,8 @@
         <div class="col-sm-4 todo-base">
             <h4>New notes</h4>
             <dnd-zone mode="drag" id="dragZone" class="dragzone" on-end="$ctrl.resizeRefresh()">
-            <!--<dnd-zone mode="drag" id="dragZone" class="dragzone">-->
             </dnd-zone>
-            
+
             <h4>Trash zone</h4>
             <dnd-zone mode="trash" class="dropzone-other">
             </dnd-zone>

@@ -1,0 +1,5 @@
+{{$ctrl.zoneId}}{{$ctrl.dndElements}}
+<dnd-element ng-repeat="(i, dndElement) in $ctrl.dndElements" ng-style="dndElement.style">
+    <h4>Note # {{i + 1}}</h4>
+    <p>{{dndElement.text}}</p>
+</dnd-element>

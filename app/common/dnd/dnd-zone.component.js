@@ -2,6 +2,7 @@ angular
     .module('app.common')
     .component('dndZone', {
         controller: DndZoneController,
+        templateUrl: '/app/common/dnd/dnd-zone.component.tmpl.html',
         bindings: {
             mode: '@',
             onStart: '&',
@@ -9,7 +10,7 @@ angular
         }
     });
 
-DndZoneController.$inject = ['$document', '$element', 'geometryService'];
+DndZoneController.$inject = ['$document', '$element', 'geometryService', 'dndData'];
 
 /**
  *
@@ -18,8 +19,11 @@ DndZoneController.$inject = ['$document', '$element', 'geometryService'];
  *
  * @constructor
  */
-function DndZoneController($document, $element, geometryService) {
+function DndZoneController($document, $element, geometryService, dndData) {
     var $ctrl = this;
+    $ctrl.dndElements;
+    $ctrl.zoneId;
+
     $ctrl.dragTarget = null;
     $ctrl._elem = null;
 
@@ -30,6 +34,11 @@ function DndZoneController($document, $element, geometryService) {
      */
     function init() {
         $element[0].mode = $ctrl.mode;
+
+        let {zone, zid} = dndData.register($ctrl.zoneId);
+        $ctrl.dndElements = zone;
+        $ctrl.zoneId = zid;
+
 
         if ($ctrl.mode !== 'drag') {
             $element.on('dropready', function (e) {
