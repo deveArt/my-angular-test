@@ -9,24 +9,32 @@ function dndData() {
     self.register = register;
     self.addElement = addElement;
     self.zones = [];
+    self.zoneCount = 0;
+    self.zi = 0;
+    init();
 
-    function register(zid) {
+    function init() {
+        self.zoneCount = angular.element(document).find('dnd-zone').length;
+    }
+
+    function register() {
         let zone;
-console.log(zid);
-        if (zid !== undefined) {
-            zone = self.zones[zid];
-        } else {
+
+        if (self.zones.length < self.zoneCount) {
             zone = [];
 
             self.zones.push(zone);
-
-            zid = self.zones.length - 1;
+        } else {
+            zone = self.zi < self.zoneCount
+                ? self.zones[self.zi++]
+                : self.zones[self.zi = 0, self.zi++];
         }
 
-        return {zone: zone, zid: zid};
+        return zone;
     }
 
     function addElement(el, z) {
         self.zones[z ? parseInt(z): 0].push(el);
     }
+
 }

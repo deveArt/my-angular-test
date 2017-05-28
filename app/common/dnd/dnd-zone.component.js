@@ -21,13 +21,27 @@ DndZoneController.$inject = ['$document', '$element', 'geometryService', 'dndDat
  */
 function DndZoneController($document, $element, geometryService, dndData) {
     var $ctrl = this;
-    $ctrl.dndElements;
-    $ctrl.zoneId;
+    $ctrl.dndElements = [];
+    $ctrl.onMouseDown = onMouseDown;
+
 
     $ctrl.dragTarget = null;
     $ctrl._elem = null;
 
     $ctrl.$postLink = init;
+
+    function onMouseDown(e, i) {console.log(e);
+        if (e.which != 1) { // не левой кнопкой
+            return false;
+        }
+
+        $ctrl.eid = i;
+        $ctrl.dragTarget = {
+            dragElement: e.target,
+            startX: e.pageX,
+            startY: e.pageY
+        };
+    }
 
 	/**
      * Main setup listeners
@@ -35,10 +49,7 @@ function DndZoneController($document, $element, geometryService, dndData) {
     function init() {
         $element[0].mode = $ctrl.mode;
 
-        let {zone, zid} = dndData.register($ctrl.zoneId);
-        $ctrl.dndElements = zone;
-        $ctrl.zoneId = zid;
-
+        $ctrl.dndElements = dndData.register();
 
         if ($ctrl.mode !== 'drag') {
             $element.on('dropready', function (e) {
@@ -98,6 +109,8 @@ function DndZoneController($document, $element, geometryService, dndData) {
                 }
             }
 
+            $ctrl.eid = null;
+
             $ctrl.dragTarget = null;
             $ctrl._elem = null;
             $ctrl._dropTarget = null;
@@ -112,13 +125,15 @@ function DndZoneController($document, $element, geometryService, dndData) {
     function rollBack() {
         console.log('rollback');
 
-        $ctrl.old.parent.insertBefore($ctrl._elem, $ctrl.old.nextSibling);
+       // $ctrl.dndElements[$ctrl.eid].style = {};
 
-        let coords = geometryService.getCoords($ctrl.old.parent);
-        $ctrl._elem.style.position = $ctrl.old.position;
-        $ctrl._elem.style.left = $ctrl.old.left - coords.left - $ctrl._margin + 'px';
-        $ctrl._elem.style.top = $ctrl.old.top - coords.top - $ctrl._margin + 'px';
-        $ctrl._elem.style.zIndex = $ctrl.old.zIndex;
+        // $ctrl.old.parent.insertBefore($ctrl._elem, $ctrl.old.nextSibling);
+        //
+        // let coords = geometryService.getCoords($ctrl.old.parent);
+        // $ctrl._elem.style.position = $ctrl.old.position;
+        // $ctrl._elem.style.left = $ctrl.old.left - coords.left - $ctrl._margin + 'px';
+        // $ctrl._elem.style.top = $ctrl.old.top - coords.top - $ctrl._margin + 'px';
+        // $ctrl._elem.style.zIndex = $ctrl.old.zIndex;
 
         $ctrl.onEnd && $ctrl.onEnd();
     }
@@ -182,7 +197,8 @@ function DndZoneController($document, $element, geometryService, dndData) {
         console.log('drag start');
 
         // создать вспомогательные свойства shiftX/shiftY
-        $ctrl._elem = $ctrl.dragTarget.dragElement[0];
+        $ctrl._elem = $ctrl.dragTarget.dragElement;
+
         $ctrl._margin = parseInt(getComputedStyle($ctrl._elem, null).getPropertyValue('margin'));
 
         let coords = geometryService.getCoords($ctrl._elem);
@@ -198,9 +214,15 @@ function DndZoneController($document, $element, geometryService, dndData) {
             zIndex: $ctrl._elem.style.zIndex || ''
         };
 
-        document.body.appendChild($ctrl._elem);
-        $ctrl._elem.style.zIndex = 20;
-        $ctrl._elem.style.position = 'absolute';
+        $ctrl.dndElements[$ctrl.eid].style.zIndex = 100;
+    //    $ctrl.dndElements[$ctrl.eid].style.position = 'absolute';
+
+        // Old
+
+        // document.body.appendChild($ctrl._elem);
+        // $ctrl._elem.style.zIndex = 20;
+        // $ctrl._elem.style.position = 'absolute';
+
 
         return true;
     }
@@ -214,13 +236,15 @@ function DndZoneController($document, $element, geometryService, dndData) {
         $ctrl._elemX = event.pageX - $ctrl._shiftX;
         $ctrl._elemY = event.pageY - $ctrl._shiftY;
 
-        $ctrl._elem.style.left = $ctrl._elemX
-            - $ctrl._margin
-            + 'px';
-        $ctrl._elem.style.top = $ctrl._elemY
+        $ctrl.dndElements[$ctrl.eid].style.left = $ctrl._elemX
             - $ctrl._margin
             + 'px';
 
+        $ctrl.dndElements[$ctrl.eid].style.right = $ctrl._elemY
+            - $ctrl._margin
+            + 'px';
+
+console.log($ctrl.dndElements);
         $ctrl._currentTargetElem = geometryService.getElementUnderClientXY($ctrl._elem, event.clientX, event.clientY);
     }
 
