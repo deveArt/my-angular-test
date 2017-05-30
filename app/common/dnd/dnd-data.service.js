@@ -2,7 +2,8 @@ angular
     .module('app.common')
     .service('dndData', dndData);
 
-function dndData() {
+dndData.$inject = ['geometryService'];
+function dndData(geometryService) {
 
     var self = this;
 
@@ -17,12 +18,20 @@ function dndData() {
         self.zoneCount = angular.element(document).find('dnd-zone').length;
     }
 
-    function register() {
+    function register($element) {
         let zone;
 
         if (self.zones.length < self.zoneCount) {
-            zone = [];
+            let zoneCoords = geometryService.getCoords($element);
 
+            zone = {
+                dndElements: [],
+                left: zoneCoords.left,
+                right: zoneCoords.right,
+                top: zoneCoords.top,
+                bottom: zoneCoords.bottom
+            };
+            
             self.zones.push(zone);
         } else {
             zone = self.zi < self.zoneCount
@@ -34,7 +43,7 @@ function dndData() {
     }
 
     function addElement(el, z) {
-        self.zones[z ? parseInt(z): 0].push(el);
+        self.zones[z ? parseInt(z): 0].dndElements.push(el);
     }
 
 }

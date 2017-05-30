@@ -22,6 +22,7 @@ DndZoneController.$inject = ['$document', '$element', 'geometryService', 'dndDat
 function DndZoneController($document, $element, geometryService, dndData) {
     var $ctrl = this;
     $ctrl.dndElements = [];
+    $ctrl.zone = {};
     $ctrl.onMouseDown = onMouseDown;
     $ctrl.onMouseMove = onMouseMove;
     $ctrl.onMouseUp = onMouseUp;
@@ -103,14 +104,9 @@ function DndZoneController($document, $element, geometryService, dndData) {
      * Main setup listeners
      */
     function init() {
-        $element[0].mode = $ctrl.mode;
-
-        $ctrl.dndElements = dndData.register();
-
-        let zoneCoords = geometryService.getCoords($element);
-console.log(zoneCoords);
-        $ctrl.zoneX = zoneCoords.left;
-        $ctrl.zoneY = zoneCoords.top;
+        $ctrl.zone = dndData.register($element);
+        $ctrl.zone.mode = $ctrl.mode;
+        $ctrl.dndElements = $ctrl.zone.dndElements;
 
         if ($ctrl.mode !== 'drag') {
             $element.on('dropready', function (e) {
@@ -198,8 +194,8 @@ console.log(zoneCoords);
         $ctrl._elemX = event.pageX - $ctrl._shiftX; //$ctrl._shiftX;
         $ctrl._elemY = event.pageY - $ctrl._shiftY; //$ctrl._shiftY;
 
-        $ctrl.dndElements[$ctrl.eid].style.left = $ctrl._elemX - $ctrl.zoneX - $ctrl._margin + 'px';
-        $ctrl.dndElements[$ctrl.eid].style.top = $ctrl._elemY - $ctrl.zoneY - $ctrl._margin + 'px';
+        $ctrl.dndElements[$ctrl.eid].style.left = $ctrl._elemX - $ctrl.zone.left - $ctrl._margin + 'px';
+        $ctrl.dndElements[$ctrl.eid].style.top = $ctrl._elemY - $ctrl.zone.top - $ctrl._margin + 'px';
 
 //         console.log($ctrl._elemX);
 //         console.log($ctrl._elemY);
