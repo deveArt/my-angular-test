@@ -61,7 +61,7 @@ function DndZoneController($document, $element, geometryService, dndData) {
             dragStart(coords);
         }
 
-        onDragMove(event);return;
+        onDragMove(event);
 
         let newDropTarget = findDropTarget();
 
@@ -108,7 +108,7 @@ function DndZoneController($document, $element, geometryService, dndData) {
         $ctrl.dndElements = dndData.register();
 
         let zoneCoords = geometryService.getCoords($element);
-
+console.log(zoneCoords);
         $ctrl.zoneX = zoneCoords.left;
         $ctrl.zoneY = zoneCoords.top;
 

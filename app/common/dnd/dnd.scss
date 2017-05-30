@@ -48,7 +48,7 @@ dnd-element {
   p, b {
     &::selection {
       background: transparent;
-      pointer-events: none;
+//      pointer-events: none;
     }
   }
 }
