@@ -1,14 +1,16 @@
-{{$ctrl.zoneId}}{{$ctrl.dndElements}}<button ng-click="$ctrl.test()">bobo</button>
 <dnd-element
-        ng-repeat="(i, dndElement) in $ctrl.dndElements"
-        ng-style="{
-            'position': 'absolute',
-            'left': dndElement.style.left,
-            'right': dndElement.style.right,
-            'z-index': dndElement.style.zIndex
-        }"
-        ng-mousedown="$ctrl.onMouseDown($event, i)">
-    <h4>Note # {{i + 1}}</h4>
+    ng-repeat="(i, dndElement) in $ctrl.dndElements"
+
+    ng-mousemove="$ctrl.onMouseMove($event)"
+    ng-mousedown="$ctrl.onMouseDown($event, i)"
+    ng-mouseup="$ctrl.onMouseUp($event)"
+
+    ng-style="{
+        'position': dndElement.style.position,
+        'left': dndElement.style.left,
+        'top': dndElement.style.top,
+        'z-index': dndElement.style.zIndex
+    }">
+    <b>Note # {{i + 1}}</b>
     <p>{{dndElement.text}}</p>
-    <input ng-model="$ctrl.dndElements[i].style.left">
 </dnd-element>

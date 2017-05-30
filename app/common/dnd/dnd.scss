@@ -18,7 +18,6 @@ dnd-zone {
   &.dragzone {
     display: inline-block;
     position: relative;
-    overflow: hidden;
     width: 100%;
     height: auto;
     min-height: 150px;
@@ -46,14 +45,10 @@ dnd-element {
   &:active {
     cursor: -webkit-grabbing;
   }
-  p {
+  p, b {
     &::selection {
       background: transparent;
-    }
-  }
-  b {
-    &::selection {
-      background: transparent;
+      pointer-events: none;
     }
   }
 }

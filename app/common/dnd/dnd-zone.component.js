@@ -23,24 +23,80 @@ function DndZoneController($document, $element, geometryService, dndData) {
     var $ctrl = this;
     $ctrl.dndElements = [];
     $ctrl.onMouseDown = onMouseDown;
-
+    $ctrl.onMouseMove = onMouseMove;
+    $ctrl.onMouseUp = onMouseUp;
 
     $ctrl.dragTarget = null;
     $ctrl._elem = null;
 
     $ctrl.$postLink = init;
 
-    function onMouseDown(e, i) {console.log(e);
-        if (e.which != 1) { // не левой кнопкой
+    function onMouseDown(event, i) {
+        if (event.which != 1) { // не левой кнопкой
             return false;
         }
 
         $ctrl.eid = i;
         $ctrl.dragTarget = {
-            dragElement: e.target,
-            startX: e.pageX,
-            startY: e.pageY
+            dragElement: event.currentTarget,
+            startX: event.pageX,
+            startY: event.pageY
         };
+    }
+
+    function onMouseMove(event) {
+        if (!$ctrl.dragTarget) {
+            return;
+        }
+
+        if (Math.abs(event.pageX - $ctrl.dragTarget.startX) < 3 && Math.abs(event.pageY - $ctrl.dragTarget.startY) < 3) {
+            return;
+        }
+
+        if ( $ctrl._elem === null ) {
+            $ctrl.onStart && $ctrl.onStart();
+
+            $ctrl._elem = $ctrl.dragTarget.dragElement;
+            let coords = geometryService.getCoords($ctrl._elem);
+            dragStart(coords);
+        }
+
+        onDragMove(event);return;
+
+        let newDropTarget = findDropTarget();
+
+        if (newDropTarget != $ctrl._dropTarget) {
+            $ctrl._dropTarget && angular.element($ctrl._dropTarget).triggerHandler('dragleave');
+            newDropTarget && angular.element(newDropTarget).triggerHandler('dropready');
+        }
+
+        $ctrl._dropTarget = newDropTarget;
+    }
+
+    function onMouseUp(event) {
+
+        if (event.which != 1) { // не левой кнопкой
+            return false;
+        }
+        if (!$ctrl.dragTarget) {
+            return;
+        }
+
+        if ($ctrl._elem) {
+            console.log($ctrl._dropTarget);
+            if ($ctrl._dropTarget) {
+                dragEnd();
+            } else {
+                rollBack();
+            }
+        }
+
+        $ctrl.eid = null;
+
+        $ctrl.dragTarget = null;
+        $ctrl._elem = null;
+        $ctrl._dropTarget = null;
+        $ctrl.old = null;
     }
 
 	/**
@@ -50,6 +106,11 @@ function DndZoneController($document, $element, geometryService, dndData) {
         $element[0].mode = $ctrl.mode;
 
         $ctrl.dndElements = dndData.register();
+
+        let zoneCoords = geometryService.getCoords($element);
+
+        $ctrl.zoneX = zoneCoords.left;
+        $ctrl.zoneY = zoneCoords.top;
 
         if ($ctrl.mode !== 'drag') {
             $element.on('dropready', function (e) {
@@ -62,60 +123,11 @@ function DndZoneController($document, $element, geometryService, dndData) {
             });
         }
 
-        $document.on('mousemove', onMouseMove);
-        $document.on('mouseup', onMouseUp);
+//        $document.on('mousemove', onMouseMove);
+//        $document.on('mouseup', onMouseUp);
 
-        function onMouseMove(e) {
-            if (!$ctrl.dragTarget) {
-                return;
-            }
 
-            if (Math.abs(e.pageX - $ctrl.startX) < 3 && Math.abs(e.pageY - $ctrl.startY) < 3) {
-                return;
-            }
 
-            if ( $ctrl._elem === null ) {
-                $ctrl.onStart && $ctrl.onStart();
-                dragStart();
-            }
-
-            onDragMove(e);
-
-            let newDropTarget = findDropTarget();
-
-            if (newDropTarget != $ctrl._dropTarget) {
-                $ctrl._dropTarget && angular.element($ctrl._dropTarget).triggerHandler('dragleave');
-                newDropTarget && angular.element(newDropTarget).triggerHandler('dropready');
-            }
-
-            $ctrl._dropTarget = newDropTarget;
-        }
-
-        function onMouseUp(e) {
-
-            if (e.which != 1) { // не левой кнопкой
-                return false;
-            }
-            if (!$ctrl.dragTarget) {
-                return;
-            }
-
-            if ($ctrl._elem) {
-                console.log($ctrl._dropTarget);
-                if ($ctrl._dropTarget) {
-                    dragEnd();
-                } else {
-                    rollBack();
-                }
-            }
-
-            $ctrl.eid = null;
-
-            $ctrl.dragTarget = null;
-            $ctrl._elem = null;
-            $ctrl._dropTarget = null;
-            $ctrl.old = null;
-        }
     }
 
     /**
@@ -136,6 +148,66 @@ function DndZoneController($document, $element, geometryService, dndData) {
         // $ctrl._elem.style.zIndex = $ctrl.old.zIndex;
 
         $ctrl.onEnd && $ctrl.onEnd();
+    }
+
+    /**
+    * Start drag. Save old position. Move element to body scope.
+    *
+    **/
+    function dragStart(coords) {
+        if (!$ctrl.dragTarget) {
+            return;
+        }
+        console.log('drag start');
+
+        // создать вспомогательные свойства shiftX/shiftY
+
+        $ctrl._margin = parseInt(getComputedStyle($ctrl._elem, null).getPropertyValue('margin'));
+
+        $ctrl._shiftX = $ctrl.dragTarget.startX - coords.left;
+        $ctrl._shiftY = $ctrl.dragTarget.startY - coords.top;
+
+        $ctrl.old = {
+            parent: $ctrl._elem.parentNode,
+            nextSibling: $ctrl._elem.nextSibling,
+            position: $ctrl._elem.style.position || '',
+            left: coords.left || '',
+            top: coords.top || '',
+            zIndex: $ctrl._elem.style.zIndex || ''
+        };
+
+        $ctrl.dndElements[$ctrl.eid].style.zIndex = 100;
+        $ctrl.dndElements[$ctrl.eid].style.position = 'absolute';
+
+        // Old
+
+        // document.body.appendChild($ctrl._elem);
+        // $ctrl._elem.style.zIndex = 20;
+        // $ctrl._elem.style.position = 'absolute';
+
+
+        return true;
+    }
+
+    /**
+    * Move element following the cursor
+    *
+    **/
+    function onDragMove(event) {
+
+        $ctrl._elemX = event.pageX - $ctrl._shiftX; //$ctrl._shiftX;
+        $ctrl._elemY = event.pageY - $ctrl._shiftY; //$ctrl._shiftY;
+
+        $ctrl.dndElements[$ctrl.eid].style.left = $ctrl._elemX - $ctrl.zoneX - $ctrl._margin + 'px';
+        $ctrl.dndElements[$ctrl.eid].style.top = $ctrl._elemY - $ctrl.zoneY - $ctrl._margin + 'px';
+
+//         console.log($ctrl._elemX);
+//         console.log($ctrl._elemY);
+//
+// console.log($ctrl.dndElements[$ctrl.eid].style.left);
+// console.log($ctrl.dndElements[$ctrl.eid].style.top);
+
+        $ctrl._currentTargetElem = geometryService.getElementUnderClientXY($ctrl._elem, event.clientX, event.clientY);
     }
 
     /**
@@ -184,68 +256,6 @@ function DndZoneController($document, $element, geometryService, dndData) {
         }
 
         $ctrl.onEnd && $ctrl.onEnd();
-    }
-
-    /**
-    * Start drag. Save old position. Move element to body scope.
-    *
-    **/
-    function dragStart() {
-        if (!$ctrl.dragTarget) {
-            return;
-        }
-        console.log('drag start');
-
-        // создать вспомогательные свойства shiftX/shiftY
-        $ctrl._elem = $ctrl.dragTarget.dragElement;
-
-        $ctrl._margin = parseInt(getComputedStyle($ctrl._elem, null).getPropertyValue('margin'));
-
-        let coords = geometryService.getCoords($ctrl._elem);
-        $ctrl._shiftX = $ctrl.dragTarget.startX - coords.left;
-        $ctrl._shiftY = $ctrl.dragTarget.startY - coords.top;
-
-        $ctrl.old = {
-            parent: $ctrl._elem.parentNode,
-            nextSibling: $ctrl._elem.nextSibling,
-            position: $ctrl._elem.style.position || '',
-            left: coords.left || '',
-            top: coords.top || '',
-            zIndex: $ctrl._elem.style.zIndex || ''
-        };
-
-        $ctrl.dndElements[$ctrl.eid].style.zIndex = 100;
-    //    $ctrl.dndElements[$ctrl.eid].style.position = 'absolute';
-
-        // Old
-
-        // document.body.appendChild($ctrl._elem);
-        // $ctrl._elem.style.zIndex = 20;
-        // $ctrl._elem.style.position = 'absolute';
-
-
-        return true;
-    }
-
-    /**
-    * Move element following the cursor
-    *
-    **/
-    function onDragMove(event) {
-
-        $ctrl._elemX = event.pageX - $ctrl._shiftX;
-        $ctrl._elemY = event.pageY - $ctrl._shiftY;
-
-        $ctrl.dndElements[$ctrl.eid].style.left = $ctrl._elemX
-            - $ctrl._margin
-            + 'px';
-
-        $ctrl.dndElements[$ctrl.eid].style.right = $ctrl._elemY
-            - $ctrl._margin
-            + 'px';
-
-console.log($ctrl.dndElements);
-        $ctrl._currentTargetElem = geometryService.getElementUnderClientXY($ctrl._elem, event.clientX, event.clientY);
     }
 
     /**

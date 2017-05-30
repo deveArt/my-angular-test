@@ -148,7 +148,8 @@ function NotesController($scope, $compile, geometryService, globalVars, dndData)
 
         dndData.addElement({
             text: $ctrl.text,
-            style: {position: 'absolute'}
+            style: {}
+            //style: {position: 'absolute'}
         });
 
 		$ctrl.text = '';

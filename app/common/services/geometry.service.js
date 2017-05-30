@@ -12,6 +12,10 @@ function geometryService() {
     *
     **/
     function getCoords(elem) {
+        if (!(elem instanceof HTMLElement)) {
+            elem = elem[0];
+        }
+
         let box = elem.getBoundingClientRect();
 
         let body = document.body;
