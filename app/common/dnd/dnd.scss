@@ -26,6 +26,9 @@ dnd-zone {
     padding: 10px;
     border-radius: 3px;
   }
+  &.highlight {
+      background-color: #27ae60;
+  }
 }
 
 dnd-element {

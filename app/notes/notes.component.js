@@ -24,7 +24,7 @@ function NotesController($scope, $compile, geometryService, globalVars, dndData)
 	$ctrl.resizeRefresh = resizeRefresh;
     $ctrl.toggleResize = toggleResize;
 
-    $ctrl.debug = dndData.zones;
+    $ctrl.zones = dndData.zones;
 
     function makeResizable() {
 

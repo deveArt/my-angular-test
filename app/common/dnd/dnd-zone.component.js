@@ -28,9 +28,22 @@ function DndZoneController($document, $element, geometryService, dndData) {
     $ctrl.onMouseUp = onMouseUp;
 
     $ctrl.dragTarget = null;
+
+    /**
+     * html of drag element
+     */
     $ctrl._elem = null;
 
     $ctrl.$postLink = init;
+
+    /**
+     * Main setup
+     */
+    function init() {
+        $ctrl.zone = dndData.register($element);
+        $ctrl.zone.mode = $ctrl.mode;
+        $ctrl.dndElements = $ctrl.zone.dndElements;
+    }
 
     function onMouseDown(event, i) {
         if (event.which != 1) { // не левой кнопкой
@@ -64,14 +77,14 @@ function DndZoneController($document, $element, geometryService, dndData) {
 
         onDragMove(event);
 
-        let newDropTarget = findDropTarget();
+        let newDropTarget = findDropTarget(event);
 
-        if (newDropTarget != $ctrl._dropTarget) {
-            $ctrl._dropTarget && angular.element($ctrl._dropTarget).triggerHandler('dragleave');
-            newDropTarget && angular.element(newDropTarget).triggerHandler('dropready');
+        if (newDropTarget !== $ctrl.dropTarget) {
+            $ctrl.dropTarget && targetLightOff($ctrl.dropTarget);
+            newDropTarget && targetLightOn(newDropTarget);
         }
 
-        $ctrl._dropTarget = newDropTarget;
+        $ctrl.dropTarget = newDropTarget;
     }
 
     function onMouseUp(event) {
@@ -84,8 +97,8 @@ function DndZoneController($document, $element, geometryService, dndData) {
         }
 
         if ($ctrl._elem) {
-            console.log($ctrl._dropTarget);
-            if ($ctrl._dropTarget) {
+            console.log($ctrl.dropTarget);
+            if ($ctrl.dropTarget) {
                 dragEnd();
             } else {
                 rollBack();
@@ -96,34 +109,7 @@ function DndZoneController($document, $element, geometryService, dndData) {
 
         $ctrl.dragTarget = null;
         $ctrl._elem = null;
-        $ctrl._dropTarget = null;
-        $ctrl.old = null;
-    }
-
-	/**
-     * Main setup listeners
-     */
-    function init() {
-        $ctrl.zone = dndData.register($element);
-        $ctrl.zone.mode = $ctrl.mode;
-        $ctrl.dndElements = $ctrl.zone.dndElements;
-
-        if ($ctrl.mode !== 'drag') {
-            $element.on('dropready', function (e) {
-                $element.css({'background-color': '#27ae60'});
-                console.log('ready to drop');
-            });
-            $element.on('dragleave', function (e) {
-                $element.css({'background-color': null});
-                console.log('drag el left');
-            });
-        }
-
-//        $document.on('mousemove', onMouseMove);
-//        $document.on('mouseup', onMouseUp);
-
-
-
+        $ctrl.dropTarget = null;
     }
 
     /**
@@ -133,23 +119,14 @@ function DndZoneController($document, $element, geometryService, dndData) {
     function rollBack() {
         console.log('rollback');
 
-       // $ctrl.dndElements[$ctrl.eid].style = {};
-
-        // $ctrl.old.parent.insertBefore($ctrl._elem, $ctrl.old.nextSibling);
-        //
-        // let coords = geometryService.getCoords($ctrl.old.parent);
-        // $ctrl._elem.style.position = $ctrl.old.position;
-        // $ctrl._elem.style.left = $ctrl.old.left - coords.left - $ctrl._margin + 'px';
-        // $ctrl._elem.style.top = $ctrl.old.top - coords.top - $ctrl._margin + 'px';
-        // $ctrl._elem.style.zIndex = $ctrl.old.zIndex;
-
+        $ctrl.dndElements[$ctrl.eid].style = {};
         $ctrl.onEnd && $ctrl.onEnd();
     }
 
     /**
-    * Start drag. Save old position. Move element to body scope.
-    *
-    **/
+     * Start drag. Save old position. Move element to body scope.
+     *
+     **/
     function dragStart(coords) {
         if (!$ctrl.dragTarget) {
             return;
@@ -163,32 +140,16 @@ function DndZoneController($document, $element, geometryService, dndData) {
         $ctrl._shiftX = $ctrl.dragTarget.startX - coords.left;
         $ctrl._shiftY = $ctrl.dragTarget.startY - coords.top;
 
-        $ctrl.old = {
-            parent: $ctrl._elem.parentNode,
-            nextSibling: $ctrl._elem.nextSibling,
-            position: $ctrl._elem.style.position || '',
-            left: coords.left || '',
-            top: coords.top || '',
-            zIndex: $ctrl._elem.style.zIndex || ''
-        };
-
         $ctrl.dndElements[$ctrl.eid].style.zIndex = 100;
         $ctrl.dndElements[$ctrl.eid].style.position = 'absolute';
-
-        // Old
-
-        // document.body.appendChild($ctrl._elem);
-        // $ctrl._elem.style.zIndex = 20;
-        // $ctrl._elem.style.position = 'absolute';
-
 
         return true;
     }
 
     /**
-    * Move element following the cursor
-    *
-    **/
+     * Move element following the cursor
+     *
+     **/
     function onDragMove(event) {
 
         $ctrl._elemX = event.pageX - $ctrl._shiftX; //$ctrl._shiftX;
@@ -197,82 +158,77 @@ function DndZoneController($document, $element, geometryService, dndData) {
         $ctrl.dndElements[$ctrl.eid].style.left = $ctrl._elemX - $ctrl.zone.left - $ctrl._margin + 'px';
         $ctrl.dndElements[$ctrl.eid].style.top = $ctrl._elemY - $ctrl.zone.top - $ctrl._margin + 'px';
 
-//         console.log($ctrl._elemX);
-//         console.log($ctrl._elemY);
-//
-// console.log($ctrl.dndElements[$ctrl.eid].style.left);
-// console.log($ctrl.dndElements[$ctrl.eid].style.top);
-
-        $ctrl._currentTargetElem = geometryService.getElementUnderClientXY($ctrl._elem, event.clientX, event.clientY);
     }
 
     /**
-    * End of drag action. Append to target zone. Position adjustment.
-    *
-    **/
+     * End of drag action. Append to target zone. Position adjustment.
+     *
+     **/
     function dragEnd() {
-        if ($ctrl._dropTarget == null) {
+        if ($ctrl.dropTarget == null) {
             return null;
         }
         console.log('drag end');
-        angular.element($ctrl._dropTarget).triggerHandler('dragleave');
+        targetLightOff($ctrl.dropTarget);
 
-        if ($ctrl._dropTarget.mode === 'trash') {
-            angular.element($ctrl._elem).remove();
+        if ($ctrl.dropTarget.mode === 'trash') {
+            dndData.deleteElement($ctrl.eid, $ctrl.zone.id);
         } else {
             let coordsEl = geometryService.getCoords($ctrl._elem);
-            let coordsZone = geometryService.getCoords($ctrl._dropTarget);
-            let diffLeft = coordsZone.left - coordsEl.left + 10;
-            let diffTop = coordsZone.top - coordsEl.top + 10;
-            let diffRight = coordsZone.right - coordsEl.right - 10;
-            let diffBottom = coordsZone.bottom - coordsEl.bottom - 10;
 
-            let left = $ctrl._elemX - coordsZone.left - $ctrl._margin;
-            let top = $ctrl._elemY - coordsZone.top - $ctrl._margin;
+            let diffLeft = $ctrl.dropTarget.left - coordsEl.left + 10;
+            let diffTop = $ctrl.dropTarget.top - coordsEl.top + 10;
+            let diffRight = $ctrl.dropTarget.right - coordsEl.right - 10;
+            let diffBottom = $ctrl.dropTarget.bottom - coordsEl.bottom - 10;
 
-            if (coordsZone.left > coordsEl.left) {
+            let left = $ctrl._elemX - $ctrl.dropTarget.left - $ctrl._margin;
+            let top = $ctrl._elemY - $ctrl.dropTarget.top - $ctrl._margin;
+
+            if ($ctrl.dropTarget.left > coordsEl.left) {
                 left += diffLeft;
             }
 
-            if (coordsZone.top > coordsEl.top) {
+            if ($ctrl.dropTarget.top > coordsEl.top) {
                 top += diffTop;
             }
 
-            if (coordsZone.bottom < coordsEl.bottom) {
+            if ($ctrl.dropTarget.bottom < coordsEl.bottom) {
                 top += diffBottom;
             }
 
-            if (coordsZone.right < coordsEl.right) {
+            if ($ctrl.dropTarget.right < coordsEl.right) {
                 left += diffRight;
             }
 
-            $ctrl._dropTarget.appendChild($ctrl._elem);
-            $ctrl._elem.style.left = left + 'px';
-            $ctrl._elem.style.top = top + 'px';
+            $ctrl.dndElements[$ctrl.eid].style.left = left + 'px';
+            $ctrl.dndElements[$ctrl.eid].style.top = top + 'px';
+            dndData.moveElement($ctrl.eid, $ctrl.zone.id, $ctrl.dropTarget.id);
         }
 
         $ctrl.onEnd && $ctrl.onEnd();
     }
 
     /**
-    * Find drop zone
-    *
-    **/
-    function findDropTarget() {
-        if (!$ctrl._currentTargetElem) {
-            return null;
-        }
+     * Find drop zone
+     *
+     **/
+    function findDropTarget(event) {
 
-        let elem = $ctrl._currentTargetElem;
+        let zones = dndData.getDropable();
 
-        while (elem != document && elem.mode !== 'drop' && elem.mode !== 'trash') {
-            elem = elem.parentNode;
-        }
+        return zones.find(zone =>
+            event.pageX > zone.left &&
+            event.pageX < zone.right &&
+            event.pageY > zone.top &&
+            event.pageY < zone.bottom
+        );
+    }
 
-        if (elem == document) {
-            return null;
-        }
+    function targetLightOn(dropTarget) {
+        dropTarget.light = true;
+    }
 
-        return elem;
+    function targetLightOff(dropTarget) {
+        dropTarget.light = false;
     }
 }

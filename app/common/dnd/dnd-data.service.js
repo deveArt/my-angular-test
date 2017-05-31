@@ -9,6 +9,10 @@ function dndData(geometryService) {
 
     self.register = register;
     self.addElement = addElement;
+    self.deleteElement = deleteElement;
+    self.moveElement = moveElement;
+    self.getDropable = getDropable;
+
     self.zones = [];
     self.zoneCount = 0;
     self.zi = 0;
@@ -29,9 +33,10 @@ function dndData(geometryService) {
                 left: zoneCoords.left,
                 right: zoneCoords.right,
                 top: zoneCoords.top,
-                bottom: zoneCoords.bottom
+                bottom: zoneCoords.bottom,
+                id: self.zones.length
             };
-            
+
             self.zones.push(zone);
         } else {
             zone = self.zi < self.zoneCount
@@ -42,8 +47,21 @@ function dndData(geometryService) {
         return zone;
     }
 
-    function addElement(el, z) {
-        self.zones[z ? parseInt(z): 0].dndElements.push(el);
+    function addElement(element, zid) {
+        self.zones[zid ? parseInt(zid): 0].dndElements.push(element);
     }
 
+    function deleteElement(eid, zid) {
+        return self.zones[zid].dndElements.splice(eid, 1)[0];
+    }
+
+    function moveElement(eid, zid, toZone) {
+        let element = deleteElement(eid, zid);
+
+        addElement(element, toZone);
+    }
+
+    function getDropable() {
+        return self.zones.filter(zone => zone.mode !== 'drag');
+    }
 }
