@@ -56,6 +56,10 @@ function dndData(geometryService) {
     }
 
     function moveElement(eid, zid, toZone) {
+        if (zid === toZone) {
+            return;
+        }
+
         let element = deleteElement(eid, zid);
 
         addElement(element, toZone);

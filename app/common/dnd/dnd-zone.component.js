@@ -28,11 +28,7 @@ function DndZoneController($document, $element, geometryService, dndData) {
     $ctrl.onMouseUp = onMouseUp;
 
     $ctrl.dragTarget = null;
-
-    /**
-     * html of drag element
-     */
-    $ctrl._elem = null;
+    $ctrl._elem = null; //html of drag element
 
     $ctrl.$postLink = init;
 
@@ -151,13 +147,11 @@ function DndZoneController($document, $element, geometryService, dndData) {
      *
      **/
     function onDragMove(event) {
-
         $ctrl._elemX = event.pageX - $ctrl._shiftX; //$ctrl._shiftX;
         $ctrl._elemY = event.pageY - $ctrl._shiftY; //$ctrl._shiftY;
 
         $ctrl.dndElements[$ctrl.eid].style.left = $ctrl._elemX - $ctrl.zone.left - $ctrl._margin + 'px';
         $ctrl.dndElements[$ctrl.eid].style.top = $ctrl._elemY - $ctrl.zone.top - $ctrl._margin + 'px';
-
     }
 
     /**
