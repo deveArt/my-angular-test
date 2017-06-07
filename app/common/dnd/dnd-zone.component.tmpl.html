@@ -5,6 +5,7 @@
     ng-mousedown="$ctrl.onMouseDown($event, i)"
     ng-mouseup="$ctrl.onMouseUp($event)"
 
+    ng-if="!$ctrl.state.resizeMode"
     ng-style="{
         'position': dndElement.style.position,
         'left': dndElement.style.left,
@@ -14,3 +15,23 @@
     <b>Note # {{i + 1}}</b>
     <p>{{dndElement.text}}</p>
 </dnd-element>
+<resizable
+    ng-if="$ctrl.state.resizeMode"
+    ng-repeat="(i, dndElement) in $ctrl.dndElements">
+    <dnd-element
+
+        ng-mousemove="$ctrl.onMouseMove($event)"
+        ng-mousedown="$ctrl.onMouseDown($event, i)"
+        ng-mouseup="$ctrl.onMouseUp($event)"
+
+        ng-style="{
+            'position': dndElement.style.position,
+            'left': dndElement.style.left,
+            'top': dndElement.style.top,
+            'z-index': dndElement.style.zIndex
+        }">
+        <b>Note # {{i + 1}}</b>
+        <p>{{dndElement.text}}</p>
+    </dnd-element>
+</resizable>
+<pre>{{$ctrl.state}}</pre>

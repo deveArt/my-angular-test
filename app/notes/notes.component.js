@@ -16,67 +16,14 @@ function NotesController($scope, $compile, geometryService, globalVars, dndData)
 	$ctrl.number = 0;
 	$ctrl.text = '';
 	$ctrl.dragScope = {};
-	$ctrl.resizeMode = false;
+	$ctrl.state = dndData.getState();
 
 	$ctrl.addNote = addNote;
-	$ctrl.makeResizable = makeResizable;
 	$ctrl.removeResizable = removeResizable;
 	$ctrl.resizeRefresh = resizeRefresh;
     $ctrl.toggleResize = toggleResize;
 
     $ctrl.zones = dndData.zones;
-
-    function makeResizable() {
-
-        let elems = angular.element(document.querySelectorAll(':not(resizable) > dnd-element'));
-
-        angular.forEach(elems, function (domEl, key) {
-            let _el = domEl;
-            let el = angular.element(domEl);
-
-            if (_el.parentNode.mode !== 'drop') {
-                return;
-            }
-
-            let dragZone = el.parent();
-            let resizeEl = angular.element(
-                '<resizable>' +
-                '</resizable>'
-            );
-
-            let position = geometryService.getCoords(_el);
-
-            let newEl = el.clone();
-            dragZone.append(resizeEl);
-            resizeEl.css({
-                position: el.css('position'),
-                left: el.css('left'),
-                top: el.css('top'),
-                zIndex: el.css('z-index'),
-                width: position.width + 'px',
-                height: position.height + 'px'
-            });
-
-            el.remove();
-
-            newEl.prop('style', null);
-            newEl.css({
-                width: position.width + 'px',
-                height: position.height + 'px'
-            });
-
-            resizeEl.append(newEl);
-
-            let newScope = $scope.$new(true);
-            $compile(resizeEl)(newScope);
-
-            resizeEl.on('$destroy', function () {
-                newScope.$destroy();
-            });
-
-        });
-
-    }
 
     function removeResizable() {
 
@@ -130,19 +77,12 @@ function NotesController($scope, $compile, geometryService, globalVars, dndData)
 	}
 
     function toggleResize() {
-        if ($ctrl.resizeMode) {
-            $ctrl.removeResizable();
-            $ctrl.resizeMode = false;
-        } else {
-            $ctrl.makeResizable();
-            $ctrl.resizeMode = true;
-        }
+		dndData.resizeSwitch();
     }
 
     function addNote() {
 
-		$ctrl.ncount = angular.element(document).find('dnd-element').length;
-		if (!$ctrl.noteForm.$valid || $ctrl.ncount >= ncount_max) {
+		if (!$ctrl.noteForm.$valid || dndData.elCount >= ncount_max) {
 			return false;
 		}
 

@@ -12,13 +12,18 @@ function dndData(geometryService) {
     self.deleteElement = deleteElement;
     self.moveElement = moveElement;
     self.getDropable = getDropable;
+    self.resizeSwitch = resizeSwitch;
+    self.getState = getState;
 
-    self.zones = [];
-    self.zoneCount = 0;
-    self.zi = 0;
     init();
 
     function init() {
+        self.state = {
+            resizeMode: false
+        };
+        self.zones = [];
+        self.zi = 0;
+        self.elCount = 0;
         self.zoneCount = angular.element(document).find('dnd-zone').length;
     }
 
@@ -49,9 +54,11 @@ function dndData(geometryService) {
 
     function addElement(element, zid) {
         self.zones[zid ? parseInt(zid): 0].dndElements.push(element);
+        self.elCount++;
     }
 
     function deleteElement(eid, zid) {
+        self.elCount--;
         return self.zones[zid].dndElements.splice(eid, 1)[0];
     }
 
@@ -67,5 +74,13 @@ function dndData(geometryService) {
 
     function getDropable() {
         return self.zones.filter(zone => zone.mode !== 'drag');
+    }
+    
+    function resizeSwitch() {console.log(self.state);
+        self.state.resizeMode = !self.state.resizeMode;
+    }
+
+    function getState() {
+        return self.state;
     }
 }

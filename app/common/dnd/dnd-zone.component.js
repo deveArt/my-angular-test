@@ -36,6 +36,7 @@ function DndZoneController($document, $element, geometryService, dndData) {
      * Main setup
      */
     function init() {
+        $ctrl.state = dndData.getState();
         $ctrl.zone = dndData.register($element);
         $ctrl.zone.mode = $ctrl.mode;
         $ctrl.dndElements = $ctrl.zone.dndElements;
