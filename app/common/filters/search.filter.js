@@ -3,7 +3,7 @@ angular
     .filter('searchFilter', searchFilter);
 
 function searchFilter() {
-    return function (items, searchWord, curFields, insens, exact) {console.log(curFields);
+    return function (items, searchWord, curFields, insens, exact) {
         return items.filter(function (item) {
 
             let swEscaped = searchWord.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");

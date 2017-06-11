@@ -4,14 +4,14 @@ angular
         controller: ResizableController
     });
 
-ResizableController.$inject = ['$element', '$document', 'geometryService'];
+ResizableController.$inject = ['$element', '$document', 'geometryService', 'dndData'];
 
 /**
  * Resize controller
  *
  * @constructor
  */
-function ResizableController($element, $document, geometryService) {
+function ResizableController($element, $document, geometryService, dndData) {
     var $ctrl = this;
 
     $ctrl.$postLink = init;
