@@ -1,88 +1,62 @@
 angular
     .module('app.common')
     .component('resizable', {
-        controller: ResizableController
+        controller: ResizableController,
+        bindings: {
+            zid: '<',
+            eid: '<'
+        },
+        template: '<div class="resize-control" ' +
+        'ng-mousedown="$ctrl.onMouseDown($event)" ' +
+        'ng-mousemove="$ctrl.resize($event)" ' +
+        'ng-mouseup="$ctrl.onMouseUp()"></div>'
     });
 
-ResizableController.$inject = ['$element', '$document', 'geometryService', 'dndData'];
+ResizableController.$inject = ['$element', 'geometryService', 'dndData'];
 
 /**
  * Resize controller
  *
  * @constructor
  */
-function ResizableController($element, $document, geometryService, dndData) {
+function ResizableController($element, geometryService, dndData) {
     var $ctrl = this;
 
     $ctrl.$postLink = init;
     $ctrl.active = false;
+    $ctrl.onMouseDown = onMouseDown;
+    $ctrl.resize = onMouseMove;
+    $ctrl.onMouseUp = onMouseUp;
 
     function init() {
-        $ctrl._elem = $element.children()[0];
-        $ctrl.$elem = angular.element($ctrl._elem);
-
-        $element.on('mouseenter', function (e) {
-            showControls(e);
-        });
-
-        $element.on('mouseleave mousedown', function (e) {
-            removeControls();
-        });
-
-        $document.on('mousemove', function (e) {
-            if (!$ctrl.active || !$ctrl._elem) {
-                return;
-            }
-
-            let css = {
-                width: e.pageX + $ctrl.stWidth - $ctrl.cornerSX + 'px',
-                height: e.pageY + $ctrl.stHeight - $ctrl.cornerSY + 'px'
-            };
-
-            $ctrl.$elem.css(css);
-            $element.css(css);
-        });
-
-        $document.on('mouseup', function (e) {
-            removeControls();
-            $ctrl.active = false;
-        });
+        $ctrl._elem = $element.parent()[0];
+        $ctrl.element = dndData.getElement($ctrl.eid, $ctrl.zid);
     }
 
-	/**
-     * Show resize controls
-     *
-     * @param e
-     */
-    function showControls(e) {
+    function onMouseMove(event) {
+        if (!$ctrl.active || !$ctrl._elem) {
+            return;
+        }
 
-        let overlayElement = angular.element('<div class="resize-control" data-mode="resize-corner"></div>');
-
-        overlayElement.on('mousedown', function (event) {
-            $ctrl.active = true;
-
-            let position = geometryService.getCoords($ctrl._elem);
-
-            $ctrl.stWidth = position.width;
-            $ctrl.stHeight = position.height;
-
-            $ctrl.cornerSX = event.pageX;
-            $ctrl.cornerSY = event.pageY;
-
-            event.stopPropagation();
-        });
-
-        $element.append(overlayElement);
-
+        $ctrl.element.style.width = event.pageX + $ctrl.stWidth - $ctrl.cornerSX + 'px';
+        $ctrl.element.style.height = event.pageY + $ctrl.stHeight - $ctrl.cornerSY + 'px';
     }
 
-	/**
-     *
-     * Remove resize controls
-     */
-    function removeControls() {
-        let resizeElements = document.getElementsByClassName('resize-control');
-        angular.element(resizeElements).remove();
+    function onMouseUp() {
+        $ctrl.active = false;
     }
 
+    function onMouseDown(event) {
+        $ctrl.active = true;
+
+        let position = geometryService.getCoords($ctrl._elem);
+
+        $ctrl.stWidth = position.width;
+        $ctrl.stHeight = position.height;
+console.log($ctrl.stWidth);
+        $ctrl.cornerSX = event.pageX;
+        $ctrl.cornerSY = event.pageY;
+
+        event.stopPropagation();
+    }
 }

@@ -26,7 +26,8 @@ function DndZoneController($document, $element, geometryService, dndData) {
     $ctrl.onMouseDown = onMouseDown;
     $ctrl.onMouseMove = onMouseMove;
     $ctrl.onMouseUp = onMouseUp;
-
+    $ctrl.onMouseEnter = onMouseEnter;
+    $ctrl.onMouseLeave = onMouseLeave;
     $ctrl.dragTarget = null;
     $ctrl._elem = null; //html of drag element
 
@@ -55,7 +56,16 @@ function DndZoneController($document, $element, geometryService, dndData) {
         };
     }
 
+    function onMouseEnter(i) {
+        $ctrl.dndElements[i].target = $ctrl.zone.id !== 0;
+    }
+    
+    function onMouseLeave(i) {
+        $ctrl.dndElements[i].target = false;
+    }
+    
     function onMouseMove(event) {
+        
         if (!$ctrl.dragTarget) {
             return;
         }

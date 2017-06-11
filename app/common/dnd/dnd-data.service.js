@@ -14,7 +14,8 @@ function dndData(geometryService) {
     self.getDropable = getDropable;
     self.resizeSwitch = resizeSwitch;
     self.getState = getState;
-
+    self.getElement = getElement;
+    
     init();
 
     function init() {
@@ -72,6 +73,10 @@ function dndData(geometryService) {
         addElement(element, toZone);
     }
 
+    function getElement(eid, zid) {
+        return self.zones[zid].dndElements[eid];
+    }
+    
     function getDropable() {
         return self.zones.filter(zone => zone.mode !== 'drag');
     }
