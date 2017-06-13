@@ -59,13 +59,13 @@ function DndZoneController($document, $element, geometryService, dndData) {
     function onMouseEnter(i) {
         $ctrl.dndElements[i].target = $ctrl.zone.id !== 0;
     }
-    
+
     function onMouseLeave(i) {
         $ctrl.dndElements[i].target = false;
     }
-    
+
     function onMouseMove(event) {
-        
+
         if (!$ctrl.dragTarget) {
             return;
         }
@@ -207,6 +207,7 @@ function DndZoneController($document, $element, geometryService, dndData) {
 
             $ctrl.dndElements[$ctrl.eid].style.left = left + 'px';
             $ctrl.dndElements[$ctrl.eid].style.top = top + 'px';
+            $ctrl.dndElements[$ctrl.eid].style.zIndex = 1;
             dndData.moveElement($ctrl.eid, $ctrl.zone.id, $ctrl.dropTarget.id);
         }
 
