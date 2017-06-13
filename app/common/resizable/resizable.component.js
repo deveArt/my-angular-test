@@ -22,6 +22,11 @@ ResizableController.$inject = ['$element', 'geometryService', 'dndData'];
 function ResizableController($element, geometryService, dndData) {
     var $ctrl = this;
 
+    const max_width = 300;
+    const min_width = 60;
+    const max_height = 300;
+    const min_height = 60;
+
     $ctrl.$postLink = init;
     $ctrl.active = false;
     $ctrl.onMouseDown = onMouseDown;
@@ -38,8 +43,11 @@ function ResizableController($element, geometryService, dndData) {
             return;
         }
 
-        $ctrl.element.style.width = event.pageX + $ctrl.stWidth - $ctrl.cornerSX + 'px';
-        $ctrl.element.style.height = event.pageY + $ctrl.stHeight - $ctrl.cornerSY + 'px';
+        let w = event.pageX + $ctrl.stWidth - $ctrl.cornerSX;
+        let h = event.pageY + $ctrl.stHeight - $ctrl.cornerSY;
+
+        $ctrl.element.style.width = (w > max_width ? max_width : w < min_width ? min_width : w) + 'px';
+        $ctrl.element.style.height = (h > max_height ? max_height : h < min_height ? min_height : h) + 'px';
     }
 
     function onMouseUp() {
