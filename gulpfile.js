@@ -7,6 +7,8 @@ const sourcemaps = require('gulp-sourcemaps');
 const webserver = require('gulp-webserver');
 const del = require('del');
 
+var karma = require('karma').Server;
+
 gulp.task('clean', function() {
     return del(['public/']);
 });
@@ -56,3 +58,13 @@ gulp.task('watch', function () {
 });
 
 gulp.task('start', gulp.parallel('build', 'watch', 'webserver'));
+
+/**
+ * Run tests
+ */
+gulp.task('test', function (done) {
+    new karma({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+    }, done).start();
+});
