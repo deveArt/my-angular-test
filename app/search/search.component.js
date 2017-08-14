@@ -5,8 +5,8 @@ angular
         templateUrl: '/app/search/search.component.tmpl.html'
     });
 
-SearchController.$inject = ['$http', 'globalVars'];
-function SearchController($http, globalVars) {
+SearchController.$inject = ['$http', 'globalVars', '$filter'];
+function SearchController($http, globalVars, $filter) {
 
     const listUrl = 'http://dcodeit.net/angularTest/data.json';
 
@@ -15,11 +15,7 @@ function SearchController($http, globalVars) {
     $ctrl.globalVars = globalVars.data;
     $ctrl.data = [];
     $ctrl.searchWord = '';
-    $ctrl.curFields = {
-        Name: false,
-        Type: false,
-        'Designed by': false
-    };
+    $ctrl.curFields = angular.copy($filter('searchFilter').fields);
     $ctrl.insens = true;
     $ctrl.exact = false;
     init();
