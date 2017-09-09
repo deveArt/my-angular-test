@@ -26,7 +26,7 @@ function searchFilter() {
 
             return regex.test(item.Name) || regex.test(item.Type) || regex.test(item['Designed by']);
         });
-    };
+    }
 
     filter.fields = {
         Name: false, 

@@ -18,13 +18,18 @@ function SearchController($http, globalVars, $filter) {
     $ctrl.curFields = angular.copy($filter('searchFilter').fields);
     $ctrl.insens = true;
     $ctrl.exact = false;
+    $ctrl.load = load;
     init();
 
     function init() {
-        $http.get(listUrl).then(function (response) {
+        load().then(function (response) {
             $ctrl.data = response.data;
         }).catch(function (err) {
             console.error(err);
         });
+    }
+
+    function load() {
+        return $http.get(listUrl);
     }
 }

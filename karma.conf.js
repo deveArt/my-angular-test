@@ -22,5 +22,11 @@ module.exports = function(config) {
 //    'karma-firefox-launcher',
       'karma-jasmine'
     ],
+    logLevel: config.LOG_INFO,
+    browserConsoleLogOptions: {
+        level: "",
+        terminal: true
+    },
+    browserNoActivityTimeout: 10000
   });
 };
